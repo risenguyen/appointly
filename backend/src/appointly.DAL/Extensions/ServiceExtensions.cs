@@ -15,6 +15,6 @@ public static class ServiceExtensions
             options.UseNpgsql(configuration.GetConnectionString("Development"))
         );
 
-        services.AddScoped<ISalonServiceRespository, SalonServiceRepository>();
+        services.AddScoped<ITreatmentRepository, TreatmentRepository>();
     }
 }

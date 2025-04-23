@@ -6,21 +6,21 @@ namespace appointly.DAL.Context;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : DbContext(options)
 {
-    public DbSet<SalonService> SalonServices { get; set; }
+    public DbSet<Treatment> Treatments { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<EmployeeSalonService> EmployeeSalonServices { get; set; }
+    public DbSet<EmployeeTreatment> EmployeeTreatments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .Entity<EmployeeSalonService>()
-            .HasOne(es => es.Employee)
-            .WithMany(e => e.EmployeeSalonServices);
+            .Entity<EmployeeTreatment>()
+            .HasOne(et => et.Employee)
+            .WithMany(e => e.EmployeeTreatments);
 
         modelBuilder
-            .Entity<EmployeeSalonService>()
-            .HasOne(es => es.SalonService)
-            .WithMany(ss => ss.EmployeeSalonServices);
+            .Entity<EmployeeTreatment>()
+            .HasOne(et => et.Treatment)
+            .WithMany(ss => ss.EmployeeTreatments);
     }
 }
