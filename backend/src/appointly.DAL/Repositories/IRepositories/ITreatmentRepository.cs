@@ -4,5 +4,5 @@ namespace appointly.DAL.Repositories.IRepositories;
 
 public interface ITreatmentRepository
 {
-    Task<Treatment> CreateSalonServiceAsync(Treatment treatment);
+    Task<Treatment> CreateTreatmentAsync(Treatment treatment);
 }

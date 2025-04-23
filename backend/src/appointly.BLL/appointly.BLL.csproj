@@ -11,9 +11,4 @@
     <ProjectReference Include="..\appointly.DAL\appointly.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Services\IServices\" />
-  </ItemGroup>
-
 </Project>

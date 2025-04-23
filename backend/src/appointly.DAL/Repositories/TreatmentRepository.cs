@@ -8,7 +8,7 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
 {
     private readonly ApplicationDbContext _context = context;
 
-    public async Task<Treatment> CreateSalonServiceAsync(Treatment treatment)
+    public async Task<Treatment> CreateTreatmentAsync(Treatment treatment)
     {
         await _context.Treatments.AddAsync(treatment);
         await _context.SaveChangesAsync();
