@@ -483,6 +483,3 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-# Config files
-Properties/appsettings.json
-Properties/appsettings.Development.json
