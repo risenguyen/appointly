@@ -1,4 +1,6 @@
 using appointly.DAL.Context;
+using appointly.DAL.Repositories;
+using appointly.DAL.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,5 +14,7 @@ public static class ServiceExtensions
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Development"))
         );
+
+        services.AddScoped<ISalonServiceRespository, SalonServiceRepository>();
     }
 }
