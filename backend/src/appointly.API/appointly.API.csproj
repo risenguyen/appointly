@@ -20,4 +20,8 @@
     <ProjectReference Include="..\appointly.BLL\appointly.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middleware\" />
+  </ItemGroup>
+
 </Project>
