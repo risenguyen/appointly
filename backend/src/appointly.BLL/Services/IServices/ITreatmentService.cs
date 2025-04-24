@@ -8,4 +8,6 @@ public interface ITreatmentService
     Task<CreateTreatmentResponse> CreateTreatmentAsync(
         CreateTreatmentRequest createTreatmentRequest
     );
+
+    Task<GetTreatmentResponse> GetTreatmentByIdAsync(int id);
 }

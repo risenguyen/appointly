@@ -14,13 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "appointly.BLL", "src\appoin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "appointly.DAL", "src\appointly.DAL\appointly.DAL.csproj", "{A22069E2-69AC-437D-8727-0794B33A5D31}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F8E5CC8E-AC34-4262-AAD4-FDBD169C13E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -35,6 +34,9 @@ Global
 		{A22069E2-69AC-437D-8727-0794B33A5D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A22069E2-69AC-437D-8727-0794B33A5D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A22069E2-69AC-437D-8727-0794B33A5D31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F8E5CC8E-AC34-4262-AAD4-FDBD169C13E0} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}

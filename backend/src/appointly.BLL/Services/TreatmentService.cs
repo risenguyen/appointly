@@ -1,5 +1,6 @@
 using appointly.BLL.DTOs.Request;
 using appointly.BLL.DTOs.Response;
+using appointly.BLL.Exceptions;
 using appointly.BLL.Services.IServices;
 using appointly.DAL.Entities;
 using appointly.DAL.Repositories.IRepositories;
@@ -21,7 +22,6 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = createTreatmentRequest.DurationInMinutes,
             Price = createTreatmentRequest.Price,
         };
-
         var createdTreatment = await _treatmentRepository.CreateTreatmentAsync(treatment);
 
         var response = new CreateTreatmentResponse()
@@ -32,7 +32,22 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = createdTreatment.DurationInMinutes,
             Price = createdTreatment.Price,
         };
+        return response;
+    }
 
+    public async Task<GetTreatmentResponse> GetTreatmentByIdAsync(int id)
+    {
+        var treatment =
+            await _treatmentRepository.GetTreatmentByIdAsync(id)
+            ?? throw new NotFoundException("Treatment was not found");
+        var response = new GetTreatmentResponse()
+        {
+            Id = treatment.Id,
+            Name = treatment.Name,
+            Description = treatment.Description,
+            DurationInMinutes = treatment.DurationInMinutes,
+            Price = treatment.Price,
+        };
         return response;
     }
 }
