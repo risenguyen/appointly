@@ -1,11 +1,22 @@
 using System.Text.Json;
 using appointly.BLL.Exceptions;
+using FluentValidation;
 
 namespace appointly.API.Middleware;
 
-public class ExceptionHandlingMiddleware(RequestDelegate next)
+public class ExceptionHandlingMiddleware
 {
-    private readonly RequestDelegate _next = next;
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+
+    public ExceptionHandlingMiddleware(
+        RequestDelegate next,
+        ILogger<ExceptionHandlingMiddleware> logger
+    )
+    {
+        _next = next;
+        _logger = logger;
+    }
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -15,6 +26,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "An unhandled exception occurred.");
             await HandleExceptionAsync(context, ex);
         }
     }
@@ -26,6 +38,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
         var statusCode = exception switch
         {
             NotFoundException => StatusCodes.Status404NotFound,
+            ValidationException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError,
         };
 
@@ -33,13 +46,19 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
 
         var problemDetails = new
         {
+            type = exception switch
+            {
+                NotFoundException => "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+                ValidationException => "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                _ => "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+            },
             title = exception switch
             {
                 NotFoundException => "Resource Not Found",
+                ValidationException => "Validation Failed",
                 _ => "An error occurred",
             },
             status = statusCode,
-            detail = exception.Message,
         };
 
         await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails));

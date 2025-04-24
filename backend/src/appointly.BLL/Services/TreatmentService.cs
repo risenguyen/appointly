@@ -20,12 +20,7 @@ public class TreatmentService(
         CreateTreatmentRequest createTreatmentRequest
     )
     {
-        var validationResult = await _validator.ValidateAsync(createTreatmentRequest);
-
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
+        await _validator.ValidateAndThrowAsync(createTreatmentRequest);
 
         var treatment = new Treatment()
         {
