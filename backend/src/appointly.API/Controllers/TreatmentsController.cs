@@ -1,6 +1,5 @@
-using appointly.BLL.DTOs.Request;
+using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Services.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace appointly.API.Controllers;

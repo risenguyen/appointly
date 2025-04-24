@@ -1,13 +1,10 @@
-using appointly.BLL.DTOs.Request;
-using appointly.BLL.DTOs.Response;
+using appointly.BLL.DTOs.Treatments;
 
 namespace appointly.BLL.Services.IServices;
 
 public interface ITreatmentService
 {
-    Task<CreateTreatmentResponse> CreateTreatmentAsync(
-        CreateTreatmentRequest createTreatmentRequest
-    );
+    Task<TreatmentResponse> CreateTreatmentAsync(CreateTreatmentRequest createTreatmentRequest);
 
-    Task<GetTreatmentResponse> GetTreatmentByIdAsync(int id);
+    Task<TreatmentResponse> GetTreatmentByIdAsync(int id);
 }

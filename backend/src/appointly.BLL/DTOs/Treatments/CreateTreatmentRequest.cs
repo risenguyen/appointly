@@ -1,4 +1,4 @@
-namespace appointly.BLL.DTOs.Request;
+namespace appointly.BLL.DTOs.Treatments;
 
 public class CreateTreatmentRequest
 {

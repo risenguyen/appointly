@@ -1,6 +1,6 @@
-namespace appointly.BLL.DTOs.Response;
+namespace appointly.BLL.DTOs.Treatments;
 
-public class CreateTreatmentResponse
+public class TreatmentResponse
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
