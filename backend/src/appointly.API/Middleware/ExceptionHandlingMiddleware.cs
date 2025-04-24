@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using appointly.BLL.Exceptions;
 using FluentValidation;
@@ -31,36 +32,47 @@ public class ExceptionHandlingMiddleware
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        context.Response.ContentType = "application/problem+json";
+        context.Response.ContentType = "application/json";
+        HttpStatusCode statusCode;
+        string message;
+        object? errors = null;
 
-        var statusCode = exception switch
+        switch (exception)
         {
-            NotFoundException => StatusCodes.Status404NotFound,
-            ValidationException => StatusCodes.Status400BadRequest,
-            _ => StatusCodes.Status500InternalServerError,
-        };
+            case ValidationException validationException:
+                statusCode = HttpStatusCode.BadRequest;
+                message = "Validation failed.";
+                errors = validationException.Errors.Select(e => new
+                {
+                    e.PropertyName,
+                    e.ErrorMessage,
+                });
+                break;
+            case NotFoundException notFoundException:
+                statusCode = HttpStatusCode.NotFound;
+                message = notFoundException.Message;
+                break;
+            default:
+                statusCode = HttpStatusCode.InternalServerError;
+                message = "An internal server error occurred.";
+                break;
+        }
 
-        context.Response.StatusCode = statusCode;
+        context.Response.StatusCode = (int)statusCode;
 
-        var problemDetails = new
-        {
-            type = exception switch
-            {
-                NotFoundException => "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-                ValidationException => "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-                _ => "https://tools.ietf.org/html/rfc7231#section-6.6.1",
-            },
-            title = exception switch
-            {
-                NotFoundException => "Resource Not Found",
-                ValidationException => "Validation Failed",
-                _ => "An error occurred",
-            },
-            status = statusCode,
-        };
+        var result = JsonSerializer.Serialize(new { message, errors });
+        return context.Response.WriteAsync(result);
+    }
+}
 
-        await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails));
+public static class ExceptionHandlingMiddlewareExtensions
+{
+    public static IApplicationBuilder UseExceptionHandlingMiddleware(
+        this IApplicationBuilder builder
+    )
+    {
+        return builder.UseMiddleware<ExceptionHandlingMiddleware>();
     }
 }

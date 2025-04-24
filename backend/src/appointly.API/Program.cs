@@ -1,3 +1,4 @@
+using appointly.API.Middleware;
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
 using Scalar.AspNetCore;
@@ -20,6 +21,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.UseExceptionHandlingMiddleware();
 
 app.UseHttpsRedirection();
 
