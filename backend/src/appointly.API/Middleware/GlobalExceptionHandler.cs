@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using appointly.BLL.Exceptions;
-using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,27 +14,19 @@ public class GlobalExceptionHandler : IExceptionHandler
     )
     {
         var traceId = Activity.Current?.Id ?? httpContext.TraceIdentifier;
-        var (statusCode, title, detail, errors) = exception switch
+        var (type, statusCode, title, detail) = exception switch
         {
             NotFoundException notFound => (
+                "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 StatusCodes.Status404NotFound,
                 "Not Found",
-                notFound.Message,
-                null
-            ),
-            ValidationException validation => (
-                StatusCodes.Status400BadRequest,
-                "Validation Error",
-                "One or more validation errors occurred.",
-                validation
-                    .Errors.GroupBy(e => e.PropertyName)
-                    .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray())
+                notFound.Message
             ),
             _ => (
+                "https://tools.ietf.org/html/rfc7231#section-6.6.1",
                 StatusCodes.Status500InternalServerError,
                 "Server Error",
-                "An unexpected internal server error has occurred.",
-                null
+                "An unexpected internal server error has occurred."
             ),
         };
 
@@ -44,13 +35,12 @@ public class GlobalExceptionHandler : IExceptionHandler
 
         var problemDetails = new ProblemDetails()
         {
+            Type = type,
             Status = statusCode,
             Title = title,
             Detail = detail,
-            Instance = httpContext.Request.Path,
         };
         problemDetails.Extensions["traceId"] = traceId;
-        problemDetails.Extensions["errors"] = errors;
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
         return true;

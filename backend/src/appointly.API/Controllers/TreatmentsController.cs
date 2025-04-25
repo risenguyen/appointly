@@ -8,13 +8,9 @@ namespace appointly.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TreatmentsController(
-    ITreatmentService treatmentService,
-    CreateTreatmentRequestValidator validator
-) : ControllerBase
+public class TreatmentsController(ITreatmentService treatmentService) : ControllerBase
 {
     private readonly ITreatmentService _treatmentService = treatmentService;
-    private readonly CreateTreatmentRequestValidator _validator = validator;
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -24,7 +20,6 @@ public class TreatmentsController(
         CancellationToken cancellationToken
     )
     {
-        await _validator.ValidateAndThrowAsync(createTreatmentRequest, cancellationToken);
         var response = await _treatmentService.CreateTreatmentAsync(
             createTreatmentRequest,
             cancellationToken

@@ -1,6 +1,7 @@
 using appointly.API.Middleware;
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
+using FluentValidation.AspNetCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
