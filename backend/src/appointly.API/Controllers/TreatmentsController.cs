@@ -14,7 +14,8 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateTreatment(
-        [FromBody] CreateTreatmentRequest createTreatmentRequest
+        [FromBody] CreateTreatmentRequest createTreatmentRequest,
+        CancellationToken cancellationToken
     )
     {
         var response = await _treatmentService.CreateTreatmentAsync(createTreatmentRequest);
@@ -24,7 +25,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetTreatmentById(int id)
+    public async Task<IActionResult> GetTreatmentById(int id, CancellationToken cancellationToken)
     {
         var response = await _treatmentService.GetTreatmentByIdAsync(id);
         return Ok(response);

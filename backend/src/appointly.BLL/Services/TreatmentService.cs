@@ -17,10 +17,11 @@ public class TreatmentService(
     private readonly CreateTreatmentRequestValidator _validator = validator;
 
     public async Task<TreatmentResponse> CreateTreatmentAsync(
-        CreateTreatmentRequest createTreatmentRequest
+        CreateTreatmentRequest createTreatmentRequest,
+        CancellationToken cancellationToken
     )
     {
-        await _validator.ValidateAndThrowAsync(createTreatmentRequest);
+        await _validator.ValidateAndThrowAsync(createTreatmentRequest, cancellationToken);
 
         var treatment = new Treatment()
         {
@@ -29,7 +30,10 @@ public class TreatmentService(
             DurationInMinutes = createTreatmentRequest.DurationInMinutes,
             Price = createTreatmentRequest.Price,
         };
-        var createdTreatment = await _treatmentRepository.CreateTreatmentAsync(treatment);
+        var createdTreatment = await _treatmentRepository.CreateTreatmentAsync(
+            treatment,
+            cancellationToken
+        );
 
         var response = new TreatmentResponse()
         {
@@ -42,10 +46,13 @@ public class TreatmentService(
         return response;
     }
 
-    public async Task<TreatmentResponse> GetTreatmentByIdAsync(int id)
+    public async Task<TreatmentResponse> GetTreatmentByIdAsync(
+        int id,
+        CancellationToken cancellationToken
+    )
     {
         var treatment =
-            await _treatmentRepository.GetTreatmentByIdAsync(id)
+            await _treatmentRepository.GetTreatmentByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException("Treatment was not found");
         var response = new TreatmentResponse()
         {
