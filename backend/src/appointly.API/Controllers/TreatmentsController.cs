@@ -18,7 +18,10 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         CancellationToken cancellationToken
     )
     {
-        var response = await _treatmentService.CreateTreatmentAsync(createTreatmentRequest);
+        var response = await _treatmentService.CreateTreatmentAsync(
+            createTreatmentRequest,
+            cancellationToken
+        );
         return CreatedAtAction(nameof(GetTreatmentById), new { id = response.Id }, response);
     }
 
@@ -27,7 +30,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetTreatmentById(int id, CancellationToken cancellationToken)
     {
-        var response = await _treatmentService.GetTreatmentByIdAsync(id);
+        var response = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
         return Ok(response);
     }
 }
