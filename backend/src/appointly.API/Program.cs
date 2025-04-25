@@ -10,7 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
