@@ -10,13 +10,9 @@ namespace appointly.DAL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "SalonServiceId",
-                table: "EmployeeTreatments");
+            migrationBuilder.DropColumn(name: "SalonServiceId", table: "EmployeeTreatments");
 
-            migrationBuilder.DropColumn(
-                name: "SalonServiceId",
-                table: "Appointments");
+            migrationBuilder.DropColumn(name: "SalonServiceId", table: "Appointments");
         }
 
         /// <inheritdoc />
@@ -27,14 +23,16 @@ namespace appointly.DAL.Migrations
                 table: "EmployeeTreatments",
                 type: "integer",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "SalonServiceId",
                 table: "Appointments",
                 type: "integer",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
         }
     }
 }
