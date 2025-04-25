@@ -1,14 +1,20 @@
 using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Services.IServices;
+using appointly.BLL.Validators.Treatments;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace appointly.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TreatmentsController(ITreatmentService treatmentService) : ControllerBase
+public class TreatmentsController(
+    ITreatmentService treatmentService,
+    CreateTreatmentRequestValidator validator
+) : ControllerBase
 {
     private readonly ITreatmentService _treatmentService = treatmentService;
+    private readonly CreateTreatmentRequestValidator _validator = validator;
 
     [HttpPost]
     [ProducesResponseType(typeof(TreatmentResponse), StatusCodes.Status201Created)]
@@ -18,6 +24,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         CancellationToken cancellationToken
     )
     {
+        await _validator.ValidateAndThrowAsync(createTreatmentRequest, cancellationToken);
         var response = await _treatmentService.CreateTreatmentAsync(
             createTreatmentRequest,
             cancellationToken

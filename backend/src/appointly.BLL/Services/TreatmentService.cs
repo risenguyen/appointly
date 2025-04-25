@@ -4,25 +4,18 @@ using appointly.BLL.Services.IServices;
 using appointly.BLL.Validators.Treatments;
 using appointly.DAL.Entities;
 using appointly.DAL.Repositories.IRepositories;
-using FluentValidation;
 
 namespace appointly.BLL.Services;
 
-public class TreatmentService(
-    ITreatmentRepository treatmentRepository,
-    CreateTreatmentRequestValidator validator
-) : ITreatmentService
+public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreatmentService
 {
     private readonly ITreatmentRepository _treatmentRepository = treatmentRepository;
-    private readonly CreateTreatmentRequestValidator _validator = validator;
 
     public async Task<TreatmentResponse> CreateTreatmentAsync(
         CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     )
     {
-        await _validator.ValidateAndThrowAsync(createTreatmentRequest, cancellationToken);
-
         var treatment = new Treatment()
         {
             Name = createTreatmentRequest.Name,
