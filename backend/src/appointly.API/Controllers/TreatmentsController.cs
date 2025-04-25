@@ -11,7 +11,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     private readonly ITreatmentService _treatmentService = treatmentService;
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(TreatmentResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateTreatment(
         [FromBody] CreateTreatmentRequest createTreatmentRequest,
@@ -26,7 +26,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TreatmentResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetTreatmentById(int id, CancellationToken cancellationToken)
     {
