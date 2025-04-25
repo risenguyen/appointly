@@ -12,7 +12,7 @@ public static class ServiceExtensions
     public static void AddDAL(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("Development"))
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
         );
 
         services.AddScoped<ITreatmentRepository, TreatmentRepository>();
