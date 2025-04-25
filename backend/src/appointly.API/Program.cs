@@ -7,12 +7,9 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(mvcOptions =>
-    mvcOptions.AddResultConvention(resultStatusMap => resultStatusMap.AddDefaultMap())
-);
+builder.Services.AddControllers(mvcOptions => mvcOptions.AddResultConvention());
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
-builder.Services.AddFluentValidationAutoValidation();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
