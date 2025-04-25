@@ -14,6 +14,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
 
     [HttpPost]
     [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.Invalid)]
     public async Task<Result<TreatmentResponse>> CreateTreatment(
         [FromBody] CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
@@ -27,6 +28,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
 
     [HttpGet("{id}")]
     [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.NotFound)]
     public async Task<Result<TreatmentResponse>> GetTreatmentById(
         int id,
         CancellationToken cancellationToken
