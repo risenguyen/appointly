@@ -1,5 +1,6 @@
 using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Services.IServices;
+using Ardalis.Result.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace appointly.API.Controllers;
@@ -18,11 +19,11 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         CancellationToken cancellationToken
     )
     {
-        var response = await _treatmentService.CreateTreatmentAsync(
+        var result = await _treatmentService.CreateTreatmentAsync(
             createTreatmentRequest,
             cancellationToken
         );
-        return CreatedAtAction(nameof(GetTreatmentById), new { id = response.Id }, response);
+        return result.ToActionResult(this);
     }
 
     [HttpGet("{id}")]
@@ -33,7 +34,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         CancellationToken cancellationToken
     )
     {
-        var response = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
-        return Ok(response);
+        var result = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
+        return result.ToActionResult(this);
     }
 }

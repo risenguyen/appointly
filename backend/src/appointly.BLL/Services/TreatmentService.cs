@@ -1,8 +1,8 @@
 using appointly.BLL.DTOs.Treatments;
-using appointly.BLL.Exceptions;
 using appointly.BLL.Services.IServices;
 using appointly.DAL.Entities;
 using appointly.DAL.Repositories.IRepositories;
+using Ardalis.Result;
 
 namespace appointly.BLL.Services;
 
@@ -10,7 +10,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
 {
     private readonly ITreatmentRepository _treatmentRepository = treatmentRepository;
 
-    public async Task<TreatmentResponse> CreateTreatmentAsync(
+    public async Task<Result<TreatmentResponse>> CreateTreatmentAsync(
         CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     )
@@ -26,7 +26,6 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             treatment,
             cancellationToken
         );
-
         var response = new TreatmentResponse()
         {
             Id = createdTreatment.Id,
@@ -35,17 +34,20 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = createdTreatment.DurationInMinutes,
             Price = createdTreatment.Price,
         };
-        return response;
+        return Result.Created(response);
     }
 
-    public async Task<TreatmentResponse> GetTreatmentByIdAsync(
+    public async Task<Result<TreatmentResponse>> GetTreatmentByIdAsync(
         int id,
         CancellationToken cancellationToken
     )
     {
-        var treatment =
-            await _treatmentRepository.GetTreatmentByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException("Treatment was not found");
+        var treatment = await _treatmentRepository.GetTreatmentByIdAsync(id, cancellationToken);
+        if (treatment == null)
+        {
+            return Result.NotFound($"Treatment with ID {id} can't be found");
+        }
+
         var response = new TreatmentResponse()
         {
             Id = treatment.Id,
@@ -54,6 +56,6 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = treatment.DurationInMinutes,
             Price = treatment.Price,
         };
-        return response;
+        return Result.Success(response);
     }
 }

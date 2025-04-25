@@ -1,4 +1,3 @@
-using appointly.API.Middleware;
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
 using FluentValidation.AspNetCore;
@@ -12,7 +11,6 @@ builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddProblemDetails();
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -25,8 +23,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
-
-app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
