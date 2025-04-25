@@ -1,7 +1,6 @@
 using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Exceptions;
 using appointly.BLL.Services.IServices;
-using appointly.BLL.Validators.Treatments;
 using appointly.DAL.Entities;
 using appointly.DAL.Repositories.IRepositories;
 
