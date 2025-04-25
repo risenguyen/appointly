@@ -27,7 +27,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetTreatmentById(int id, CancellationToken cancellationToken)
     {
         var response = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
