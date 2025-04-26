@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace appointly.BLL.Validators.Treatments;
 
-public class CreateTreatmentRequestValidator : AbstractValidator<CreateTreatmentRequest>
+public class CreateTreatmentValidator : AbstractValidator<TreatmentRequest>
 {
-    public CreateTreatmentRequestValidator()
+    public CreateTreatmentValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()

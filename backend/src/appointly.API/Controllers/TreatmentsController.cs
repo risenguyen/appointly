@@ -15,7 +15,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TreatmentResponse>> CreateTreatment(
-        [FromBody] CreateTreatmentRequest createTreatmentRequest,
+        [FromBody] TreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     )
     {

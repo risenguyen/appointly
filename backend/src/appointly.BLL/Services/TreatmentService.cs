@@ -11,7 +11,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
     private readonly ITreatmentRepository _treatmentRepository = treatmentRepository;
 
     public async Task<Result<TreatmentResponse>> CreateTreatmentAsync(
-        CreateTreatmentRequest createTreatmentRequest,
+        TreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     )
     {

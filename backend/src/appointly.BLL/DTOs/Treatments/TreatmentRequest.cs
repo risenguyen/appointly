@@ -1,6 +1,6 @@
 namespace appointly.BLL.DTOs.Treatments;
 
-public class CreateTreatmentRequest
+public class TreatmentRequest
 {
     public required string Name { get; set; }
     public required string Description { get; set; }

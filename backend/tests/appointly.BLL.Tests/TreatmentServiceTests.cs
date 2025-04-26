@@ -21,7 +21,7 @@ public class TreatmentServiceTests
     public async Task CreateTreatmentAsync_ShouldReturnCreatedResponse()
     {
         // Arrange
-        var request = new CreateTreatmentRequest()
+        var request = new TreatmentRequest()
         {
             Name = "Name",
             Description = "Desc",
