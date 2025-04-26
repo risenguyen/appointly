@@ -79,6 +79,7 @@ public class TreatmentServiceTests
         var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
 
         // Assert
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.NotFound, result.Status);
         _repo.Verify(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -104,8 +105,8 @@ public class TreatmentServiceTests
         var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
 
         // Assert
+        Assert.IsType<Result<TreatmentResponse>>(result);
         Assert.Equal(ResultStatus.Ok, result.Status);
-        Assert.NotNull(result.Value);
         Assert.Equal(expected.Id, result.Value.Id);
         Assert.Equal(expected.Name, result.Value.Name);
         Assert.Equal(expected.Description, result.Value.Description);
