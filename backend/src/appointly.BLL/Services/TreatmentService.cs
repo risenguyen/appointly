@@ -26,6 +26,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             treatment,
             cancellationToken
         );
+
         var response = new TreatmentResponse()
         {
             Id = createdTreatment.Id,
