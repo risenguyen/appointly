@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-api": "orval --input https://localhost:7033/openapi/v1.json --output ./src/api/endpoints.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
@@ -35,7 +36,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "orval": "^7.8.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.3.1"
