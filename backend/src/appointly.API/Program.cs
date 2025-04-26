@@ -1,12 +1,11 @@
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
-using Ardalis.Result.AspNetCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(mvcOptions => mvcOptions.AddResultConvention());
+builder.Services.AddControllers();
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
 
@@ -18,8 +17,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.MapScalarApiReference();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();

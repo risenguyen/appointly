@@ -7,11 +7,11 @@ public interface ITreatmentService
 {
     Task<Result<TreatmentResponse>> CreateTreatmentAsync(
         CreateTreatmentRequest createTreatmentRequest,
-        CancellationToken cancellationToken = default
+        CancellationToken cancellationToken
     );
 
     Task<Result<TreatmentResponse>> GetTreatmentByIdAsync(
         int id,
-        CancellationToken cancellationToken = default
+        CancellationToken cancellationToken
     );
 }

@@ -1,6 +1,5 @@
 using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Services.IServices;
-using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,27 +12,29 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     private readonly ITreatmentService _treatmentService = treatmentService;
 
     [HttpPost]
-    [TranslateResultToActionResult]
-    [ExpectedFailures(ResultStatus.Invalid)]
-    public async Task<Result<TreatmentResponse>> CreateTreatment(
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<TreatmentResponse>> CreateTreatment(
         [FromBody] CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     )
     {
-        return await _treatmentService.CreateTreatmentAsync(
+        var result = await _treatmentService.CreateTreatmentAsync(
             createTreatmentRequest,
             cancellationToken
         );
+        return result.ToActionResult(this);
     }
 
     [HttpGet("{id}")]
-    [TranslateResultToActionResult]
-    [ExpectedFailures(ResultStatus.NotFound)]
-    public async Task<Result<TreatmentResponse>> GetTreatmentById(
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<TreatmentResponse>> GetTreatmentById(
         int id,
         CancellationToken cancellationToken
     )
     {
-        return await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
+        var result = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
+        return result.ToActionResult(this);
     }
 }
