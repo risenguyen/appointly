@@ -1,7 +1,6 @@
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
 using Ardalis.Result.AspNetCore;
-using FluentValidation.AspNetCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
