@@ -18,7 +18,7 @@ public class TreatmentServiceTests
     }
 
     [Fact]
-    public async Task CreateTreatmentAsync_ReturnsCreatedResponse()
+    public async Task CreateTreatmentAsync_ShouldReturnCreatedResponse()
     {
         // Arrange
         var request = new CreateTreatmentRequest()
@@ -67,7 +67,7 @@ public class TreatmentServiceTests
     }
 
     [Fact]
-    public async Task GetTreatmentByIdAsync_ReturnsNotFound_WhenNull()
+    public async Task GetTreatmentByIdAsync_ShouldReturnNotFound_WhenNull()
     {
         // Arrange
         var id = 2;
@@ -85,11 +85,11 @@ public class TreatmentServiceTests
     }
 
     [Fact]
-    public async Task GetTreatmentByIdAsync_ReturnsSuccess_WhenFound()
+    public async Task GetTreatmentByIdAsync_ShouldReturnSuccess_WhenFound()
     {
         // Arrange
         var id = 10;
-        var expected = new Treatment()
+        var expectedTreatment = new Treatment()
         {
             Id = id,
             Name = "Name",
@@ -99,7 +99,7 @@ public class TreatmentServiceTests
         };
         _repo
             .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expected);
+            .ReturnsAsync(expectedTreatment);
 
         // Act
         var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
@@ -107,11 +107,11 @@ public class TreatmentServiceTests
         // Assert
         Assert.IsType<Result<TreatmentResponse>>(result);
         Assert.Equal(ResultStatus.Ok, result.Status);
-        Assert.Equal(expected.Id, result.Value.Id);
-        Assert.Equal(expected.Name, result.Value.Name);
-        Assert.Equal(expected.Description, result.Value.Description);
-        Assert.Equal(expected.DurationInMinutes, result.Value.DurationInMinutes);
-        Assert.Equal(expected.Price, result.Value.Price);
+        Assert.Equal(expectedTreatment.Id, result.Value.Id);
+        Assert.Equal(expectedTreatment.Name, result.Value.Name);
+        Assert.Equal(expectedTreatment.Description, result.Value.Description);
+        Assert.Equal(expectedTreatment.DurationInMinutes, result.Value.DurationInMinutes);
+        Assert.Equal(expectedTreatment.Price, result.Value.Price);
         _repo.Verify(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()), Times.Once);
     }
 }
