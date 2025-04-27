@@ -1,11 +1,12 @@
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
+using Ardalis.Result.AspNetCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.AddDefaultResultConvention());
 builder.Services.AddProblemDetails();
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
