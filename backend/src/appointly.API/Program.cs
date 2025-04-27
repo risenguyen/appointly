@@ -6,7 +6,7 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(options => options.AddDefaultResultConvention());
+builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
