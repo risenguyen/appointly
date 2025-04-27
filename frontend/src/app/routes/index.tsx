@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
   async loader() {
     const { data, error, request, response } = await getApiTreatmentsById({
       path: {
-        id: 4,
+        id: 2,
       },
     });
     console.log(data);
