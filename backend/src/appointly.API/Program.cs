@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+    app.UseExceptionHandler();
     app.UseHsts();
 }
 
