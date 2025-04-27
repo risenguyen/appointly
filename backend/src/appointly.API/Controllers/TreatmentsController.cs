@@ -26,11 +26,11 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         return result.ToActionResult(this);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TreatmentResponse>> GetTreatmentById(
-        int id,
+        [FromRoute] int id,
         CancellationToken cancellationToken
     )
     {
