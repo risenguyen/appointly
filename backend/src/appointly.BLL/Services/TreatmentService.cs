@@ -35,7 +35,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = createdTreatment.DurationInMinutes,
             Price = createdTreatment.Price,
         };
-        return Result.Created(response, $"/api/Treatments/{createdTreatment.Id}");
+        return Result.Created(response);
     }
 
     public async Task<Result<TreatmentResponse>> GetTreatmentByIdAsync(
