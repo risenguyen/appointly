@@ -1,6 +1,5 @@
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
-using Ardalis.Result.AspNetCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +20,11 @@ if (app.Environment.IsDevelopment())
 {
     app.MapScalarApiReference();
     app.MapOpenApi();
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -29,7 +33,9 @@ app.UseCors(corsPolicyBuilder =>
     corsPolicyBuilder
         .WithOrigins(
             builder.Configuration.GetValue<string>("Cors:AllowedOrigins")?.Split(",")
-                ?? ["http://localhost:5173"]
+                ?? throw new InvalidOperationException(
+                    "CORS AllowedOrigins configuration is missing."
+                )
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
