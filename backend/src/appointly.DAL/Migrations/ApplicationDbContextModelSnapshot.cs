@@ -52,7 +52,7 @@ namespace appointly.DAL.Migrations
 
                     b.HasIndex("TreatmentId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("appointly.DAL.Entities.Employee", b =>
@@ -75,7 +75,7 @@ namespace appointly.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("appointly.DAL.Entities.EmployeeTreatment", b =>
@@ -98,7 +98,7 @@ namespace appointly.DAL.Migrations
 
                     b.HasIndex("TreatmentId");
 
-                    b.ToTable("EmployeeTreatments");
+                    b.ToTable("EmployeeTreatments", (string)null);
                 });
 
             modelBuilder.Entity("appointly.DAL.Entities.Treatment", b =>
@@ -125,7 +125,7 @@ namespace appointly.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Treatments");
+                    b.ToTable("Treatments", (string)null);
                 });
 
             modelBuilder.Entity("appointly.DAL.Entities.Appointment", b =>
