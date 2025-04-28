@@ -13,7 +13,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TreatmentResponse>> CreateTreatment(
         [FromBody] TreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
@@ -28,7 +28,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
 
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TreatmentResponse>> GetTreatmentById(
         [FromRoute] int id,
         CancellationToken cancellationToken
