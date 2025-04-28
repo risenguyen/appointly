@@ -2,6 +2,12 @@ import { routeTree } from "@/routeTree.gen";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { client } from "../api/client.gen";
+
+// Configure the API client
+client.setConfig({
+  baseUrl: import.meta.env.VITE_API_URL,
+});
 
 const queryClient = new QueryClient();
 
