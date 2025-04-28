@@ -14,6 +14,7 @@
     "@hey-api/client-fetch": "^0.10.0",
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-query": "^5.74.4",
+    "@tanstack/react-query-devtools": "^5.74.7",
     "@tanstack/react-router": "^1.117.0",
     "@tanstack/react-router-devtools": "^1.117.0",
     "class-variance-authority": "^0.7.1",
