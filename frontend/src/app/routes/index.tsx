@@ -1,5 +1,8 @@
 import { type GetApiTreatmentsByIdError } from "@/api";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  type ErrorComponentProps,
+} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -7,9 +10,8 @@ export const Route = createFileRoute("/")({
   errorComponent({
     error,
     reset,
-  }: {
+  }: Omit<ErrorComponentProps, "error"> & {
     error: GetApiTreatmentsByIdError;
-    reset: () => void;
   }) {
     console.log(error, reset);
   },
