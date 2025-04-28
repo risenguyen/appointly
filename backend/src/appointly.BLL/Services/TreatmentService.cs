@@ -11,7 +11,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
     private readonly ITreatmentRepository _treatmentRepository = treatmentRepository;
 
     public async Task<Result<TreatmentResponse>> CreateTreatmentAsync(
-        TreatmentRequest createTreatmentRequest,
+        CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     )
     {
@@ -46,7 +46,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
         var treatment = await _treatmentRepository.GetTreatmentByIdAsync(id, cancellationToken);
         if (treatment == null)
         {
-            return Result.NotFound($"Treatment with ID {id} can not be found");
+            return Result.NotFound($"Treatment with ID {id} can not be found.");
         }
 
         var response = new TreatmentResponse()

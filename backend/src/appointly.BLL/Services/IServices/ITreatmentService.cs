@@ -6,7 +6,7 @@ namespace appointly.BLL.Services.IServices;
 public interface ITreatmentService
 {
     Task<Result<TreatmentResponse>> CreateTreatmentAsync(
-        TreatmentRequest createTreatmentRequest,
+        CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     );
 

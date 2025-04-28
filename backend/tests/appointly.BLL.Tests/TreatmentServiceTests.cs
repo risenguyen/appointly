@@ -9,26 +9,26 @@ namespace appointly.BLL.Tests;
 
 public class TreatmentServiceTests
 {
-    private readonly Mock<ITreatmentRepository> _repo = new();
+    private readonly Mock<ITreatmentRepository> _repository = new();
     private readonly TreatmentService _sut;
 
     public TreatmentServiceTests()
     {
-        _sut = new TreatmentService(_repo.Object);
+        _sut = new TreatmentService(_repository.Object);
     }
 
     [Fact]
     public async Task CreateTreatmentAsync_ShouldReturnCreatedResponse()
     {
         // Arrange
-        var request = new TreatmentRequest()
+        var request = new CreateTreatmentRequest()
         {
             Name = "Name",
             Description = "Desc",
             DurationInMinutes = 30,
             Price = 45,
         };
-        _repo
+        _repository
             .Setup(x =>
                 x.CreateTreatmentAsync(It.IsAny<Treatment>(), It.IsAny<CancellationToken>())
             )
@@ -51,7 +51,7 @@ public class TreatmentServiceTests
         Assert.Equal(request.Description, result.Value.Description);
         Assert.Equal(request.DurationInMinutes, result.Value.DurationInMinutes);
         Assert.Equal(request.Price, result.Value.Price);
-        _repo.Verify(
+        _repository.Verify(
             x =>
                 x.CreateTreatmentAsync(
                     It.Is<Treatment>(t =>
@@ -71,7 +71,7 @@ public class TreatmentServiceTests
     {
         // Arrange
         var id = 2;
-        _repo
+        _repository
             .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
             .ReturnsAsync((int id, CancellationToken cancellationToken) => null);
 
@@ -81,7 +81,10 @@ public class TreatmentServiceTests
         // Assert
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.NotFound, result.Status);
-        _repo.Verify(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()), Times.Once);
+        _repository.Verify(
+            x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
     }
 
     [Fact]
@@ -97,7 +100,7 @@ public class TreatmentServiceTests
             DurationInMinutes = 30,
             Price = 35,
         };
-        _repo
+        _repository
             .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedTreatment);
 
@@ -112,6 +115,9 @@ public class TreatmentServiceTests
         Assert.Equal(expectedTreatment.Description, result.Value.Description);
         Assert.Equal(expectedTreatment.DurationInMinutes, result.Value.DurationInMinutes);
         Assert.Equal(expectedTreatment.Price, result.Value.Price);
-        _repo.Verify(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()), Times.Once);
+        _repository.Verify(
+            x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
     }
 }

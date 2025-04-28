@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace appointly.BLL.Validators.Treatments;
 
-public class CreateTreatmentValidator : AbstractValidator<TreatmentRequest>
+public class CreateTreatmentValidator : AbstractValidator<CreateTreatmentRequest>
 {
     public CreateTreatmentValidator()
     {
