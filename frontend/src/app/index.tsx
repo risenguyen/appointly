@@ -11,13 +11,20 @@ import { configureClient } from "./configure-client";
 // Configures the API client
 configureClient(client);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+});
 
 const router = createRouter({
   routeTree,
   context: {
     queryClient: queryClient, // Inject queryClient
   },
+  defaultPreload: "intent",
 });
 
 // Register the router instance for type safety

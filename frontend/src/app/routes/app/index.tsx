@@ -1,9 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { handleErrorComponent } from "@/lib/tanstack-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+import { getApiTreatmentsById, type GetApiTreatmentsByIdError } from "@/api";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/app/")({
   component: RouteComponent,
+  pendingComponent() {
+    return <div>Loading...</div>;
+  },
+  errorComponent: handleErrorComponent<GetApiTreatmentsByIdError>(
+    ({ problemDetails }) => {
+      console.log(problemDetails);
+      return <div>{problemDetails.status}</div>;
+    },
+  ),
 });
 
 function RouteComponent() {
-  return <div>Hello "/app/"!</div>;
+  const { data } = useSuspenseQuery({
+    queryKey: ["treatments", 2],
+    queryFn: () => {
+      return getApiTreatmentsById({
+        path: {
+          id: 2,
+        },
+        throwOnError: true,
+      }).then(({ data }) => data);
+    },
+  });
+
+  console.log(data);
+
+  return (
+    <div>
+      Hello "/app/"!
+      <Button>First Ever Button</Button>
+    </div>
+  );
 }
