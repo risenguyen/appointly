@@ -11,10 +11,11 @@ type Theme = "light" | "dark";
 
 type ThemeContextValue = {
   theme: Theme;
+  toggleTheme: () => void;
 };
 
 type ThemeContextProviderProps = {
-  key: string;
+  storageKey: string;
   defaultTheme: Theme;
   children: ReactNode;
 };
@@ -30,12 +31,12 @@ function useTheme() {
 }
 
 function ThemeContextProvider({
-  key,
+  storageKey,
   defaultTheme,
   children,
 }: ThemeContextProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
-    const storedTheme = localStorage.getItem(key);
+    const storedTheme = localStorage.getItem(storageKey);
     if (storedTheme === "light" || storedTheme === "dark") {
       return storedTheme;
     }
@@ -50,7 +51,7 @@ function ThemeContextProvider({
     [setTheme],
   );
 
-  const value = {
+  const value: ThemeContextValue = {
     theme,
     toggleTheme,
   };
