@@ -5,6 +5,8 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import { ThemeContextProvider } from "@/context/theme-context";
+
 import { client } from "../api/client.gen";
 import { configureClient } from "../lib/configure-client";
 
@@ -39,11 +41,13 @@ declare module "@tanstack/react-router" {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <TanStackRouterDevtools router={router} />
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <ThemeContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <TanStackRouterDevtools router={router} />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ThemeContextProvider>
   );
 }
 

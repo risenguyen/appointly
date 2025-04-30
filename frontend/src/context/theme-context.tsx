@@ -15,8 +15,8 @@ type ThemeContextValue = {
 };
 
 type ThemeContextProviderProps = {
-  storageKey: string;
-  defaultTheme: Theme;
+  storageKey?: string;
+  defaultTheme?: Theme;
   children: ReactNode;
 };
 
@@ -31,8 +31,8 @@ function useTheme() {
 }
 
 function ThemeContextProvider({
-  storageKey,
-  defaultTheme,
+  storageKey = "theme",
+  defaultTheme = "light",
   children,
 }: ThemeContextProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
