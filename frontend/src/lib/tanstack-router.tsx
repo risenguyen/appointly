@@ -1,12 +1,12 @@
 import { JSX } from "react";
-import { type ErrorComponentProps } from "@tanstack/react-router";
-
-type TypedErrorComponentProps<T> = Omit<ErrorComponentProps, "error"> & {
-  error: T;
-};
+import type { ErrorComponentProps } from "@tanstack/react-router";
 
 type HandleErrorComponentParams<T> = {
-  errorComponent: (props: TypedErrorComponentProps<T>) => JSX.Element;
+  errorComponent: (
+    props: Omit<ErrorComponentProps, "error"> & {
+      error: T;
+    },
+  ) => JSX.Element;
   props: ErrorComponentProps;
 };
 
@@ -38,8 +38,4 @@ function handleRootErrorComponent({
   });
 }
 
-export {
-  type TypedErrorComponentProps,
-  handleErrorComponent,
-  handleRootErrorComponent,
-};
+export { handleErrorComponent, handleRootErrorComponent };

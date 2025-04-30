@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { client } from "../api/client.gen";
-import { configureClient } from "./configure-client";
+import { configureClient } from "../lib/configure-client";
 
 // Configures the API client
 configureClient(client);
@@ -21,10 +21,13 @@ const queryClient = new QueryClient({
 
 const router = createRouter({
   routeTree,
+  defaultPreload: "intent",
+  defaultPreloadStaleTime: 0,
+  defaultPendingMs: 0,
+  scrollRestoration: true,
   context: {
     queryClient: queryClient, // Inject queryClient
   },
-  defaultPreload: "intent",
 });
 
 // Register the router instance for type safety

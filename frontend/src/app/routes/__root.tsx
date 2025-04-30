@@ -1,6 +1,6 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import { QueryClient } from "@tanstack/react-query";
 import { handleRootErrorComponent } from "@/lib/tanstack-router";
+import { QueryClient } from "@tanstack/react-query";
 
 type RouterContext = {
   queryClient: QueryClient;
