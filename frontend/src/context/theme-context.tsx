@@ -57,6 +57,7 @@ function ThemeContextProvider({
   };
 
   useEffect(() => {
+    localStorage.setItem(storageKey, theme);
     const root = document.documentElement;
 
     root.setAttribute("data-theme", theme);
@@ -67,7 +68,7 @@ function ThemeContextProvider({
     }, 100);
 
     return () => clearTimeout(timerId);
-  }, [theme]);
+  }, [theme, storageKey]);
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
