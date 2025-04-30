@@ -1,3 +1,4 @@
+import AppLayout from "@/components/layouts/app-layout";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app")({
@@ -6,8 +7,8 @@ export const Route = createFileRoute("/app")({
 
 function RouteComponent() {
   return (
-    <div className="bg-red-400">
+    <AppLayout>
       <Outlet />
-    </div>
+    </AppLayout>
   );
 }

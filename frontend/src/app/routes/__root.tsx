@@ -10,7 +10,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
   errorComponent: (props) =>
     handleRootErrorComponent({
-      errorComponent() {
+      errorComponent: ({ error }) => {
+        console.log(error);
         return (
           <div className="flex h-screen w-screen flex-col items-center justify-center bg-neutral-50 px-6">
             <h1 className="text-center text-3xl font-bold text-neutral-950 lg:text-5xl">
