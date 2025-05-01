@@ -5,7 +5,7 @@ type AppLayoutProps = {
 };
 
 function AppLayout({ children }: AppLayoutProps) {
-  return <div>{children}</div>;
+  return <div className="h-screen w-screen"></div>;
 }
 
 export default AppLayout;
