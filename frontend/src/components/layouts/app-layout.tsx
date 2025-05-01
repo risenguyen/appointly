@@ -24,6 +24,7 @@ function AppLayout({ children }: AppLayoutProps) {
             appointly
           </Link>
         </div>
+
         <div className="flex items-center gap-1">
           <Button onClick={toggleTheme} asChild size="icon" variant="ghost">
             <a
@@ -40,6 +41,8 @@ function AppLayout({ children }: AppLayoutProps) {
           </Button>
         </div>
       </nav>
+
+      <main className="flex-1">{children}</main>
     </div>
   );
 }
