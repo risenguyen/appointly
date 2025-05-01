@@ -6,7 +6,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant light (&:where([data-theme=light], [data-theme=light] *));
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme inline {
@@ -48,7 +47,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-[data-theme="light"] {
+:root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

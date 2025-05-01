@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 // import { handleErrorComponent } from "@/lib/tanstack-router";
 
-import { Button } from "@/components/ui/button";
-
 export const Route = createFileRoute("/app/")({
   component: RouteComponent,
   pendingComponent() {
@@ -16,10 +14,5 @@ export const Route = createFileRoute("/app/")({
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      Hello "/app/"!
-      <Button>First Ever Button</Button>
-    </div>
-  );
+  return <div></div>;
 }
