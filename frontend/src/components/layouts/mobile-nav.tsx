@@ -45,6 +45,13 @@ function MobileNav() {
             <li className="flex">
               <DrawerClose asChild>
                 <Link className="text-2xl font-medium" to="/app">
+                  Clients
+                </Link>
+              </DrawerClose>
+            </li>
+            <li className="flex">
+              <DrawerClose asChild>
+                <Link className="text-2xl font-medium" to="/app">
                   Treatments
                 </Link>
               </DrawerClose>
@@ -53,13 +60,6 @@ function MobileNav() {
               <DrawerClose asChild>
                 <Link className="text-2xl font-medium" to="/app">
                   Employees
-                </Link>
-              </DrawerClose>
-            </li>
-            <li className="flex">
-              <DrawerClose asChild>
-                <Link className="text-2xl font-medium" to="/app">
-                  Clients
                 </Link>
               </DrawerClose>
             </li>

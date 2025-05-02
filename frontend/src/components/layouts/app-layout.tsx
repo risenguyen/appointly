@@ -5,6 +5,7 @@ import { RxGithubLogo } from "react-icons/rx";
 import { Sun, Moon } from "lucide-react";
 import { Button } from "../ui/button";
 import MobileNav from "./mobile-nav";
+import DesktopNav from "./desktop-nav";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -15,12 +16,13 @@ function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      <header className="flex items-center justify-between px-5 py-5">
+      <header className="flex items-center justify-between px-6 py-6 md:px-6 lg:px-8">
         <div className="flex items-center gap-4 pl-1.5">
           <MobileNav />
-          <Link to="/app" className="pb-0.5 text-xl font-medium">
+          <Link to="/app" className="pb-1 text-xl font-medium">
             appointly
           </Link>
+          <DesktopNav />
         </div>
 
         <div className="flex items-center gap-1">
