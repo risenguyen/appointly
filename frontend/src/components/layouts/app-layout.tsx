@@ -28,7 +28,6 @@ function AppLayout({ children }: AppLayoutProps) {
         <div className="flex items-center gap-1">
           <Button
             aria-label="Link to developer's GitHub"
-            onClick={toggleTheme}
             asChild
             size="icon"
             variant="ghost"
