@@ -15,16 +15,22 @@ function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      <nav className="flex items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-4">
+      <header className="flex items-center justify-between px-5 py-5">
+        <div className="flex items-center gap-4 pl-1.5">
           <MobileNav />
-          <Link to="/app" className="pb-0.5 text-lg font-medium">
+          <Link to="/app" className="pb-0.5 text-xl font-medium">
             appointly
           </Link>
         </div>
 
         <div className="flex items-center gap-1">
-          <Button onClick={toggleTheme} asChild size="icon" variant="ghost">
+          <Button
+            aria-label="Link to developer's GitHub"
+            onClick={toggleTheme}
+            asChild
+            size="icon"
+            variant="ghost"
+          >
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -34,11 +40,16 @@ function AppLayout({ children }: AppLayoutProps) {
               <RxGithubLogo />
             </a>
           </Button>
-          <Button onClick={toggleTheme} size="icon" variant="ghost">
+          <Button
+            aria-label="Toggle Dark Mode"
+            onClick={toggleTheme}
+            size="icon"
+            variant="ghost"
+          >
             {theme === "light" ? <Moon /> : <Sun />}
           </Button>
         </div>
-      </nav>
+      </header>
 
       <main className="flex-1">{children}</main>
     </div>
