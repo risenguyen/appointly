@@ -37,28 +37,28 @@ function MobileNav() {
             </li>
             <li className="flex">
               <DrawerClose asChild>
-                <Link className="text-2xl font-medium" to="/app">
+                <Link className="text-2xl font-medium" to="/app/appointments">
                   Appointments
                 </Link>
               </DrawerClose>
             </li>
             <li className="flex">
               <DrawerClose asChild>
-                <Link className="text-2xl font-medium" to="/app">
+                <Link className="text-2xl font-medium" to="/app/clients">
                   Clients
                 </Link>
               </DrawerClose>
             </li>
             <li className="flex">
               <DrawerClose asChild>
-                <Link className="text-2xl font-medium" to="/app">
+                <Link className="text-2xl font-medium" to="/app/treatments">
                   Treatments
                 </Link>
               </DrawerClose>
             </li>
             <li className="flex">
               <DrawerClose asChild>
-                <Link className="text-2xl font-medium" to="/app">
+                <Link className="text-2xl font-medium" to="/app/employees">
                   Employees
                 </Link>
               </DrawerClose>

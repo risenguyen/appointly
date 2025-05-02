@@ -18,7 +18,7 @@ function DesktopNav() {
         <li className="flex">
           <Link
             className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
-            to="/app"
+            to="/app/appointments"
           >
             Appointments
           </Link>
@@ -26,7 +26,7 @@ function DesktopNav() {
         <li className="flex">
           <Link
             className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
-            to="/app"
+            to="/app/clients"
           >
             Clients
           </Link>
@@ -34,7 +34,7 @@ function DesktopNav() {
         <li className="flex">
           <Link
             className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
-            to="/app"
+            to="/app/treatments"
           >
             Treatments
           </Link>
@@ -42,7 +42,7 @@ function DesktopNav() {
         <li className="flex">
           <Link
             className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
-            to="/app"
+            to="/app/employees"
           >
             Employees
           </Link>
