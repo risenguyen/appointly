@@ -27,7 +27,7 @@ function MobileNav() {
           Contains links to navigate the application sections.
         </DrawerDescription>
         <nav className="flex flex-col px-8">
-          <ul className="flex flex-col gap-6 py-11">
+          <ul className="flex flex-col gap-6 py-12">
             <li className="flex">
               <DrawerClose asChild>
                 <Link className="text-2xl font-medium" to="/app">
