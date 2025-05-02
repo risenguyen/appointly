@@ -17,7 +17,7 @@ function DesktopNav() {
         </li>
         <li className="flex">
           <Link
-            className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground dtransition-colors"
+            className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
             to="/app"
           >
             Appointments
