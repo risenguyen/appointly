@@ -13,11 +13,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       errorComponent: ({ error }) => {
         console.log(error);
         return (
-          <div className="flex h-screen w-screen flex-col items-center justify-center bg-neutral-50 px-6">
-            <h1 className="text-center text-3xl font-bold text-neutral-950 lg:text-5xl">
+          <div className="flex h-screen w-screen flex-col items-center justify-center px-6">
+            <h1 className="text-center text-3xl font-bold lg:text-5xl">
               Something Went Wrong
             </h1>
-            <p className="mt-1 text-center text-base text-neutral-600 lg:mt-3 lg:text-xl">
+            <p className="text-muted-foreground mt-1 text-center text-base lg:mt-3 lg:text-xl">
               We encountered an unexpected issue. Please try refreshing the page
               or contact support if the problem persists.
             </p>
