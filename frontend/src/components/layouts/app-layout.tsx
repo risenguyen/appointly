@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
 import { useTheme } from "@/context/theme-context";
-
-import { Button } from "../ui/button";
 import { RxGithubLogo } from "react-icons/rx";
-import { Sun, Moon, Menu } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
+import { Button } from "../ui/button";
+import MobileNav from "./mobile-nav";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -15,11 +15,9 @@ function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      <nav className="flex items-center justify-between px-6 py-4">
+      <nav className="flex items-center justify-between px-6 py-5">
         <div className="flex items-center gap-4">
-          <button className="cursor-pointer" aria-label="menu" type="button">
-            <Menu className="leading-0" size="20px" />
-          </button>
+          <MobileNav />
           <Link to="/app" className="pb-0.5 text-lg font-medium">
             appointly
           </Link>
