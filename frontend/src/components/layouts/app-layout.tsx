@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { ReactNode } from "react";
+import type { NavLink } from "@/lib/tanstack-router";
+import { useMemo, type ReactNode } from "react";
 import { useTheme } from "@/context/theme-context";
 import { RxGithubLogo } from "react-icons/rx";
 import { Sun, Moon } from "lucide-react";
@@ -14,15 +15,44 @@ type AppLayoutProps = {
 function AppLayout({ children }: AppLayoutProps) {
   const { theme, toggleTheme } = useTheme();
 
+  const navLinks = useMemo<Array<NavLink>>(
+    () => [
+      {
+        to: "/app",
+        activeOptions: {
+          exact: true,
+        },
+        label: "Dashboard",
+      },
+      {
+        to: "/app/appointments",
+        label: "Appointments",
+      },
+      {
+        to: "/app/clients",
+        label: "Clients",
+      },
+      {
+        to: "/app/treatments",
+        label: "Treatments",
+      },
+      {
+        to: "/app/employees",
+        label: "Employees",
+      },
+    ],
+    [],
+  );
+
   return (
     <div className="flex h-screen w-screen flex-col">
       <header className="flex items-center justify-between px-7 py-6 lg:px-8">
         <div className="flex items-center gap-4 pl-1.5 md:pl-2">
-          <MobileNav />
+          <MobileNav navLinks={navLinks} />
           <Link to="/app" className="pb-1 text-xl font-medium">
             appointly
           </Link>
-          <DesktopNav />
+          <DesktopNav navLinks={navLinks} />
         </div>
 
         <div className="flex items-center gap-1">

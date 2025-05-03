@@ -8,8 +8,13 @@ import {
   DrawerTitle,
   DrawerDescription,
 } from "../ui/drawer";
+import type { NavLink } from "@/lib/tanstack-router";
 
-function MobileNav() {
+type MobileNavProps = {
+  navLinks: Array<NavLink>;
+};
+
+function MobileNav({ navLinks }: MobileNavProps) {
   return (
     <Drawer autoFocus>
       <DrawerTrigger asChild>
@@ -28,59 +33,18 @@ function MobileNav() {
         </DrawerDescription>
         <nav className="flex flex-col px-8">
           <ul className="flex flex-col gap-6 py-12">
-            <li className="flex">
-              <DrawerClose asChild>
-                <Link
-                  activeOptions={{
-                    exact: true,
-                  }}
-                  className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
-                  to="/app"
-                >
-                  Dashboard
-                </Link>
-              </DrawerClose>
-            </li>
-            <li className="flex">
-              <DrawerClose asChild>
-                <Link
-                  className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
-                  to="/app/appointments"
-                >
-                  Appointments
-                </Link>
-              </DrawerClose>
-            </li>
-            <li className="flex">
-              <DrawerClose asChild>
-                <Link
-                  className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
-                  to="/app/clients"
-                >
-                  Clients
-                </Link>
-              </DrawerClose>
-            </li>
-            <li className="flex">
-              <DrawerClose asChild>
-                <Link
-                  className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
-                  to="/app/treatments"
-                >
-                  Treatments
-                </Link>
-              </DrawerClose>
-            </li>
-            <li className="flex">
-              <DrawerClose asChild>
-                <Link
-                  className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
-                  to="/app/employees"
-                >
-                  Employees
-                </Link>
-              </DrawerClose>
-            </li>
+            {navLinks.map((navLink) => (
+              <li className="flex">
+                <DrawerClose asChild>
+                  <Link
+                    className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
+                    {...navLink}
+                  >
+                    {navLink.label}
+                  </Link>
+                </DrawerClose>
+              </li>
+            ))}
           </ul>
         </nav>
       </DrawerContent>

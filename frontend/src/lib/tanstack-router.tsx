@@ -1,5 +1,7 @@
 import { JSX } from "react";
-import type { ErrorComponentProps } from "@tanstack/react-router";
+import type { ErrorComponentProps, LinkOptions } from "@tanstack/react-router";
+
+type NavLink = LinkOptions & { label: string };
 
 type HandleErrorComponentParams<T> = {
   errorComponent: (
@@ -38,4 +40,4 @@ function handleRootErrorComponent({
   });
 }
 
-export { handleErrorComponent, handleRootErrorComponent };
+export { handleErrorComponent, handleRootErrorComponent, type NavLink };
