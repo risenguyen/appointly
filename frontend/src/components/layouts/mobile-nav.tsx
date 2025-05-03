@@ -37,7 +37,7 @@ function MobileNav({ navLinks }: MobileNavProps) {
               <li key={navLink.to} className="flex">
                 <DrawerClose asChild>
                   <Link
-                    className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
+                    className="data-[status=active]:text-foreground focus-visible:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
                     {...navLink}
                   >
                     {navLink.label}

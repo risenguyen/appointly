@@ -48,7 +48,7 @@ function AppLayout({ children }: AppLayoutProps) {
     <div className="flex w-screen justify-center">
       <div className="container flex min-h-screen flex-col">
         <header className="flex items-center justify-between px-7 py-6 md:px-8 lg:px-10">
-          <div className="flex items-center gap-4 pl-1.5 md:pl-2">
+          <div className="flex items-center gap-4 pl-1 md:pl-2">
             <MobileNav navLinks={navLinks} />
             <Link to="/app" className="pb-1 text-xl font-medium">
               appointly

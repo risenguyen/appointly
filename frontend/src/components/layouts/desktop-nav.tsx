@@ -12,7 +12,7 @@ function DesktopNav({ navLinks }: DesktopNavProps) {
         {navLinks.map((navLink) => (
           <li key={navLink.to} className="flex">
             <Link
-              className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground focus-visible:text-foreground data-[status=active]:text-foreground transition-colors"
               {...navLink}
             >
               {navLink.label}
