@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { TbMenu } from "react-icons/tb";
 import {
   Drawer,
   DrawerTrigger,
@@ -18,7 +18,7 @@ function MobileNav() {
           className="flex cursor-pointer items-center md:hidden"
           type="button"
         >
-          <Menu className="leading-0" size="20px" />
+          <TbMenu className="leading-0" size="20px" />
         </button>
       </DrawerTrigger>
       <DrawerContent className="h-full">

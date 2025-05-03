@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 function DesktopNav() {
   return (
-    <nav className="ml-3 hidden md:flex">
+    <nav className="ml-4 hidden md:flex">
       <ul className="flex items-center gap-7">
         <li className="flex">
           <Link
