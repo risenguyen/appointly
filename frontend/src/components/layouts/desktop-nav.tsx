@@ -10,7 +10,7 @@ function DesktopNav({ navLinks }: DesktopNavProps) {
     <nav className="ml-4 hidden md:flex">
       <ul className="flex items-center gap-7">
         {navLinks.map((navLink) => (
-          <li className="flex">
+          <li key={navLink.to} className="flex">
             <Link
               className="text-muted-foreground hover:text-foreground data-[status=active]:text-foreground transition-colors"
               {...navLink}

@@ -45,44 +45,46 @@ function AppLayout({ children }: AppLayoutProps) {
   );
 
   return (
-    <div className="flex h-screen w-screen flex-col">
-      <header className="flex items-center justify-between px-7 py-6 lg:px-8">
-        <div className="flex items-center gap-4 pl-1.5 md:pl-2">
-          <MobileNav navLinks={navLinks} />
-          <Link to="/app" className="pb-1 text-xl font-medium">
-            appointly
-          </Link>
-          <DesktopNav navLinks={navLinks} />
-        </div>
+    <div className="flex w-screen justify-center">
+      <div className="container flex min-h-screen flex-col">
+        <header className="flex items-center justify-between px-7 py-6 md:px-8 lg:px-10">
+          <div className="flex items-center gap-4 pl-1.5 md:pl-2">
+            <MobileNav navLinks={navLinks} />
+            <Link to="/app" className="pb-1 text-xl font-medium">
+              appointly
+            </Link>
+            <DesktopNav navLinks={navLinks} />
+          </div>
 
-        <div className="flex items-center gap-1">
-          <Button
-            aria-label="Link to developer's GitHub"
-            asChild
-            size="icon"
-            variant="ghost"
-          >
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="link to developer's github profile"
-              href="https://github.com/risenguyen"
+          <div className="flex items-center gap-1">
+            <Button
+              aria-label="Link to developer's GitHub"
+              asChild
+              size="icon"
+              variant="ghost"
             >
-              <RxGithubLogo />
-            </a>
-          </Button>
-          <Button
-            aria-label="Toggle Dark Mode"
-            onClick={toggleTheme}
-            size="icon"
-            variant="ghost"
-          >
-            {theme === "light" ? <Moon /> : <Sun />}
-          </Button>
-        </div>
-      </header>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="link to developer's github profile"
+                href="https://github.com/risenguyen"
+              >
+                <RxGithubLogo />
+              </a>
+            </Button>
+            <Button
+              aria-label="Toggle Dark Mode"
+              onClick={toggleTheme}
+              size="icon"
+              variant="ghost"
+            >
+              {theme === "light" ? <Moon /> : <Sun />}
+            </Button>
+          </div>
+        </header>
 
-      <main className="flex-1">{children}</main>
+        <main className="flex-1">{children}</main>
+      </div>
     </div>
   );
 }

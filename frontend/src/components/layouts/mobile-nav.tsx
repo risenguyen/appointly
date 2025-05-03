@@ -34,7 +34,7 @@ function MobileNav({ navLinks }: MobileNavProps) {
         <nav className="flex flex-col px-8">
           <ul className="flex flex-col gap-6 py-12">
             {navLinks.map((navLink) => (
-              <li className="flex">
+              <li key={navLink.to} className="flex">
                 <DrawerClose asChild>
                   <Link
                     className="data-[status=active]:text-foreground text-muted-foreground hover:text-foreground text-2xl font-medium transition-colors"
