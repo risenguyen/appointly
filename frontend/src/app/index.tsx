@@ -10,7 +10,7 @@ import { ThemeContextProvider } from "@/context/theme-context";
 import { client } from "../api/client.gen";
 import { configureClient } from "../lib/configure-client";
 
-// Configures the API client
+// Configure API client
 configureClient(client);
 
 const queryClient = new QueryClient({
