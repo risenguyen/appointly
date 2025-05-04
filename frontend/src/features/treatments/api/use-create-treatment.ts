@@ -23,10 +23,20 @@ const createTreatmentSchema = z.object({
     .max(500, {
       message: "Treatment description cannot exceed 500 characters.",
     }),
-  durationInMinutes: z
-    .number()
-    .positive({ message: "Duration must be a positive number of minutes." }),
-  price: z.number().nonnegative({ message: "Price cannot be negative." }),
+  durationInMinutes: z.coerce
+    .number({
+      invalid_type_error: "Treatment duration must be a number.",
+    })
+    .positive({
+      message: "Treatment duration must be greater than 0.",
+    })
+    .int({ message: "Treatment duration must be a whole number of minutes." }),
+  price: z.coerce
+    .number({
+      invalid_type_error: "Treatment price must be a number.",
+    })
+    .positive({ message: "Treatment price must be greater than 0." })
+    .multipleOf(0.01, "Treatment price must have up to two decimal places"),
 });
 
 function useCreateTreatment(
