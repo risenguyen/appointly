@@ -7,6 +7,8 @@ import {
   type CreateTreatmentInput,
 } from "../api/use-create-treatment";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -16,8 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 function CreateTreatmentForm() {
   const createTreatment = useCreateTreatment({
