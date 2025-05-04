@@ -28,14 +28,14 @@ const createTreatmentSchema = z.object({
       invalid_type_error: "Treatment duration must be a number.",
     })
     .positive({
-      message: "Treatment duration must be a positive number of minutes.",
+      message: "Treatment duration must be greater than 0.",
     })
     .int({ message: "Treatment duration must be a whole number of minutes." }),
   price: z.coerce
     .number({
       invalid_type_error: "Treatment price must be a number.",
     })
-    .positive({ message: "Treatment price must be a positive number." })
+    .positive({ message: "Treatment price must be greater than 0." })
     .multipleOf(0.01, "Treatment price must have up to two decimal places"),
 });
 
