@@ -1,10 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import type { NavLink } from "@/lib/tanstack-router";
+
 import { useMemo, type ReactNode } from "react";
 import { useTheme } from "@/context/theme-context";
+
+import { TbMenu } from "react-icons/tb";
 import { RxGithubLogo } from "react-icons/rx";
 import { Sun, Moon } from "lucide-react";
+
 import { Button } from "../ui/button";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerTitle,
+  DrawerDescription,
+} from "../ui/drawer";
+
 import MobileNav from "./mobile-nav";
 import DesktopNav from "./desktop-nav";
 
@@ -49,7 +61,26 @@ function AppLayout({ children }: AppLayoutProps) {
       <div className="container flex min-h-screen flex-col">
         <header className="flex items-center justify-between px-7 py-6 md:px-8 lg:px-10">
           <div className="flex items-center gap-4 pl-1 md:pl-2">
-            <MobileNav navLinks={navLinks} />
+            <Drawer autoFocus>
+              <DrawerTrigger asChild>
+                <button
+                  aria-label="Open Navigation"
+                  className="flex cursor-pointer items-center md:hidden"
+                  type="button"
+                >
+                  <TbMenu className="leading-0" size="20px" />
+                </button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerTitle className="sr-only">
+                  Mobile Navigation Menu
+                </DrawerTitle>
+                <DrawerDescription className="sr-only">
+                  Contains links to navigate the application sections.
+                </DrawerDescription>
+                <MobileNav navLinks={navLinks} />
+              </DrawerContent>
+            </Drawer>
             <Link to="/app" className="pb-1 text-xl font-medium">
               appointly
             </Link>
