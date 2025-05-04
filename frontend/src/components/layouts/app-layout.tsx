@@ -8,14 +8,14 @@ import { TbMenu } from "react-icons/tb";
 import { RxGithubLogo } from "react-icons/rx";
 import { Sun, Moon } from "lucide-react";
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
   DrawerTitle,
   DrawerDescription,
-} from "../ui/drawer";
+} from "@/components/ui/drawer";
 
 import MobileNav from "./mobile-nav";
 import DesktopNav from "./desktop-nav";

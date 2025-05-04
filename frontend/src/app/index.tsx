@@ -7,8 +7,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { ThemeContextProvider } from "@/context/theme-context";
 
-import { client } from "../api/client.gen";
-import { configureClient } from "../lib/configure-client";
+import { client } from "@/api/client.gen";
+import { configureClient } from "@/lib/configure-client";
 
 // Configure API client
 configureClient(client);

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { NavLink } from "@/lib/tanstack-router";
-import { DrawerClose } from "../ui/drawer";
+import { DrawerClose } from "@/components/ui/drawer";
 
 type MobileNavProps = {
   navLinks: Array<NavLink>;
