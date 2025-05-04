@@ -39,7 +39,6 @@ function CreateTreatmentForm() {
   });
 
   function onSubmit(data: CreateTreatmentInput) {
-    console.log(data);
     createTreatment.mutate(data);
   }
 
