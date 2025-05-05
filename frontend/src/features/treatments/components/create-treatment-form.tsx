@@ -65,7 +65,7 @@ function CreateTreatmentForm() {
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Includes consultation, shampoo, precision scissor/clipper cut, rinse, and basic style."
+                  placeholder="Includes consultation, shampoo, cut, rinse, and basic style."
                   {...field}
                 />
               </FormControl>

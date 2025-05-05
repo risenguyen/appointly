@@ -21,7 +21,7 @@ function RouteComponent() {
           <Button>Create treatment</Button>
         </DrawerTrigger>
         <DrawerContent>
-          <div className="flex flex-col gap-4 overflow-y-auto px-4 py-8">
+          <div className="flex flex-col gap-4 overflow-y-auto px-5 py-8">
             <div className="flex flex-col gap-1.5">
               <DrawerTitle className="text-lg font-medium">
                 Create treatment
