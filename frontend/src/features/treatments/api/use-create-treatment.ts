@@ -1,9 +1,11 @@
+import { z } from "zod";
+
 import {
   useMutation,
   type MutationOptions,
   type DefaultError,
 } from "@tanstack/react-query";
-import { z } from "zod";
+
 import {
   postApiTreatments,
   type ValidationProblemDetails,
