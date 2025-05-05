@@ -4,6 +4,7 @@ import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
+  DrawerHeader,
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer";
@@ -22,14 +23,12 @@ function RouteComponent() {
         </DrawerTrigger>
         <DrawerContent>
           <div className="flex flex-col gap-4 overflow-y-auto px-5 py-8">
-            <div className="flex flex-col gap-1.5">
-              <DrawerTitle className="text-lg font-medium">
-                Create treatment
-              </DrawerTitle>
+            <DrawerHeader>
+              <DrawerTitle>Create treatment</DrawerTitle>
               <DrawerDescription>
                 Fill in the details for the new treatment.
               </DrawerDescription>
-            </div>
+            </DrawerHeader>
 
             <CreateTreatmentForm />
           </div>
