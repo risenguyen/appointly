@@ -24,19 +24,24 @@ const createTreatmentSchema = z.object({
       message: "Treatment description cannot exceed 500 characters.",
     }),
   durationInMinutes: z.coerce
-    .number({
-      invalid_type_error: "Treatment duration must be a number.",
+    .string()
+    .min(1, { message: "Treatment duration is required." })
+    .regex(/^\d+$/, {
+      message: "Treatment duration must be a whole number.",
     })
-    .positive({
+    .refine((val) => parseInt(val, 10) > 0, {
       message: "Treatment duration must be greater than 0.",
+    }),
+  price: z
+    .string()
+    .min(1, { message: "Treatment price is required." })
+    .regex(/^\$?(\d+(\.\d{1,2})?)$/, {
+      message:
+        "Treatment price must be a valid positive monetary value (e.g., 10.99 or 50).",
     })
-    .int({ message: "Treatment duration must be a whole number of minutes." }),
-  price: z.coerce
-    .number({
-      invalid_type_error: "Treatment price must be a number.",
-    })
-    .positive({ message: "Treatment price must be greater than 0." })
-    .multipleOf(0.01, "Treatment price must have up to two decimal places"),
+    .refine((val) => parseFloat(val.replace(/^\$/, "")) > 0, {
+      message: "Treatment price must be greater than 0.",
+    }),
 });
 
 function useCreateTreatment(
@@ -50,11 +55,17 @@ function useCreateTreatment(
   >,
 ) {
   return useMutation({
-    mutationFn: async (treatmentData) => {
+    mutationFn: async ({ name, description, durationInMinutes, price }) => {
       const { data } = await postApiTreatments({
-        body: treatmentData,
+        body: {
+          name,
+          description,
+          durationInMinutes: parseInt(durationInMinutes, 10),
+          price: parseFloat(price.replace(/^\$/, "")),
+        },
         throwOnError: true,
       });
+
       return data;
     },
     ...options,

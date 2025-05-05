@@ -3,10 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerTrigger,
-  DrawerClose,
   DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer";
@@ -24,23 +21,17 @@ function RouteComponent() {
           <Button>Create treatment</Button>
         </DrawerTrigger>
         <DrawerContent>
-          <div className="flex flex-col overflow-y-auto">
-            <DrawerHeader>
+          <div className="flex flex-col gap-4 overflow-y-auto px-4 py-8">
+            <div className="flex flex-col gap-1.5">
               <DrawerTitle className="text-lg font-medium">
                 Create treatment
               </DrawerTitle>
               <DrawerDescription>
                 Fill in the details for the new treatment.
               </DrawerDescription>
-            </DrawerHeader>
+            </div>
 
             <CreateTreatmentForm />
-
-            <DrawerFooter className="pt-2">
-              <DrawerClose asChild>
-                <Button variant="secondary">Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
           </div>
         </DrawerContent>
       </Drawer>

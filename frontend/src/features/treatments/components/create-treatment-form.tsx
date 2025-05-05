@@ -32,8 +32,8 @@ function CreateTreatmentForm() {
     defaultValues: {
       name: "",
       description: "",
-      durationInMinutes: 0,
-      price: 0,
+      durationInMinutes: "",
+      price: "",
     },
   });
 
@@ -43,7 +43,7 @@ function CreateTreatmentForm() {
 
   return (
     <Form {...form}>
-      <form className="space-y-6 px-4" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -75,12 +75,12 @@ function CreateTreatmentForm() {
         />
         <FormField
           control={form.control}
-          name="durationInMinutes"
+          name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Duration In Minutes</FormLabel>
+              <FormLabel>Price</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="30" {...field} />
+                <Input placeholder="$45.00" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,12 +88,12 @@ function CreateTreatmentForm() {
         />
         <FormField
           control={form.control}
-          name="price"
+          name="durationInMinutes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Price</FormLabel>
+              <FormLabel>Duration In Minutes</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="40.00" {...field} />
+                <Input placeholder="30" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
