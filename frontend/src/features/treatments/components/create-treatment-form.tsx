@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,7 +43,7 @@ function CreateTreatmentForm() {
 
   return (
     <Form {...form}>
-      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-6 px-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -54,9 +53,6 @@ function CreateTreatmentForm() {
               <FormControl>
                 <Input placeholder="Men's Classic Cut" {...field} />
               </FormControl>
-              <FormDescription>
-                Enter a short and clear name for the treatment.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -73,25 +69,6 @@ function CreateTreatmentForm() {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter a detailed description of what the treatment includes.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="40.00" {...field} />
-              </FormControl>
-              <FormDescription>
-                Enter the price of the treatment.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -105,14 +82,24 @@ function CreateTreatmentForm() {
               <FormControl>
                 <Input type="number" placeholder="30" {...field} />
               </FormControl>
-              <FormDescription>
-                Enter the total time the treatment takes in minutes.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button>Create</Button>
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="40.00" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button className="w-full">Create treatment</Button>
       </form>
     </Form>
   );
