@@ -9,7 +9,7 @@ export const Route = createFileRoute("/app/treatments")({
 
 function RouteComponent() {
   return (
-    <div className="px-8">
+    <div className="flex justify-end px-8">
       <DrawerDialog
         trigger={<Button size="sm">Create treatment</Button>}
         title="Create treatment"
