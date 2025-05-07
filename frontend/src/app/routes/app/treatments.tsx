@@ -9,15 +9,18 @@ export const Route = createFileRoute("/app/treatments")({
 
 function RouteComponent() {
   return (
-    <div className="flex justify-end px-8">
-      <DrawerDialog
-        trigger={<Button size="sm">Create treatment</Button>}
-        title="Create treatment"
-        description="
+    <div className="min-h-full w-full py-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-medium">Treatments</h1>
+        <DrawerDialog
+          trigger={<Button size="sm">Create treatment</Button>}
+          title="Create treatment"
+          description="
 Fill in the details for the new treatment."
-      >
-        <CreateTreatmentForm />
-      </DrawerDialog>
+        >
+          <CreateTreatmentForm />
+        </DrawerDialog>
+      </div>
     </div>
   );
 }

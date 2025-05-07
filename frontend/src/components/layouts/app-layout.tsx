@@ -60,7 +60,7 @@ function AppLayout({ children }: AppLayoutProps) {
     <div className="flex w-screen justify-center">
       <div className="container mx-auto flex min-h-screen flex-col">
         <header className="flex items-center justify-between px-8 py-6">
-          <div className="flex items-center gap-4 pl-1 md:pl-2">
+          <div className="flex items-center gap-4 pl-2">
             <Drawer autoFocus>
               <DrawerTrigger asChild>
                 <button
@@ -114,7 +114,7 @@ function AppLayout({ children }: AppLayoutProps) {
           </div>
         </header>
 
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 px-10">{children}</main>
       </div>
     </div>
   );
