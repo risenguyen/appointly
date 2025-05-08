@@ -89,4 +89,55 @@ public class TreatmentRepositoryTests
         // Assert
         Assert.Null(retrievedTreatment);
     }
+
+    [Fact]
+    public async Task GetAllTreatmentsAsync_ShouldReturnTreatmentList()
+    {
+        // Arrange
+        var treatments = new List<Treatment>
+        {
+            new()
+            {
+                Name = "Treatment 1",
+                Description = "Description 1",
+                DurationInMinutes = 30,
+                Price = 45,
+            },
+            new()
+            {
+                Name = "Treatment 2",
+                Description = "Description 2",
+                DurationInMinutes = 60,
+                Price = 90,
+            },
+            new()
+            {
+                Name = "Treatment 3",
+                Description = "Description 3",
+                DurationInMinutes = 45,
+                Price = 65,
+            },
+        };
+        await _context.Treatments.AddRangeAsync(treatments);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _sut.GetAllTreatmentsAsync(CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(treatments.Count, result.Count);
+        foreach (var expected in treatments)
+        {
+            Assert.Contains(
+                result,
+                actual =>
+                    actual.Id == expected.Id
+                    && actual.Name == expected.Name
+                    && actual.Description == expected.Description
+                    && actual.DurationInMinutes == expected.DurationInMinutes
+                    && actual.Price == expected.Price
+            );
+        }
+    }
 }

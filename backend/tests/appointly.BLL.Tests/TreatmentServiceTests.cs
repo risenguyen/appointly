@@ -120,4 +120,53 @@ public class TreatmentServiceTests
             Times.Once
         );
     }
+
+    [Fact]
+    public async Task GetAllTreatmentsAsync_ShouldReturnTreatmentList()
+    {
+        // Arrange
+        var expectedTreatments = new List<Treatment>
+        {
+            new()
+            {
+                Id = 1,
+                Name = "Treatment 1",
+                Description = "Description 1",
+                DurationInMinutes = 30,
+                Price = 45,
+            },
+            new()
+            {
+                Id = 2,
+                Name = "Treatment 2",
+                Description = "Description 2",
+                DurationInMinutes = 60,
+                Price = 90,
+            },
+        };
+        _repository
+            .Setup(x => x.GetAllTreatmentsAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedTreatments);
+
+        // Act
+        var result = await _sut.GetAllTreatmentsAsync(CancellationToken.None);
+
+        // Assert
+        Assert.IsType<Result<List<TreatmentResponse>>>(result);
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.Equal(2, result.Value.Count);
+        foreach (var expected in expectedTreatments)
+        {
+            Assert.Contains(
+                result.Value,
+                actual =>
+                    actual.Id == expected.Id
+                    && actual.Name == expected.Name
+                    && actual.Description == expected.Description
+                    && actual.DurationInMinutes == expected.DurationInMinutes
+                    && actual.Price == expected.Price
+            );
+        }
+        _repository.Verify(x => x.GetAllTreatmentsAsync(It.IsAny<CancellationToken>()), Times.Once);
+    }
 }
