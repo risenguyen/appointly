@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import {
   useCreateTreatment,
@@ -8,6 +9,7 @@ import {
   type CreateTreatmentInput,
 } from "../api/use-create-treatment";
 
+import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,12 +21,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-function CreateTreatmentForm() {
+type CreateTreatmentFormProps = {
+  setOpen: (open: boolean) => void;
+};
+
+function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
   const createTreatment = useCreateTreatment({
-    onError: (error) => {
-      if (error instanceof Error) {
-        throw error;
-      }
+    onSuccess: () => {
+      toast.success("Treatment created successfully");
+      setOpen(false);
+    },
+    onError: () => {
+      toast.error("Failed to create treatment");
+      setOpen(false);
     },
   });
 
@@ -101,7 +110,12 @@ function CreateTreatmentForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full">Create treatment</Button>
+        <Button disabled={createTreatment.isPending} className="w-full">
+          {createTreatment.isPending ? (
+            <LoaderCircle className="animate-spin" />
+          ) : null}
+          Create treatment
+        </Button>
       </form>
     </Form>
   );

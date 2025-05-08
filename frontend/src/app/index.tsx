@@ -5,6 +5,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import { Toaster } from "@/components/ui/sonner";
 import { ThemeContextProvider } from "@/context/theme-context";
 
 import { client } from "@/api/client.gen";
@@ -41,13 +42,16 @@ declare module "@tanstack/react-router" {
 
 function App() {
   return (
-    <ThemeContextProvider>
-      <QueryClientProvider client={queryClient}>
-        {/* <ReactQueryDevtools />
-        <TanStackRouterDevtools router={router} /> */}
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </ThemeContextProvider>
+    <>
+      <Toaster />
+      <ThemeContextProvider>
+        <QueryClientProvider client={queryClient}>
+          {/* <ReactQueryDevtools /> */}
+          {/* <TanStackRouterDevtools router={router} /> */}
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </ThemeContextProvider>
+    </>
   );
 }
 

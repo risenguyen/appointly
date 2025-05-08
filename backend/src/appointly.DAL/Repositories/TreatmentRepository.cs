@@ -26,4 +26,10 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
         return treatment;
     }
+
+    public async Task<List<Treatment>> GetAllTreatmentsAsync(CancellationToken cancellationToken)
+    {
+        var treatments = await _context.Treatments.AsNoTracking().ToListAsync(cancellationToken);
+        return treatments;
+    }
 }

@@ -14,4 +14,8 @@ public interface ITreatmentService
         int id,
         CancellationToken cancellationToken
     );
+
+    Task<Result<List<TreatmentResponse>>> GetAllTreatmentsAsync(
+        CancellationToken cancellationToken
+    );
 }

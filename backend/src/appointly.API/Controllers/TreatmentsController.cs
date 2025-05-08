@@ -37,4 +37,14 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         var result = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
         return result.ToActionResult(this);
     }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<TreatmentResponse>>> GetAllTreatments(
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await _treatmentService.GetAllTreatmentsAsync(cancellationToken);
+        return result.ToActionResult(this);
+    }
 }

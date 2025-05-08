@@ -26,7 +26,6 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             treatment,
             cancellationToken
         );
-
         var response = new TreatmentResponse()
         {
             Id = createdTreatment.Id,
@@ -35,7 +34,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = createdTreatment.DurationInMinutes,
             Price = createdTreatment.Price,
         };
-        return Result.Created(response);
+        return Result.Created(response, $"/api/Treatments/{response.Id}");
     }
 
     public async Task<Result<TreatmentResponse>> GetTreatmentByIdAsync(
@@ -57,6 +56,24 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             DurationInMinutes = treatment.DurationInMinutes,
             Price = treatment.Price,
         };
+        return Result.Success(response);
+    }
+
+    public async Task<Result<List<TreatmentResponse>>> GetAllTreatmentsAsync(
+        CancellationToken cancellationToken
+    )
+    {
+        var treatments = await _treatmentRepository.GetAllTreatmentsAsync(cancellationToken);
+        var response = treatments
+            .Select(treatment => new TreatmentResponse()
+            {
+                Id = treatment.Id,
+                Name = treatment.Name,
+                Description = treatment.Description,
+                DurationInMinutes = treatment.DurationInMinutes,
+                Price = treatment.Price,
+            })
+            .ToList();
         return Result.Success(response);
     }
 }
