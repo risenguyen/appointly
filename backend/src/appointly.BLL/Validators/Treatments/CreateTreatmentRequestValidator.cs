@@ -19,10 +19,10 @@ public class CreateTreatmentValidator : AbstractValidator<CreateTreatmentRequest
             .MaximumLength(500)
             .WithMessage("Treatment description cannot exceed 500 characters.");
 
+        RuleFor(x => x.Price).GreaterThanOrEqualTo(0).WithMessage("Price cannot be negative.");
+
         RuleFor(x => x.DurationInMinutes)
             .GreaterThan(0)
             .WithMessage("Duration must be a positive number of minutes.");
-
-        RuleFor(x => x.Price).GreaterThanOrEqualTo(0).WithMessage("Price cannot be negative.");
     }
 }

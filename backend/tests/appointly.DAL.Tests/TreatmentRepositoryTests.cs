@@ -27,8 +27,8 @@ public class TreatmentRepositoryTests
         {
             Name = "Name",
             Description = "Desc",
-            DurationInMinutes = 30,
             Price = 45,
+            DurationInMinutes = 30,
         };
 
         // Act
@@ -53,8 +53,8 @@ public class TreatmentRepositoryTests
         {
             Name = "Name",
             Description = "Desc",
-            DurationInMinutes = 30,
             Price = 45,
+            DurationInMinutes = 30,
         };
         await _context.Treatments.AddAsync(expectedTreatment);
         await _context.SaveChangesAsync();
@@ -100,22 +100,22 @@ public class TreatmentRepositoryTests
             {
                 Name = "Treatment 1",
                 Description = "Description 1",
-                DurationInMinutes = 30,
                 Price = 45,
+                DurationInMinutes = 30,
             },
             new()
             {
                 Name = "Treatment 2",
                 Description = "Description 2",
-                DurationInMinutes = 60,
                 Price = 90,
+                DurationInMinutes = 60,
             },
             new()
             {
                 Name = "Treatment 3",
                 Description = "Description 3",
-                DurationInMinutes = 45,
                 Price = 65,
+                DurationInMinutes = 45,
             },
         };
         await _context.Treatments.AddRangeAsync(treatments);
@@ -135,8 +135,8 @@ public class TreatmentRepositoryTests
                     actual.Id == expected.Id
                     && actual.Name == expected.Name
                     && actual.Description == expected.Description
-                    && actual.DurationInMinutes == expected.DurationInMinutes
                     && actual.Price == expected.Price
+                    && actual.DurationInMinutes == expected.DurationInMinutes
             );
         }
     }

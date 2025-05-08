@@ -25,8 +25,8 @@ public class TreatmentServiceTests
         {
             Name = "Name",
             Description = "Desc",
-            DurationInMinutes = 30,
             Price = 45,
+            DurationInMinutes = 30,
         };
         _repository
             .Setup(x =>
@@ -57,8 +57,8 @@ public class TreatmentServiceTests
                     It.Is<Treatment>(t =>
                         t.Name == request.Name
                         && t.Description == request.Description
-                        && t.DurationInMinutes == request.DurationInMinutes
                         && t.Price == request.Price
+                        && t.DurationInMinutes == request.DurationInMinutes
                     ),
                     It.IsAny<CancellationToken>()
                 ),
@@ -97,8 +97,8 @@ public class TreatmentServiceTests
             Id = id,
             Name = "Name",
             Description = "Desc",
-            DurationInMinutes = 30,
             Price = 35,
+            DurationInMinutes = 30,
         };
         _repository
             .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
@@ -132,16 +132,16 @@ public class TreatmentServiceTests
                 Id = 1,
                 Name = "Treatment 1",
                 Description = "Description 1",
-                DurationInMinutes = 30,
                 Price = 45,
+                DurationInMinutes = 30,
             },
             new()
             {
                 Id = 2,
                 Name = "Treatment 2",
                 Description = "Description 2",
-                DurationInMinutes = 60,
                 Price = 90,
+                DurationInMinutes = 60,
             },
         };
         _repository

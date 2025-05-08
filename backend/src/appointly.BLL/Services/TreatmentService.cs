@@ -19,8 +19,8 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
         {
             Name = createTreatmentRequest.Name,
             Description = createTreatmentRequest.Description,
-            DurationInMinutes = createTreatmentRequest.DurationInMinutes,
             Price = createTreatmentRequest.Price,
+            DurationInMinutes = createTreatmentRequest.DurationInMinutes,
         };
         var createdTreatment = await _treatmentRepository.CreateTreatmentAsync(
             treatment,
@@ -31,8 +31,8 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             Id = createdTreatment.Id,
             Name = createdTreatment.Name,
             Description = createdTreatment.Description,
-            DurationInMinutes = createdTreatment.DurationInMinutes,
             Price = createdTreatment.Price,
+            DurationInMinutes = createdTreatment.DurationInMinutes,
         };
         return Result.Created(response, $"/api/Treatments/{response.Id}");
     }
@@ -53,8 +53,8 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             Id = treatment.Id,
             Name = treatment.Name,
             Description = treatment.Description,
-            DurationInMinutes = treatment.DurationInMinutes,
             Price = treatment.Price,
+            DurationInMinutes = treatment.DurationInMinutes,
         };
         return Result.Success(response);
     }
@@ -70,8 +70,8 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
                 Id = treatment.Id,
                 Name = treatment.Name,
                 Description = treatment.Description,
-                DurationInMinutes = treatment.DurationInMinutes,
                 Price = treatment.Price,
+                DurationInMinutes = treatment.DurationInMinutes,
             })
             .ToList();
         return Result.Success(response);
