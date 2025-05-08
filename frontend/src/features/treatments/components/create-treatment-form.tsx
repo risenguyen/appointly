@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -37,9 +38,10 @@ function CreateTreatmentForm() {
     },
   });
 
-  function onSubmit(data: CreateTreatmentInput) {
-    createTreatment.mutate(data);
-  }
+  const onSubmit = useCallback(
+    (data: CreateTreatmentInput) => createTreatment.mutate(data),
+    [createTreatment],
+  );
 
   return (
     <Form {...form}>
@@ -93,7 +95,7 @@ function CreateTreatmentForm() {
             <FormItem>
               <FormLabel>Duration In Minutes</FormLabel>
               <FormControl>
-                <Input placeholder="30" {...field} />
+                <Input type="number" placeholder="30" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
