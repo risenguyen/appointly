@@ -3,12 +3,13 @@ namespace appointly.DAL.Entities;
 public class Appointment
 {
     public int Id { get; set; }
-    public int EmployeeId { get; set; }
-    public Employee Employee { get; set; } = null!;
-    public int TreatmentId { get; set; }
-    public Treatment Treatment { get; set; } = null!;
-    public required string ClientName { get; set; }
-    public string? ClientPhone { get; set; }
+    public required int ClientId { get; set; }
+    public Client? Client { get; set; }
+    public required int EmployeeId { get; set; }
+    public Employee? Employee { get; set; }
+    public required int TreatmentId { get; set; }
+    public Treatment? Treatment { get; set; }
     public required DateTime StartTime { get; set; }
-    public DateTime EndTime => StartTime.AddMinutes(Treatment.DurationInMinutes);
+    public DateTime EndTime =>
+        Treatment != null ? StartTime.AddMinutes(Treatment.DurationInMinutes) : StartTime;
 }

@@ -8,6 +8,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<Treatment> Treatments { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Client> Clients { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<EmployeeTreatment> EmployeeTreatments { get; set; }
 
@@ -16,11 +17,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder
             .Entity<EmployeeTreatment>()
             .HasOne(et => et.Employee)
-            .WithMany(e => e.EmployeeTreatments);
+            .WithMany(e => e.OfferedTreatments);
 
         modelBuilder
             .Entity<EmployeeTreatment>()
             .HasOne(et => et.Treatment)
-            .WithMany(ss => ss.EmployeeTreatments);
+            .WithMany(t => t.AssignedEmployees);
     }
 }
