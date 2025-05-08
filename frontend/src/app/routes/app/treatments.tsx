@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import DrawerDialog from "@/components/shared/drawer-dialog";
@@ -20,8 +20,8 @@ function RouteComponent() {
         <DrawerDialog
           open={open}
           onOpenChange={setOpen}
-          trigger={<Button size="sm">Create treatment</Button>}
-          title="Create treatment"
+          trigger={<Button size="sm">Create Treatment</Button>}
+          title="Create Treatment"
           description="
 Fill in the details for the new treatment."
         >

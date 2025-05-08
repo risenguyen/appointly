@@ -114,7 +114,7 @@ function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
           {createTreatment.isPending ? (
             <LoaderCircle className="animate-spin" />
           ) : null}
-          Create treatment
+          Create Treatment
         </Button>
       </form>
     </Form>
