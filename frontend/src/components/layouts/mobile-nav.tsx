@@ -9,7 +9,7 @@ type MobileNavProps = {
 function MobileNav({ navLinks }: MobileNavProps) {
   return (
     <nav className="flex flex-col px-8">
-      <ul className="flex flex-col gap-6 py-12">
+      <ul className="flex flex-col gap-6 py-8">
         {navLinks.map((navLink) => (
           <li key={navLink.to} className="flex">
             <DrawerClose asChild>

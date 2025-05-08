@@ -59,7 +59,7 @@ function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className="flex w-screen justify-center">
       <div className="container mx-auto flex min-h-screen flex-col">
-        <header className="flex items-center justify-between px-8 py-6">
+        <header className="flex items-center justify-between px-7 py-7">
           <div className="flex items-center gap-4 pl-2">
             <Drawer autoFocus>
               <DrawerTrigger asChild>
@@ -87,7 +87,7 @@ function AppLayout({ children }: AppLayoutProps) {
             <DesktopNav navLinks={navLinks} />
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             <Button
               aria-label="Link to developer's GitHub"
               asChild
@@ -114,7 +114,7 @@ function AppLayout({ children }: AppLayoutProps) {
           </div>
         </header>
 
-        <main className="flex-1 px-10">{children}</main>
+        <main className="flex-1 px-9">{children}</main>
       </div>
     </div>
   );

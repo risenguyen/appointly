@@ -9,7 +9,7 @@ export const Route = createFileRoute("/app/treatments")({
 
 function RouteComponent() {
   return (
-    <div className="min-h-full w-full py-6">
+    <div className="min-h-full w-full py-2">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">Treatments</h1>
         <DrawerDialog

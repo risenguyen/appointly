@@ -62,7 +62,7 @@ function DrawerDialog({
     <Drawer autoFocus open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
-        <div className="flex flex-col gap-4 overflow-y-auto px-5 py-8">
+        <div className="flex flex-col gap-4 overflow-y-auto px-5 py-5">
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
