@@ -28,11 +28,13 @@ type CreateTreatmentFormProps = {
 function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
   const createTreatment = useCreateTreatment({
     onSuccess: () => {
-      toast.success("Treatment created successfully");
+      toast.success("Treatment created successfully.");
       setOpen(false);
     },
-    onError: () => {
-      toast.error("Failed to create treatment");
+    onError: (error) => {
+      toast.error(
+        `Failed to create treatment. ${error instanceof Error ? "Please check your connection and try again." : `(${error.status})`}`,
+      );
       setOpen(false);
     },
   });
