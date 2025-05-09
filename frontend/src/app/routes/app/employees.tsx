@@ -12,7 +12,7 @@ function RouteComponent() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-full w-full py-2">
+    <div className="flex min-h-full w-full flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">Employees</h1>
         <DrawerDialog

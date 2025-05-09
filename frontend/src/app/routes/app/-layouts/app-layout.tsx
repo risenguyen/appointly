@@ -9,6 +9,7 @@ import { RxGithubLogo } from "react-icons/rx";
 import { Sun, Moon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Drawer,
   DrawerTrigger,
@@ -57,10 +58,10 @@ function AppLayout({ children }: AppLayoutProps) {
   );
 
   return (
-    <div className="flex w-screen justify-center">
+    <ScrollArea className="h-screen transition-all" type="scroll">
       <div className="container mx-auto flex min-h-screen flex-col">
-        <header className="flex items-center justify-between px-7 py-7">
-          <div className="flex items-center gap-4 pl-2">
+        <header className="flex items-center justify-between px-8 py-7">
+          <div className="flex items-center gap-4">
             <Drawer autoFocus>
               <DrawerTrigger asChild>
                 <button
@@ -109,14 +110,14 @@ function AppLayout({ children }: AppLayoutProps) {
               size="icon"
               variant="ghost"
             >
-              {theme === "light" ? <Moon /> : <Sun />}
+              {theme === "light" ? <Sun /> : <Moon />}
             </Button>
           </div>
         </header>
 
-        <main className="flex-1 px-9">{children}</main>
+        <main className="flex-1 px-8 pt-4 pb-8">{children}</main>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 
