@@ -33,7 +33,7 @@ function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
     },
     onError: (error) => {
       toast.error(
-        `Failed to create treatment. ${error instanceof Error ? "Please check your connection and try again." : `(${error.status})`}`,
+        `Failed to create treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
       );
       setOpen(false);
     },
