@@ -30,23 +30,25 @@ Fill in the details for the new treatment."
       </div>
 
       <div className="max-w-full flex-1">
-        <ul className="grid grid-cols-1 items-center justify-center gap-4 md:grid-cols-2 lg:grid-cols-3 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100">
-          {Array(3)
-            .fill("")
+        <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {Array(4)
+            .fill(-1)
             .map(() => (
-              <li className="flex aspect-[2.17] w-full flex-col justify-between gap-12 rounded-md bg-[#f7f7f7] p-5 dark:bg-[#1b1b1b]">
+              <li className="flex aspect-[2.32] w-full flex-col justify-between gap-14 rounded-md bg-[#f4f4f4] p-6 dark:bg-[#1b1b1b]">
                 <div className="flex flex-col gap-0.5">
-                  <h1 className="text-sm font-medium xl:text-base">
+                  <h1 className="text-base font-medium xl:text-base">
                     Classic Haircut
                   </h1>
-                  <p className="text-muted-foreground text-sm xl:text-base">
+                  <p className="text-muted-foreground text-base xl:text-base">
                     A standard haircut service including consultation, wash,
                     cut, and style.
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm xl:text-base">$40.00</span>
-                  <span className="text-muted-foreground flex items-center gap-1.5 text-sm xl:text-base">
+                  <span className="text-base font-medium xl:text-base">
+                    $40.00
+                  </span>
+                  <span className="text-muted-foreground text-base font-medium xl:text-base">
                     30 min
                   </span>
                 </div>

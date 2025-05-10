@@ -18,12 +18,12 @@ const createTreatmentSchema = z.object({
   name: z
     .string()
     .min(1, { message: "Treatment name is required." })
-    .max(100, { message: "Treatment name cannot exceed 100 characters." }),
+    .max(32, { message: "Treatment name cannot exceed 32 characters." }),
   description: z
     .string()
     .min(1, { message: "Treatment description is required." })
-    .max(500, {
-      message: "Treatment description cannot exceed 500 characters.",
+    .max(100, {
+      message: "Treatment description cannot exceed 100 characters.",
     }),
   durationInMinutes: z.coerce
     .string()
