@@ -3,8 +3,8 @@
 export type CreateTreatmentRequest = {
   name: string;
   description: string;
-  durationInMinutes: number;
   price: number;
+  durationInMinutes: number;
 };
 
 export type ProblemDetails = {
@@ -19,8 +19,8 @@ export type TreatmentResponse = {
   id: number;
   name: string;
   description: string;
-  durationInMinutes: number;
   price: number;
+  durationInMinutes: number;
 };
 
 export type ValidationProblemDetails = {
@@ -33,6 +33,23 @@ export type ValidationProblemDetails = {
     [key: string]: Array<string>;
   };
 };
+
+export type GetApiTreatmentsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/Treatments";
+};
+
+export type GetApiTreatmentsResponses = {
+  /**
+   * OK
+   */
+  200: Array<TreatmentResponse>;
+};
+
+export type GetApiTreatmentsResponse =
+  GetApiTreatmentsResponses[keyof GetApiTreatmentsResponses];
 
 export type PostApiTreatmentsData = {
   body: CreateTreatmentRequest;

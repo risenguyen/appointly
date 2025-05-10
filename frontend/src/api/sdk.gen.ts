@@ -6,6 +6,8 @@ import type {
   Client,
 } from "@hey-api/client-fetch";
 import type {
+  GetApiTreatmentsData,
+  GetApiTreatmentsResponse,
   PostApiTreatmentsData,
   PostApiTreatmentsResponse,
   PostApiTreatmentsError,
@@ -30,6 +32,19 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+export const getApiTreatments = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiTreatmentsData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiTreatmentsResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: "/api/Treatments",
+    ...options,
+  });
 };
 
 export const postApiTreatments = <ThrowOnError extends boolean = false>(
