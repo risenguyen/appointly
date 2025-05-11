@@ -10,10 +10,16 @@ function treatmentsQueryOptions() {
       return data;
     },
     queryKey: ["treatments"],
+    staleTime: 1000 * 60 * 30,
   });
 }
 
-function useTreatments(options: ReturnType<typeof treatmentsQueryOptions>) {
+function useTreatments(
+  options: Omit<
+    ReturnType<typeof treatmentsQueryOptions>,
+    "queryFn" | "queryKey"
+  > = {},
+) {
   return useSuspenseQuery({
     ...treatmentsQueryOptions(),
     ...options,

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  useQueryClient,
   useMutation,
   type MutationOptions,
   type DefaultError,
@@ -11,6 +12,8 @@ import {
   type ValidationProblemDetails,
   type TreatmentResponse,
 } from "@/api";
+
+import { treatmentsQueryOptions } from "./use-treatments";
 
 type CreateTreatmentInput = z.infer<typeof createTreatmentSchema>;
 
@@ -47,15 +50,17 @@ const createTreatmentSchema = z.object({
 });
 
 function useCreateTreatment(
-  options?: Omit<
+  options: Omit<
     MutationOptions<
       TreatmentResponse,
       DefaultError | ValidationProblemDetails,
       CreateTreatmentInput
     >,
     "mutationFn"
-  >,
+  > = {},
 ) {
+  const queryClient = useQueryClient();
+  const { onSuccess, ...restOptions } = options;
   return useMutation({
     mutationFn: async ({ name, description, durationInMinutes, price }) => {
       const { data } = await postApiTreatments({
@@ -67,10 +72,18 @@ function useCreateTreatment(
         },
         throwOnError: true,
       });
-
       return data;
     },
-    ...options,
+    onSuccess: (data, variables, context) => {
+      queryClient.setQueryData(treatmentsQueryOptions().queryKey, (oldData) => {
+        if (oldData) {
+          return [...oldData, data];
+        }
+        return [data];
+      });
+      onSuccess?.(data, variables, context);
+    },
+    ...restOptions,
   });
 }
 

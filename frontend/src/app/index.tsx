@@ -42,16 +42,14 @@ declare module "@tanstack/react-router" {
 
 function App() {
   return (
-    <>
+    <ThemeContextProvider>
       <Toaster />
-      <ThemeContextProvider>
-        <QueryClientProvider client={queryClient}>
-          {/* <ReactQueryDevtools /> */}
-          {/* <TanStackRouterDevtools router={router} /> */}
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </ThemeContextProvider>
-    </>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <TanStackRouterDevtools router={router} />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ThemeContextProvider>
   );
 }
 
