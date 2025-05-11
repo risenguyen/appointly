@@ -1,16 +1,18 @@
 import { useTreatments } from "../api/use-treatments";
 
+import { Ellipsis } from "lucide-react";
+
 function TreatmentList() {
   const { data: treatments } = useTreatments();
 
   return (
-    <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
       {treatments.map((treatment) => (
         <li
           key={treatment.id}
-          className="bg-card-2 flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]"
+          className="bg-card-2 relative flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]"
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-0.5">
             <h1 className="text-base font-medium xl:text-base">
               {treatment.name}
             </h1>
@@ -18,6 +20,7 @@ function TreatmentList() {
               {treatment.description}
             </p>
           </div>
+
           <div className="flex items-center justify-between">
             <span className="text-base xl:text-base">
               ${treatment.price.toFixed(2)}
@@ -26,6 +29,14 @@ function TreatmentList() {
               {treatment.durationInMinutes} min
             </span>
           </div>
+
+          <button
+            aria-label="Open Menu"
+            className="absolute top-6 right-6"
+            type="button"
+          >
+            <Ellipsis className="cursor-pointer" size="16px" />
+          </button>
         </li>
       ))}
     </ul>
