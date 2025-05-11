@@ -1,6 +1,13 @@
 import { useTreatments } from "../api/use-treatments";
 
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, SquarePen, Trash2 } from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 function TreatmentList() {
   const { data: treatments } = useTreatments();
@@ -30,13 +37,33 @@ function TreatmentList() {
             </span>
           </div>
 
-          <button
-            aria-label="Open Menu"
-            className="absolute top-6 right-6"
-            type="button"
-          >
-            <Ellipsis className="cursor-pointer" size="16px" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                aria-label="Open Menu"
+                className="absolute top-6 right-6 focus:outline-none"
+                type="button"
+              >
+                <Ellipsis className="cursor-pointer" size="16px" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                variant="default"
+                className="flex justify-between"
+              >
+                <span>Edit</span>
+                <SquarePen />
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="flex justify-between"
+                variant="destructive"
+              >
+                <span>Delete</span>
+                <Trash2 />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </li>
       ))}
     </ul>
