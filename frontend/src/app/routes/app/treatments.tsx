@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import DrawerDialog from "@/components/shared/drawer-dialog";
 
 import CreateTreatmentForm from "@/features/treatments/components/create-treatment-form";
+import { treatmentsQueryOptions } from "@/features/treatments/api/use-treatments";
 
 export const Route = createFileRoute("/app/treatments")({
   component: RouteComponent,
+  loader: async ({ context: { queryClient } }) => {
+    await queryClient.ensureQueryData(treatmentsQueryOptions());
+  },
 });
 
 function RouteComponent() {
@@ -33,8 +37,11 @@ Fill in the details for the new treatment."
         <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
           {Array(4)
             .fill(-1)
-            .map(() => (
-              <li className="flex aspect-[2.32] w-full flex-col justify-between gap-14 rounded-md bg-[#f4f4f4] p-6 dark:bg-[#1b1b1b]">
+            .map((_, index) => (
+              <li
+                key={index}
+                className="flex aspect-[2.32] w-full flex-col justify-between gap-10 rounded-md bg-[#f1f1f1] p-6 dark:bg-[#1b1b1b]"
+              >
                 <div className="flex flex-col gap-0.5">
                   <h1 className="text-base font-medium xl:text-base">
                     Classic Haircut
