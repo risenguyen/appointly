@@ -8,7 +8,7 @@ function TreatmentList() {
       {treatments.map((treatment) => (
         <li
           key={treatment.id}
-          className="flex aspect-[1.9] w-full flex-col justify-between rounded-md bg-[#f1f1f1] p-6 lg:aspect-[1.59] xl:aspect-[2] 2xl:aspect-[2.32] dark:bg-[#1b1b1b]"
+          className="bg-card-2 flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]"
         >
           <div className="flex flex-col">
             <h1 className="text-base font-medium xl:text-base">
@@ -19,10 +19,10 @@ function TreatmentList() {
             </p>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-base font-medium xl:text-base">
+            <span className="text-base xl:text-base">
               ${treatment.price.toFixed(2)}
             </span>
-            <span className="text-muted-foreground text-base font-medium xl:text-base">
+            <span className="text-muted-foreground text-base xl:text-base">
               {treatment.durationInMinutes} min
             </span>
           </div>
