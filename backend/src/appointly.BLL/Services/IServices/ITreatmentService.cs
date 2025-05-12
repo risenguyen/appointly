@@ -18,4 +18,6 @@ public interface ITreatmentService
     Task<Result<List<TreatmentResponse>>> GetAllTreatmentsAsync(
         CancellationToken cancellationToken
     );
+
+    Task<Result> DeleteTreatmentByIdAsync(int id, CancellationToken cancellationToken);
 }

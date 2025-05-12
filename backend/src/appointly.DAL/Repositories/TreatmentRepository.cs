@@ -32,4 +32,20 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
         var treatments = await _context.Treatments.AsNoTracking().ToListAsync(cancellationToken);
         return treatments;
     }
+
+    public async Task<bool> DeleteTreatmentByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var treatment = await _context.Treatments.SingleOrDefaultAsync(
+            t => t.Id == id,
+            cancellationToken
+        );
+        if (treatment == null)
+        {
+            return false;
+        }
+
+        _context.Treatments.Remove(treatment);
+        await _context.SaveChangesAsync(cancellationToken);
+        return true;
+    }
 }

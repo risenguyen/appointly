@@ -76,4 +76,12 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             .ToList();
         return Result.Success(response);
     }
+
+    public async Task<Result> DeleteTreatmentByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var success = await _treatmentRepository.DeleteTreatmentByIdAsync(id, cancellationToken);
+        return success
+            ? Result.Success()
+            : Result.NotFound($"Treatment with ID {id} can not be found.");
+    }
 }

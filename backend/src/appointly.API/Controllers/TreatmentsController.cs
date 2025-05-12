@@ -47,4 +47,16 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         var result = await _treatmentService.GetAllTreatmentsAsync(cancellationToken);
         return result.ToActionResult(this);
     }
+
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteTreatmentById(
+        [FromRoute] int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await _treatmentService.DeleteTreatmentByIdAsync(id, cancellationToken);
+        return result.ToActionResult(this);
+    }
 }
