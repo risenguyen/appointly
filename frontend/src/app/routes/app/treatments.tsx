@@ -26,7 +26,7 @@ export const Route = createFileRoute("/app/treatments")({
         <div className="max-w-full flex-1">
           <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({
-              length: 14,
+              length: 13,
             }).map((_, index) => (
               <li
                 key={index}
