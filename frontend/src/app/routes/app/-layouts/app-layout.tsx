@@ -149,7 +149,7 @@ function AppLayout({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className="flex-1 px-8 pt-2 pb-8">{children}</main>
+        <main className="flex flex-1 flex-col px-8 pt-2 pb-8">{children}</main>
       </div>
     </ScrollArea>
   );

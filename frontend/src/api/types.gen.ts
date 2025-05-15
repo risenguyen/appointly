@@ -78,6 +78,32 @@ export type PostApiTreatmentsResponses = {
 export type PostApiTreatmentsResponse =
   PostApiTreatmentsResponses[keyof PostApiTreatmentsResponses];
 
+export type DeleteApiTreatmentsByIdData = {
+  body?: never;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/api/Treatments/{id}";
+};
+
+export type DeleteApiTreatmentsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteApiTreatmentsByIdError =
+  DeleteApiTreatmentsByIdErrors[keyof DeleteApiTreatmentsByIdErrors];
+
+export type DeleteApiTreatmentsByIdResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
+
 export type GetApiTreatmentsByIdData = {
   body?: never;
   path: {

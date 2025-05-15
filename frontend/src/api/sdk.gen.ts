@@ -11,6 +11,8 @@ import type {
   PostApiTreatmentsData,
   PostApiTreatmentsResponse,
   PostApiTreatmentsError,
+  DeleteApiTreatmentsByIdData,
+  DeleteApiTreatmentsByIdError,
   GetApiTreatmentsByIdData,
   GetApiTreatmentsByIdResponse,
   GetApiTreatmentsByIdError,
@@ -61,6 +63,19 @@ export const postApiTreatments = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+export const deleteApiTreatmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiTreatmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    unknown,
+    DeleteApiTreatmentsByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Treatments/{id}",
+    ...options,
   });
 };
 

@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { useTreatments } from "../api/use-treatments";
+import { useDeleteTreatment } from "../api/use-delete-treatment";
 import type { TreatmentResponse } from "@/api";
 
-import { Ellipsis, SquarePen, Trash2 } from "lucide-react";
-
-import { buttonVariants } from "@/components/ui/button";
+import { Ellipsis, LoaderCircle, SquarePen, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -20,10 +21,21 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogCancel,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 
 function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
+  const deleteTreatment = useDeleteTreatment({
+    onSuccess() {
+      toast.success("Treatment deleted successfully.");
+      setDeleteDialogOpen(false);
+    },
+    onError(error) {
+      toast.error(
+        `Failed to create treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
+      );
+      setDeleteDialogOpen(false);
+    },
+  });
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
@@ -63,8 +75,8 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
             <SquarePen />
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => setDeleteDialogOpen(true)}
             variant="destructive"
+            onClick={() => setDeleteDialogOpen(true)}
           >
             <span>Delete</span>
             <Trash2 />
@@ -83,11 +95,16 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              className={buttonVariants({ variant: "destructive" })}
+            <Button
+              variant="destructive"
+              disabled={deleteTreatment.isPending}
+              onClick={() => deleteTreatment.mutate(treatment.id)}
             >
+              {deleteTreatment.isPending ? (
+                <LoaderCircle className="animate-spin" />
+              ) : null}
               Delete Treatment
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -98,8 +115,23 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
 function TreatmentList() {
   const { data: treatments } = useTreatments();
 
+  if (treatments.length === 0) {
+    return (
+      <div className="top-0 flex h-full w-full flex-1 flex-col items-center gap-6 rounded-lg p-8 text-center">
+        <div className="flex flex-col items-center gap-2 pt-[26vh]">
+          <p className="text-foreground text-xl font-medium">
+            No treatments yet.
+          </p>
+          <p className="text-muted-foreground text-base">
+            Get started by creating a new treatment.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
       {treatments.map((treatment) => (
         <TreatmentItem key={treatment.id} treatment={treatment} />
       ))}

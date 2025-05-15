@@ -75,12 +75,7 @@ function useCreateTreatment(
       return data;
     },
     onSuccess: (data, variables, context) => {
-      queryClient.setQueryData(treatmentsQueryOptions().queryKey, (oldData) => {
-        if (oldData) {
-          return [...oldData, data];
-        }
-        return [data];
-      });
+      queryClient.invalidateQueries(treatmentsQueryOptions());
       onSuccess?.(data, variables, context);
     },
     ...restOptions,

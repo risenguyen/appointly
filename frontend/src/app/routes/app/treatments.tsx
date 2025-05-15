@@ -54,7 +54,7 @@ function RouteComponent() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex min-h-full w-full flex-col gap-6">
+    <div className="flex min-h-full w-full flex-1 flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">Treatments</h1>
         <DrawerDialog
@@ -69,7 +69,7 @@ Fill in the details for the new treatment."
         </DrawerDialog>
       </div>
 
-      <div className="max-w-full flex-1">
+      <div className="flex max-w-full flex-1 flex-col">
         <TreatmentList />
       </div>
     </div>
