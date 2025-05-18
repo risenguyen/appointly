@@ -11,13 +11,14 @@ import { treatmentsQueryOptions } from "./use-treatments";
 
 function useDeleteTreatment(
   options: Omit<
-    MutationOptions<unknown, DefaultError | ProblemDetails, number>,
+    MutationOptions<void, DefaultError | ProblemDetails, number>,
     "mutationFn"
   > = {},
 ) {
   const queryClient = useQueryClient();
   const { onSuccess, ...restOptions } = options;
   return useMutation({
+    mutationKey: ["deletetreatment"],
     mutationFn: async (id) => {
       await deleteApiTreatmentsById({
         path: {
@@ -26,9 +27,14 @@ function useDeleteTreatment(
         throwOnError: true,
       });
     },
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries(treatmentsQueryOptions());
-      onSuccess?.(data, variables, context);
+    onSuccess: (data, id, context) => {
+      queryClient.setQueryData(
+        treatmentsQueryOptions().queryKey,
+        (treatments) => {
+          return treatments?.filter((treatment) => treatment.id !== id);
+        },
+      );
+      onSuccess?.(data, id, context);
     },
     ...restOptions,
   });
