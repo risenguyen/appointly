@@ -19,20 +19,20 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
         return treatment;
     }
 
-    public async Task<bool> DeleteTreatmentAsync(int id, CancellationToken cancellationToken)
+    public async Task<Treatment> UpdateTreatmentAsync(
+        Treatment treatment,
+        CancellationToken cancellationToken
+    )
     {
-        var treatment = await _context.Treatments.SingleOrDefaultAsync(
-            t => t.Id == id,
-            cancellationToken
-        );
-        if (treatment == null)
-        {
-            return false;
-        }
+        _context.Treatments.Update(treatment);
+        await _context.SaveChangesAsync(cancellationToken);
+        return treatment;
+    }
 
+    public async Task DeleteTreatmentAsync(Treatment treatment, CancellationToken cancellationToken)
+    {
         _context.Treatments.Remove(treatment);
         await _context.SaveChangesAsync(cancellationToken);
-        return true;
     }
 
     public async Task<Treatment?> GetTreatmentAsync(int id, CancellationToken cancellationToken)
