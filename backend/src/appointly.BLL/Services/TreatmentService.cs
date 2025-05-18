@@ -37,12 +37,20 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
         return Result.Created(response, $"/api/Treatments/{response.Id}");
     }
 
-    public async Task<Result<TreatmentResponse>> GetTreatmentByIdAsync(
+    public async Task<Result> DeleteTreatmentAsync(int id, CancellationToken cancellationToken)
+    {
+        var success = await _treatmentRepository.DeleteTreatmentAsync(id, cancellationToken);
+        return success
+            ? Result.Success()
+            : Result.NotFound($"Treatment with ID {id} can not be found.");
+    }
+
+    public async Task<Result<TreatmentResponse>> GetTreatmentAsync(
         int id,
         CancellationToken cancellationToken
     )
     {
-        var treatment = await _treatmentRepository.GetTreatmentByIdAsync(id, cancellationToken);
+        var treatment = await _treatmentRepository.GetTreatmentAsync(id, cancellationToken);
         if (treatment == null)
         {
             return Result.NotFound($"Treatment with ID {id} can not be found.");
@@ -59,11 +67,11 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
         return Result.Success(response);
     }
 
-    public async Task<Result<List<TreatmentResponse>>> GetAllTreatmentsAsync(
+    public async Task<Result<List<TreatmentResponse>>> GetTreatmentsAsync(
         CancellationToken cancellationToken
     )
     {
-        var treatments = await _treatmentRepository.GetAllTreatmentsAsync(cancellationToken);
+        var treatments = await _treatmentRepository.GetTreatmentsAsync(cancellationToken);
         var response = treatments
             .Select(treatment => new TreatmentResponse()
             {
@@ -75,13 +83,5 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             })
             .ToList();
         return Result.Success(response);
-    }
-
-    public async Task<Result> DeleteTreatmentByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var success = await _treatmentRepository.DeleteTreatmentByIdAsync(id, cancellationToken);
-        return success
-            ? Result.Success()
-            : Result.NotFound($"Treatment with ID {id} can not be found.");
     }
 }

@@ -67,24 +67,63 @@ public class TreatmentServiceTests
     }
 
     [Fact]
+    public async Task DeleteTreatmentByIdAsync_ShouldReturnSuccess_WhenTreatmentExists()
+    {
+        // Arrange
+        var id = 1;
+        _repository
+            .Setup(x => x.DeleteTreatmentAsync(id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+
+        // Act
+        var result = await _sut.DeleteTreatmentAsync(id, CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        _repository.Verify(
+            x => x.DeleteTreatmentAsync(id, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task DeleteTreatmentByIdAsync_ShouldReturnNotFound_WhenTreatmentDoesNotExist()
+    {
+        // Arrange
+        var id = 1;
+        _repository
+            .Setup(x => x.DeleteTreatmentAsync(id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(false);
+
+        // Act
+        var result = await _sut.DeleteTreatmentAsync(id, CancellationToken.None);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        _repository.Verify(
+            x => x.DeleteTreatmentAsync(id, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
     public async Task GetTreatmentByIdAsync_ShouldReturnNotFound_WhenNull()
     {
         // Arrange
         var id = 2;
         _repository
-            .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetTreatmentAsync(id, It.IsAny<CancellationToken>()))
             .ReturnsAsync((int id, CancellationToken cancellationToken) => null);
 
         // Act
-        var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
+        var result = await _sut.GetTreatmentAsync(id, CancellationToken.None);
 
         // Assert
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.NotFound, result.Status);
-        _repository.Verify(
-            x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
-            Times.Once
-        );
+        _repository.Verify(x => x.GetTreatmentAsync(id, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -101,11 +140,11 @@ public class TreatmentServiceTests
             DurationInMinutes = 30,
         };
         _repository
-            .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetTreatmentAsync(id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedTreatment);
 
         // Act
-        var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
+        var result = await _sut.GetTreatmentAsync(id, CancellationToken.None);
 
         // Assert
         Assert.IsType<Result<TreatmentResponse>>(result);
@@ -115,10 +154,7 @@ public class TreatmentServiceTests
         Assert.Equal(expectedTreatment.Description, result.Value.Description);
         Assert.Equal(expectedTreatment.DurationInMinutes, result.Value.DurationInMinutes);
         Assert.Equal(expectedTreatment.Price, result.Value.Price);
-        _repository.Verify(
-            x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
-            Times.Once
-        );
+        _repository.Verify(x => x.GetTreatmentAsync(id, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -145,11 +181,11 @@ public class TreatmentServiceTests
             },
         };
         _repository
-            .Setup(x => x.GetAllTreatmentsAsync(It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetTreatmentsAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedTreatments);
 
         // Act
-        var result = await _sut.GetAllTreatmentsAsync(CancellationToken.None);
+        var result = await _sut.GetTreatmentsAsync(CancellationToken.None);
 
         // Assert
         Assert.IsType<Result<List<TreatmentResponse>>>(result);
@@ -167,48 +203,6 @@ public class TreatmentServiceTests
                     && actual.Price == expected.Price
             );
         }
-        _repository.Verify(x => x.GetAllTreatmentsAsync(It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [Fact]
-    public async Task DeleteTreatmentByIdAsync_ShouldReturnSuccess_WhenTreatmentExists()
-    {
-        // Arrange
-        var id = 1;
-        _repository
-            .Setup(x => x.DeleteTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
-
-        // Act
-        var result = await _sut.DeleteTreatmentByIdAsync(id, CancellationToken.None);
-
-        // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(ResultStatus.Ok, result.Status);
-        _repository.Verify(
-            x => x.DeleteTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
-            Times.Once
-        );
-    }
-
-    [Fact]
-    public async Task DeleteTreatmentByIdAsync_ShouldReturnNotFound_WhenTreatmentDoesNotExist()
-    {
-        // Arrange
-        var id = 1;
-        _repository
-            .Setup(x => x.DeleteTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(false);
-
-        // Act
-        var result = await _sut.DeleteTreatmentByIdAsync(id, CancellationToken.None);
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal(ResultStatus.NotFound, result.Status);
-        _repository.Verify(
-            x => x.DeleteTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
-            Times.Once
-        );
+        _repository.Verify(x => x.GetTreatmentsAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }

@@ -46,6 +46,42 @@ public class TreatmentRepositoryTests
     }
 
     [Fact]
+    public async Task DeleteTreatmentByIdAsync_ShouldReturnTrue_WhenTreatmentExists()
+    {
+        // Arrange
+        var treatment = new Treatment()
+        {
+            Name = "Test Treatment",
+            Description = "Test Description",
+            Price = 100,
+            DurationInMinutes = 60,
+        };
+        await _context.Treatments.AddAsync(treatment);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _sut.DeleteTreatmentAsync(treatment.Id, CancellationToken.None);
+        var treatmentInDb = await _context.Treatments.FindAsync(treatment.Id);
+
+        // Assert
+        Assert.True(result);
+        Assert.Null(treatmentInDb);
+    }
+
+    [Fact]
+    public async Task DeleteTreatmentByIdAsync_ShouldReturnFalse_WhenTreatmentDoesNotExist()
+    {
+        // Arrange
+        var nonExistentId = 999;
+
+        // Act
+        var result = await _sut.DeleteTreatmentAsync(nonExistentId, CancellationToken.None);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
     public async Task GetTreatmentByIdAsync_ShouldReturnTreatment_WhenExists()
     {
         // Arrange
@@ -60,7 +96,7 @@ public class TreatmentRepositoryTests
         await _context.SaveChangesAsync();
 
         // Act
-        var retrievedTreatment = await _sut.GetTreatmentByIdAsync(
+        var retrievedTreatment = await _sut.GetTreatmentAsync(
             expectedTreatment.Id,
             CancellationToken.None
         );
@@ -81,7 +117,7 @@ public class TreatmentRepositoryTests
         var nonExistentId = 999;
 
         // Act
-        var retrievedTreatment = await _sut.GetTreatmentByIdAsync(
+        var retrievedTreatment = await _sut.GetTreatmentAsync(
             nonExistentId,
             CancellationToken.None
         );
@@ -122,7 +158,7 @@ public class TreatmentRepositoryTests
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _sut.GetAllTreatmentsAsync(CancellationToken.None);
+        var result = await _sut.GetTreatmentsAsync(CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -139,41 +175,5 @@ public class TreatmentRepositoryTests
                     && actual.DurationInMinutes == expected.DurationInMinutes
             );
         }
-    }
-
-    [Fact]
-    public async Task DeleteTreatmentByIdAsync_ShouldReturnTrue_WhenTreatmentExists()
-    {
-        // Arrange
-        var treatment = new Treatment()
-        {
-            Name = "Test Treatment",
-            Description = "Test Description",
-            Price = 100,
-            DurationInMinutes = 60,
-        };
-        await _context.Treatments.AddAsync(treatment);
-        await _context.SaveChangesAsync();
-
-        // Act
-        var result = await _sut.DeleteTreatmentByIdAsync(treatment.Id, CancellationToken.None);
-        var treatmentInDb = await _context.Treatments.FindAsync(treatment.Id);
-
-        // Assert
-        Assert.True(result);
-        Assert.Null(treatmentInDb);
-    }
-
-    [Fact]
-    public async Task DeleteTreatmentByIdAsync_ShouldReturnFalse_WhenTreatmentDoesNotExist()
-    {
-        // Arrange
-        var nonExistentId = 999;
-
-        // Act
-        var result = await _sut.DeleteTreatmentByIdAsync(nonExistentId, CancellationToken.None);
-
-        // Assert
-        Assert.False(result);
     }
 }

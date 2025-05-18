@@ -19,21 +19,7 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
         return treatment;
     }
 
-    public async Task<Treatment?> GetTreatmentByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var treatment = await _context
-            .Treatments.AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
-        return treatment;
-    }
-
-    public async Task<List<Treatment>> GetAllTreatmentsAsync(CancellationToken cancellationToken)
-    {
-        var treatments = await _context.Treatments.AsNoTracking().ToListAsync(cancellationToken);
-        return treatments;
-    }
-
-    public async Task<bool> DeleteTreatmentByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<bool> DeleteTreatmentAsync(int id, CancellationToken cancellationToken)
     {
         var treatment = await _context.Treatments.SingleOrDefaultAsync(
             t => t.Id == id,
@@ -47,5 +33,19 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
         _context.Treatments.Remove(treatment);
         await _context.SaveChangesAsync(cancellationToken);
         return true;
+    }
+
+    public async Task<Treatment?> GetTreatmentAsync(int id, CancellationToken cancellationToken)
+    {
+        var treatment = await _context
+            .Treatments.AsNoTracking()
+            .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
+        return treatment;
+    }
+
+    public async Task<List<Treatment>> GetTreatmentsAsync(CancellationToken cancellationToken)
+    {
+        var treatments = await _context.Treatments.AsNoTracking().ToListAsync(cancellationToken);
+        return treatments;
     }
 }
