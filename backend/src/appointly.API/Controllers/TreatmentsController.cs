@@ -30,7 +30,7 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TreatmentResponse>> DeleteTreatment(
+    public async Task<ActionResult<TreatmentResponse>> UpdateTreatment(
         [FromRoute] int id,
         [FromBody] UpdateTreatmentRequest updateTreatmentRequest,
         CancellationToken cancellationToken
