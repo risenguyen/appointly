@@ -22,8 +22,13 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
+import DrawerDialog from "@/components/shared/drawer-dialog";
+import EditTreatmentForm from "./edit-treatment-form";
 
 function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
   const deleteTreatment = useDeleteTreatment({
     onSuccess() {
       toast.success("Treatment deleted successfully.");
@@ -31,12 +36,11 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
     },
     onError(error) {
       toast.error(
-        `Failed to create treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
+        `Failed to delete treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
       );
       setDeleteDialogOpen(false);
     },
   });
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
     <li
@@ -70,7 +74,7 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
             <span>Edit</span>
             <SquarePen />
           </DropdownMenuItem>
@@ -108,6 +112,15 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <DrawerDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        title="Edit Treatment"
+        description="Update the details of this treatment."
+      >
+        <EditTreatmentForm treatment={treatment} setOpen={setEditDialogOpen} />
+      </DrawerDialog>
     </li>
   );
 }

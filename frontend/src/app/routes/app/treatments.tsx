@@ -62,8 +62,7 @@ function RouteComponent() {
           onOpenChange={setOpen}
           trigger={<Button size="sm">Create Treatment</Button>}
           title="Create Treatment"
-          description="
-Fill in the details for the new treatment."
+          description="Fill in the details for the new treatment."
         >
           <CreateTreatmentForm setOpen={setOpen} />
         </DrawerDialog>

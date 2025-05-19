@@ -67,8 +67,8 @@ function useCreateTreatment(
         body: {
           name,
           description,
-          durationInMinutes: parseInt(durationInMinutes, 10),
           price: parseFloat(price.replace(/^\$/, "")),
+          durationInMinutes: parseInt(durationInMinutes, 10),
         },
         throwOnError: true,
       });

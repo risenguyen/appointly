@@ -4,10 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import {
-  useCreateTreatment,
-  createTreatmentSchema,
-  type CreateTreatmentInput,
-} from "../api/use-create-treatment";
+  useEditTreatment,
+  editTreatmentSchema,
+  type EditTreatmentInput,
+} from "../api/use-edit-treatment";
+import type { TreatmentResponse } from "@/api";
 
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,37 +22,39 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-type CreateTreatmentFormProps = {
+type EditTreatmentFormProps = {
+  treatment: TreatmentResponse;
   setOpen: (open: boolean) => void;
 };
 
-function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
-  const createTreatment = useCreateTreatment({
+function EditTreatmentForm({ treatment, setOpen }: EditTreatmentFormProps) {
+  const editTreatment = useEditTreatment({
     onSuccess: () => {
-      toast.success("Treatment created successfully.");
+      toast.success("Treatment edited successfully.");
       setOpen(false);
     },
     onError: (error) => {
       toast.error(
-        `Failed to create treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
+        `Failed to edit treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
       );
       setOpen(false);
     },
   });
 
-  const form = useForm<CreateTreatmentInput>({
-    resolver: zodResolver(createTreatmentSchema),
+  const form = useForm<EditTreatmentInput>({
+    resolver: zodResolver(editTreatmentSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: "",
-      durationInMinutes: "",
+      id: treatment.id,
+      name: treatment.name,
+      description: treatment.description,
+      price: treatment.price.toString(),
+      durationInMinutes: treatment.durationInMinutes.toString(),
     },
   });
 
   const onSubmit = useCallback(
-    (data: CreateTreatmentInput) => createTreatment.mutate(data),
-    [createTreatment],
+    (data: EditTreatmentInput) => editTreatment.mutate(data),
+    [editTreatment],
   );
 
   return (
@@ -112,15 +115,15 @@ function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
             </FormItem>
           )}
         />
-        <Button disabled={createTreatment.isPending} className="w-full">
-          {createTreatment.isPending ? (
+        <Button disabled={editTreatment.isPending} className="w-full">
+          {editTreatment.isPending ? (
             <LoaderCircle className="animate-spin" />
           ) : null}
-          Create Treatment
+          Edit Treatment
         </Button>
       </form>
     </Form>
   );
 }
 
-export default CreateTreatmentForm;
+export default EditTreatmentForm;
