@@ -16,6 +16,9 @@ import type {
   GetApiTreatmentsByIdData,
   GetApiTreatmentsByIdResponse,
   GetApiTreatmentsByIdError,
+  PutApiTreatmentsByIdData,
+  PutApiTreatmentsByIdResponse,
+  PutApiTreatmentsByIdError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -89,5 +92,22 @@ export const getApiTreatmentsById = <ThrowOnError extends boolean = false>(
   >({
     url: "/api/Treatments/{id}",
     ...options,
+  });
+};
+
+export const putApiTreatmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiTreatmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiTreatmentsByIdResponse,
+    PutApiTreatmentsByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Treatments/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
