@@ -9,13 +9,12 @@ public interface ITreatmentService
         CreateTreatmentRequest createTreatmentRequest,
         CancellationToken cancellationToken
     );
-
-    Task<Result<TreatmentResponse>> GetTreatmentByIdAsync(
+    Task<Result<TreatmentResponse>> UpdateTreatmentAsync(
         int id,
+        UpdateTreatmentRequest updateTreatmentRequest,
         CancellationToken cancellationToken
     );
-
-    Task<Result<List<TreatmentResponse>>> GetAllTreatmentsAsync(
-        CancellationToken cancellationToken
-    );
+    Task<Result> DeleteTreatmentAsync(int id, CancellationToken cancellationToken);
+    Task<Result<TreatmentResponse>> GetTreatmentAsync(int id, CancellationToken cancellationToken);
+    Task<Result<List<TreatmentResponse>>> GetTreatmentsAsync(CancellationToken cancellationToken);
 }

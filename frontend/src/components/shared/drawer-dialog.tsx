@@ -18,7 +18,7 @@ import {
 } from "../ui/dialog";
 
 type DrawerDialogProps = {
-  trigger: ReactNode;
+  trigger?: ReactNode;
   title: string;
   description: string;
   children: ReactNode;
@@ -46,7 +46,7 @@ function DrawerDialog({
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild>{trigger}</DialogTrigger>
+        {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
         <DialogContent className="sm:max-w-[428px]">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -60,7 +60,7 @@ function DrawerDialog({
 
   return (
     <Drawer autoFocus open={open} onOpenChange={onOpenChange}>
-      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+      {trigger ? <DrawerTrigger asChild>{trigger}</DrawerTrigger> : null}
       <DrawerContent>
         <div className="flex flex-col gap-4 overflow-y-auto px-5 py-5">
           <DrawerHeader>

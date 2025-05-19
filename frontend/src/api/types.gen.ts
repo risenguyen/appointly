@@ -23,6 +23,13 @@ export type TreatmentResponse = {
   durationInMinutes: number;
 };
 
+export type UpdateTreatmentRequest = {
+  name: string;
+  description: string;
+  price: number;
+  durationInMinutes: number;
+};
+
 export type ValidationProblemDetails = {
   type?: string | null;
   title?: string | null;
@@ -78,6 +85,32 @@ export type PostApiTreatmentsResponses = {
 export type PostApiTreatmentsResponse =
   PostApiTreatmentsResponses[keyof PostApiTreatmentsResponses];
 
+export type DeleteApiTreatmentsByIdData = {
+  body?: never;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/api/Treatments/{id}";
+};
+
+export type DeleteApiTreatmentsByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteApiTreatmentsByIdError =
+  DeleteApiTreatmentsByIdErrors[keyof DeleteApiTreatmentsByIdErrors];
+
+export type DeleteApiTreatmentsByIdResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
+
 export type GetApiTreatmentsByIdData = {
   body?: never;
   path: {
@@ -106,6 +139,39 @@ export type GetApiTreatmentsByIdResponses = {
 
 export type GetApiTreatmentsByIdResponse =
   GetApiTreatmentsByIdResponses[keyof GetApiTreatmentsByIdResponses];
+
+export type PutApiTreatmentsByIdData = {
+  body: UpdateTreatmentRequest;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/api/Treatments/{id}";
+};
+
+export type PutApiTreatmentsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: ValidationProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PutApiTreatmentsByIdError =
+  PutApiTreatmentsByIdErrors[keyof PutApiTreatmentsByIdErrors];
+
+export type PutApiTreatmentsByIdResponses = {
+  /**
+   * OK
+   */
+  200: TreatmentResponse;
+};
+
+export type PutApiTreatmentsByIdResponse =
+  PutApiTreatmentsByIdResponses[keyof PutApiTreatmentsByIdResponses];
 
 export type ClientOptions = {
   baseUrl: "https://localhost:7033" | "http://localhost:5241" | (string & {});

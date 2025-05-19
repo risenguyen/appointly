@@ -18,155 +18,329 @@ public class TreatmentServiceTests
     }
 
     [Fact]
-    public async Task CreateTreatmentAsync_ShouldReturnCreatedResponse()
+    public async Task CreateTreatmentAsync_ShouldReturnCreatedResult_WithTreatmentResponse()
     {
         // Arrange
-        var request = new CreateTreatmentRequest()
+        var createRequest = new CreateTreatmentRequest
         {
-            Name = "Name",
-            Description = "Desc",
-            Price = 45,
-            DurationInMinutes = 30,
+            Name = "Test Treatment",
+            Description = "Test Description",
+            Price = 50,
+            DurationInMinutes = 60,
+        };
+        var treatment = new Treatment
+        {
+            Id = 1,
+            Name = createRequest.Name,
+            Description = createRequest.Description,
+            Price = createRequest.Price,
+            DurationInMinutes = createRequest.DurationInMinutes,
         };
         _repository
-            .Setup(x =>
-                x.CreateTreatmentAsync(It.IsAny<Treatment>(), It.IsAny<CancellationToken>())
+            .Setup(r =>
+                r.CreateTreatmentAsync(It.IsAny<Treatment>(), It.IsAny<CancellationToken>())
             )
-            .ReturnsAsync(
-                (Treatment treatment, CancellationToken cancellationToken) =>
-                {
-                    treatment.Id = 42;
-                    return treatment;
-                }
-            );
+            .ReturnsAsync(treatment);
 
         // Act
-        var result = await _sut.CreateTreatmentAsync(request, CancellationToken.None);
+        var result = await _sut.CreateTreatmentAsync(createRequest, CancellationToken.None);
 
         // Assert
-        Assert.IsType<Result<TreatmentResponse>>(result);
         Assert.Equal(ResultStatus.Created, result.Status);
-        Assert.Equal(42, result.Value.Id);
-        Assert.Equal(request.Name, result.Value.Name);
-        Assert.Equal(request.Description, result.Value.Description);
-        Assert.Equal(request.DurationInMinutes, result.Value.DurationInMinutes);
-        Assert.Equal(request.Price, result.Value.Price);
+        Assert.NotNull(result.Value);
+        Assert.Equal(treatment.Id, result.Value.Id);
+        Assert.Equal(treatment.Name, result.Value.Name);
+        Assert.Equal($"/api/Treatments/{treatment.Id}", result.Location);
         _repository.Verify(
-            x =>
-                x.CreateTreatmentAsync(
+            r =>
+                r.CreateTreatmentAsync(
                     It.Is<Treatment>(t =>
-                        t.Name == request.Name
-                        && t.Description == request.Description
-                        && t.Price == request.Price
-                        && t.DurationInMinutes == request.DurationInMinutes
+                        t.Name == createRequest.Name
+                        && t.Description == createRequest.Description
+                        && t.Price == createRequest.Price
+                        && t.DurationInMinutes == createRequest.DurationInMinutes
                     ),
-                    It.IsAny<CancellationToken>()
+                    CancellationToken.None
                 ),
             Times.Once
         );
     }
 
     [Fact]
-    public async Task GetTreatmentByIdAsync_ShouldReturnNotFound_WhenNull()
+    public async Task UpdateTreatmentAsync_ShouldReturnSuccessResult_WithUpdatedTreatmentResponse_WhenTreatmentExists()
     {
         // Arrange
-        var id = 2;
+        var treatmentId = 1;
+        var updateRequest = new UpdateTreatmentRequest
+        {
+            Name = "Updated Treatment",
+            Description = "Updated Description",
+            Price = 75,
+            DurationInMinutes = 90,
+        };
+        var existingTreatment = new Treatment
+        {
+            Id = treatmentId,
+            Name = "Old Treatment",
+            Description = "Old Description",
+            Price = 50,
+            DurationInMinutes = 60,
+        };
+        var updatedTreatment = new Treatment
+        {
+            Id = treatmentId,
+            Name = updateRequest.Name,
+            Description = updateRequest.Description,
+            Price = updateRequest.Price,
+            DurationInMinutes = updateRequest.DurationInMinutes,
+        };
+
         _repository
-            .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((int id, CancellationToken cancellationToken) => null);
+            .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
+            .ReturnsAsync(existingTreatment);
+        _repository
+            .Setup(r =>
+                r.UpdateTreatmentAsync(It.IsAny<Treatment>(), It.IsAny<CancellationToken>())
+            )
+            .ReturnsAsync(updatedTreatment);
 
         // Act
-        var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
+        var result = await _sut.UpdateTreatmentAsync(
+            treatmentId,
+            updateRequest,
+            CancellationToken.None
+        );
 
         // Assert
-        Assert.Null(result.Value);
-        Assert.Equal(ResultStatus.NotFound, result.Status);
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Equal(treatmentId, result.Value.Id);
+        Assert.Equal(updateRequest.Name, result.Value.Name);
+        Assert.Equal(updateRequest.Description, result.Value.Description);
+        Assert.Equal(updateRequest.Price, result.Value.Price);
+        Assert.Equal(updateRequest.DurationInMinutes, result.Value.DurationInMinutes);
         _repository.Verify(
-            x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
+            r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
+            Times.Once
+        );
+        _repository.Verify(
+            r =>
+                r.UpdateTreatmentAsync(
+                    It.Is<Treatment>(t =>
+                        t.Id == treatmentId
+                        && t.Name == updateRequest.Name
+                        && t.Description == updateRequest.Description
+                        && t.Price == updateRequest.Price
+                        && t.DurationInMinutes == updateRequest.DurationInMinutes
+                    ),
+                    CancellationToken.None
+                ),
             Times.Once
         );
     }
 
     [Fact]
-    public async Task GetTreatmentByIdAsync_ShouldReturnSuccess_WhenFound()
+    public async Task UpdateTreatmentAsync_ShouldReturnNotFound_WhenTreatmentDoesNotExist()
     {
         // Arrange
-        var id = 10;
-        var expectedTreatment = new Treatment()
+        var treatmentId = 1;
+        var updateRequest = new UpdateTreatmentRequest
         {
-            Id = id,
-            Name = "Name",
-            Description = "Desc",
-            Price = 35,
-            DurationInMinutes = 30,
+            Name = "Updated Treatment",
+            Description = "Updated Description",
+            Price = 75,
+            DurationInMinutes = 90,
         };
         _repository
-            .Setup(x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedTreatment);
+            .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
+            .ReturnsAsync((Treatment?)null);
 
         // Act
-        var result = await _sut.GetTreatmentByIdAsync(id, CancellationToken.None);
+        var result = await _sut.UpdateTreatmentAsync(
+            treatmentId,
+            updateRequest,
+            CancellationToken.None
+        );
 
         // Assert
-        Assert.IsType<Result<TreatmentResponse>>(result);
-        Assert.Equal(ResultStatus.Ok, result.Status);
-        Assert.Equal(expectedTreatment.Id, result.Value.Id);
-        Assert.Equal(expectedTreatment.Name, result.Value.Name);
-        Assert.Equal(expectedTreatment.Description, result.Value.Description);
-        Assert.Equal(expectedTreatment.DurationInMinutes, result.Value.DurationInMinutes);
-        Assert.Equal(expectedTreatment.Price, result.Value.Price);
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        Assert.Contains($"Treatment with ID {treatmentId} can not be found.", result.Errors);
         _repository.Verify(
-            x => x.GetTreatmentByIdAsync(id, It.IsAny<CancellationToken>()),
+            r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
+            Times.Once
+        );
+        _repository.Verify(
+            r => r.UpdateTreatmentAsync(It.IsAny<Treatment>(), It.IsAny<CancellationToken>()),
+            Times.Never
+        );
+    }
+
+    [Fact]
+    public async Task DeleteTreatmentAsync_ShouldReturnSuccess_WhenTreatmentExists()
+    {
+        // Arrange
+        var treatmentId = 1;
+        var existingTreatment = new Treatment
+        {
+            Id = treatmentId,
+            Name = "Test",
+            Description = "Test Desc",
+            Price = 10,
+            DurationInMinutes = 10,
+        };
+        _repository
+            .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
+            .ReturnsAsync(existingTreatment);
+        _repository
+            .Setup(r => r.DeleteTreatmentAsync(existingTreatment, CancellationToken.None))
+            .Returns(Task.CompletedTask);
+
+        // Act
+        var result = await _sut.DeleteTreatmentAsync(treatmentId, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        _repository.Verify(
+            r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
+            Times.Once
+        );
+        _repository.Verify(
+            r => r.DeleteTreatmentAsync(existingTreatment, CancellationToken.None),
             Times.Once
         );
     }
 
     [Fact]
-    public async Task GetAllTreatmentsAsync_ShouldReturnTreatmentList()
+    public async Task DeleteTreatmentAsync_ShouldReturnNotFound_WhenTreatmentDoesNotExist()
     {
         // Arrange
-        var expectedTreatments = new List<Treatment>
+        var treatmentId = 1;
+        _repository
+            .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
+            .ReturnsAsync((Treatment?)null);
+
+        // Act
+        var result = await _sut.DeleteTreatmentAsync(treatmentId, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        Assert.Contains($"Treatment with ID {treatmentId} can not be found.", result.Errors);
+        _repository.Verify(
+            r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
+            Times.Once
+        );
+        _repository.Verify(
+            r => r.DeleteTreatmentAsync(It.IsAny<Treatment>(), It.IsAny<CancellationToken>()),
+            Times.Never
+        );
+    }
+
+    [Fact]
+    public async Task GetTreatmentAsync_ShouldReturnSuccessResult_WithTreatmentResponse_WhenTreatmentExists()
+    {
+        // Arrange
+        var treatmentId = 1;
+        var treatment = new Treatment
         {
-            new()
+            Id = treatmentId,
+            Name = "Test Treatment",
+            Description = "Test Description",
+            Price = 50,
+            DurationInMinutes = 60,
+        };
+        _repository
+            .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
+            .ReturnsAsync(treatment);
+
+        // Act
+        var result = await _sut.GetTreatmentAsync(treatmentId, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Equal(treatment.Id, result.Value.Id);
+        Assert.Equal(treatment.Name, result.Value.Name);
+        _repository.Verify(
+            r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task GetTreatmentAsync_ShouldReturnNotFound_WhenTreatmentDoesNotExist()
+    {
+        // Arrange
+        var treatmentId = 1;
+        _repository
+            .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
+            .ReturnsAsync((Treatment?)null);
+
+        // Act
+        var result = await _sut.GetTreatmentAsync(treatmentId, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        Assert.Contains($"Treatment with ID {treatmentId} can not be found.", result.Errors);
+        _repository.Verify(
+            r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task GetTreatmentsAsync_ShouldReturnSuccessResult_WithListOfTreatmentResponses()
+    {
+        // Arrange
+        var treatments = new List<Treatment>
+        {
+            new Treatment
             {
                 Id = 1,
                 Name = "Treatment 1",
-                Description = "Description 1",
-                Price = 45,
-                DurationInMinutes = 30,
+                Description = "Desc 1",
+                Price = 10,
+                DurationInMinutes = 10,
             },
-            new()
+            new Treatment
             {
                 Id = 2,
                 Name = "Treatment 2",
-                Description = "Description 2",
-                Price = 90,
-                DurationInMinutes = 60,
+                Description = "Desc 2",
+                Price = 20,
+                DurationInMinutes = 20,
             },
         };
         _repository
-            .Setup(x => x.GetAllTreatmentsAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedTreatments);
+            .Setup(r => r.GetTreatmentsAsync(CancellationToken.None))
+            .ReturnsAsync(treatments);
 
         // Act
-        var result = await _sut.GetAllTreatmentsAsync(CancellationToken.None);
+        var result = await _sut.GetTreatmentsAsync(CancellationToken.None);
 
         // Assert
-        Assert.IsType<Result<List<TreatmentResponse>>>(result);
         Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
         Assert.Equal(2, result.Value.Count);
-        foreach (var expected in expectedTreatments)
-        {
-            Assert.Contains(
-                result.Value,
-                actual =>
-                    actual.Id == expected.Id
-                    && actual.Name == expected.Name
-                    && actual.Description == expected.Description
-                    && actual.DurationInMinutes == expected.DurationInMinutes
-                    && actual.Price == expected.Price
-            );
-        }
-        _repository.Verify(x => x.GetAllTreatmentsAsync(It.IsAny<CancellationToken>()), Times.Once);
+        Assert.Equal(treatments.First().Name, result.Value.First().Name);
+        Assert.Equal(treatments.Last().Name, result.Value.Last().Name);
+        _repository.Verify(r => r.GetTreatmentsAsync(CancellationToken.None), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetTreatmentsAsync_ShouldReturnSuccessResult_WithEmptyList_WhenNoTreatmentsExist()
+    {
+        // Arrange
+        _repository
+            .Setup(r => r.GetTreatmentsAsync(CancellationToken.None))
+            .ReturnsAsync(new List<Treatment>());
+
+        // Act
+        var result = await _sut.GetTreatmentsAsync(CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Empty(result.Value);
+        _repository.Verify(r => r.GetTreatmentsAsync(CancellationToken.None), Times.Once);
     }
 }

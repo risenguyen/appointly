@@ -26,25 +26,55 @@ public class TreatmentsController(ITreatmentService treatmentService) : Controll
         return result.ToActionResult(this);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<TreatmentResponse>> GetTreatmentById(
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<TreatmentResponse>> UpdateTreatment(
+        [FromRoute] int id,
+        [FromBody] UpdateTreatmentRequest updateTreatmentRequest,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await _treatmentService.UpdateTreatmentAsync(
+            id,
+            updateTreatmentRequest,
+            cancellationToken
+        );
+        return result.ToActionResult(this);
+    }
+
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteTreatment(
         [FromRoute] int id,
         CancellationToken cancellationToken
     )
     {
-        var result = await _treatmentService.GetTreatmentByIdAsync(id, cancellationToken);
+        var result = await _treatmentService.DeleteTreatmentAsync(id, cancellationToken);
+        return result.ToActionResult(this);
+    }
+
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<TreatmentResponse>> GetTreatment(
+        [FromRoute] int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await _treatmentService.GetTreatmentAsync(id, cancellationToken);
         return result.ToActionResult(this);
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<TreatmentResponse>>> GetAllTreatments(
+    public async Task<ActionResult<List<TreatmentResponse>>> GetTreatments(
         CancellationToken cancellationToken
     )
     {
-        var result = await _treatmentService.GetAllTreatmentsAsync(cancellationToken);
+        var result = await _treatmentService.GetTreatmentsAsync(cancellationToken);
         return result.ToActionResult(this);
     }
 }

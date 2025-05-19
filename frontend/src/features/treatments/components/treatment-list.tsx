@@ -1,43 +1,152 @@
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { useTreatments } from "../api/use-treatments";
+import { useDeleteTreatment } from "../api/use-delete-treatment";
+import type { TreatmentResponse } from "@/api";
 
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, LoaderCircle, SquarePen, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
+import DrawerDialog from "@/components/shared/drawer-dialog";
+import EditTreatmentForm from "./edit-treatment-form";
 
-function TreatmentList() {
-  const { data: treatments } = useTreatments();
+function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+  const deleteTreatment = useDeleteTreatment({
+    onSuccess() {
+      toast.success("Treatment deleted successfully.");
+      setDeleteDialogOpen(false);
+    },
+    onError(error) {
+      toast.error(
+        `Failed to delete treatment. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
+      );
+      setDeleteDialogOpen(false);
+    },
+  });
 
   return (
-    <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {treatments.map((treatment) => (
-        <li
-          key={treatment.id}
-          className="bg-card-2 relative flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]"
-        >
-          <div className="flex flex-col gap-0.5">
-            <h1 className="text-base font-medium xl:text-base">
-              {treatment.name}
-            </h1>
-            <p className="text-muted-foreground text-base break-words xl:text-base">
-              {treatment.description}
-            </p>
-          </div>
+    <li
+      key={treatment.id}
+      className="bg-card-2 relative flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]"
+    >
+      <div className="flex flex-col gap-0.5">
+        <h1 className="text-base font-medium xl:text-base">{treatment.name}</h1>
+        <p className="text-muted-foreground text-base break-words xl:text-base">
+          {treatment.description}
+        </p>
+      </div>
 
-          <div className="flex items-center justify-between">
-            <span className="text-base xl:text-base">
-              ${treatment.price.toFixed(2)}
-            </span>
-            <span className="text-muted-foreground text-base xl:text-base">
-              {treatment.durationInMinutes} min
-            </span>
-          </div>
+      <div className="flex items-center justify-between">
+        <span className="text-base xl:text-base">
+          ${treatment.price.toFixed(2)}
+        </span>
+        <span className="text-muted-foreground text-base xl:text-base">
+          {treatment.durationInMinutes} min
+        </span>
+      </div>
 
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
           <button
             aria-label="Open Menu"
-            className="absolute top-6 right-6"
+            className="absolute top-6 right-6 focus:outline-none"
             type="button"
           >
             <Ellipsis className="cursor-pointer" size="16px" />
           </button>
-        </li>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
+            <span>Edit</span>
+            <SquarePen />
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => setDeleteDialogOpen(true)}
+          >
+            <span>Delete</span>
+            <Trash2 />
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Treatment?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this treatment? This action cannot
+              be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button
+              variant="destructive"
+              disabled={deleteTreatment.isPending}
+              onClick={() => deleteTreatment.mutate(treatment.id)}
+            >
+              {deleteTreatment.isPending ? (
+                <LoaderCircle className="animate-spin" />
+              ) : null}
+              Delete Treatment
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <DrawerDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        title="Edit Treatment"
+        description="Update the details of this treatment."
+      >
+        <EditTreatmentForm treatment={treatment} setOpen={setEditDialogOpen} />
+      </DrawerDialog>
+    </li>
+  );
+}
+
+function TreatmentList() {
+  const { data: treatments } = useTreatments();
+
+  if (treatments.length === 0) {
+    return (
+      <div className="top-0 flex h-full w-full flex-1 flex-col items-center gap-6 rounded-lg p-8 text-center">
+        <div className="flex flex-col items-center gap-2 pt-[26vh]">
+          <p className="text-foreground text-xl font-medium">
+            No treatments yet.
+          </p>
+          <p className="text-muted-foreground text-base">
+            Get started by creating a new treatment.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {treatments.map((treatment) => (
+        <TreatmentItem key={treatment.id} treatment={treatment} />
       ))}
     </ul>
   );

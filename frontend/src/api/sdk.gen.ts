@@ -11,9 +11,14 @@ import type {
   PostApiTreatmentsData,
   PostApiTreatmentsResponse,
   PostApiTreatmentsError,
+  DeleteApiTreatmentsByIdData,
+  DeleteApiTreatmentsByIdError,
   GetApiTreatmentsByIdData,
   GetApiTreatmentsByIdResponse,
   GetApiTreatmentsByIdError,
+  PutApiTreatmentsByIdData,
+  PutApiTreatmentsByIdResponse,
+  PutApiTreatmentsByIdError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -64,6 +69,19 @@ export const postApiTreatments = <ThrowOnError extends boolean = false>(
   });
 };
 
+export const deleteApiTreatmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiTreatmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    unknown,
+    DeleteApiTreatmentsByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Treatments/{id}",
+    ...options,
+  });
+};
+
 export const getApiTreatmentsById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiTreatmentsByIdData, ThrowOnError>,
 ) => {
@@ -74,5 +92,22 @@ export const getApiTreatmentsById = <ThrowOnError extends boolean = false>(
   >({
     url: "/api/Treatments/{id}",
     ...options,
+  });
+};
+
+export const putApiTreatmentsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiTreatmentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiTreatmentsByIdResponse,
+    PutApiTreatmentsByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Treatments/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

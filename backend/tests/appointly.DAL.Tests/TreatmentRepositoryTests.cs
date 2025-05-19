@@ -23,121 +23,177 @@ public class TreatmentRepositoryTests
     public async Task CreateTreatmentAsync_ShouldAddTreatmentToDatabase()
     {
         // Arrange
-        var treatment = new Treatment()
+        var treatment = new Treatment
         {
-            Name = "Name",
-            Description = "Desc",
-            Price = 45,
-            DurationInMinutes = 30,
+            Name = "Test Treatment",
+            Description = "Test Description",
+            DurationInMinutes = 60,
+            Price = 50,
         };
 
         // Act
-        var createdTreatment = await _sut.CreateTreatmentAsync(treatment, CancellationToken.None);
-        var treatmentInDb = await _context.Treatments.FindAsync(createdTreatment.Id);
+        var result = await _sut.CreateTreatmentAsync(treatment, CancellationToken.None);
 
         // Assert
-        Assert.NotNull(createdTreatment);
+        Assert.NotNull(result);
+        Assert.NotEqual(0, result.Id);
+        var treatmentInDb = await _context.Treatments.FindAsync(result.Id);
         Assert.NotNull(treatmentInDb);
-        Assert.True(createdTreatment.Id > 0);
-        Assert.Equal(treatment.Name, treatmentInDb.Name);
+        Assert.Equal(treatment.Name, treatmentInDb!.Name);
         Assert.Equal(treatment.Description, treatmentInDb.Description);
         Assert.Equal(treatment.DurationInMinutes, treatmentInDb.DurationInMinutes);
         Assert.Equal(treatment.Price, treatmentInDb.Price);
     }
 
     [Fact]
-    public async Task GetTreatmentByIdAsync_ShouldReturnTreatment_WhenExists()
+    public async Task UpdateTreatmentAsync_ShouldUpdateTreatmentInDatabase()
     {
         // Arrange
-        var expectedTreatment = new Treatment()
+        var treatment = new Treatment
         {
-            Name = "Name",
-            Description = "Desc",
-            Price = 45,
+            Name = "Initial Treatment",
+            Description = "Initial Description",
             DurationInMinutes = 30,
+            Price = 25,
         };
-        await _context.Treatments.AddAsync(expectedTreatment);
+        await _context.Treatments.AddAsync(treatment);
         await _context.SaveChangesAsync();
 
+        treatment.Name = "Updated Treatment";
+        treatment.Price = 30;
+        treatment.Description = "Updated Description";
+
         // Act
-        var retrievedTreatment = await _sut.GetTreatmentByIdAsync(
-            expectedTreatment.Id,
-            CancellationToken.None
-        );
+        var result = await _sut.UpdateTreatmentAsync(treatment, CancellationToken.None);
 
         // Assert
-        Assert.NotNull(retrievedTreatment);
-        Assert.Equal(expectedTreatment.Id, retrievedTreatment.Id);
-        Assert.Equal(expectedTreatment.Name, retrievedTreatment.Name);
-        Assert.Equal(expectedTreatment.Description, retrievedTreatment.Description);
-        Assert.Equal(expectedTreatment.DurationInMinutes, retrievedTreatment.DurationInMinutes);
-        Assert.Equal(expectedTreatment.Price, retrievedTreatment.Price);
+        Assert.NotNull(result);
+        Assert.Equal("Updated Treatment", result.Name);
+        Assert.Equal(30, result.Price);
+        Assert.Equal("Updated Description", result.Description);
+        var treatmentInDb = await _context.Treatments.FindAsync(treatment.Id);
+        Assert.NotNull(treatmentInDb);
+        Assert.Equal(treatment.Name, treatmentInDb!.Name);
+        Assert.Equal(treatment.Description, treatmentInDb.Description);
+        Assert.Equal(treatment.DurationInMinutes, treatmentInDb.DurationInMinutes);
+        Assert.Equal(treatment.Price, treatmentInDb.Price);
     }
 
     [Fact]
-    public async Task GetTreatmentByIdAsync_ShouldReturnNull_WhenNotExists()
+    public async Task DeleteTreatmentAsync_ShouldRemoveTreatmentFromDatabase()
+    {
+        // Arrange
+        var treatment = new Treatment
+        {
+            Name = "To Be Deleted",
+            Description = "To Be Deleted Description",
+            DurationInMinutes = 45,
+            Price = 40,
+        };
+        await _context.Treatments.AddAsync(treatment);
+        await _context.SaveChangesAsync();
+
+        // Act
+        await _sut.DeleteTreatmentAsync(treatment, CancellationToken.None);
+
+        // Assert
+        var treatmentInDb = await _context.Treatments.FindAsync(treatment.Id);
+        Assert.Null(treatmentInDb);
+    }
+
+    [Fact]
+    public async Task GetTreatmentAsync_ShouldReturnTreatment_WhenTreatmentExists()
+    {
+        // Arrange
+        var treatment = new Treatment
+        {
+            Name = "Existing Treatment",
+            Description = "Existing Description",
+            DurationInMinutes = 60,
+            Price = 55,
+        };
+        await _context.Treatments.AddAsync(treatment);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _sut.GetTreatmentAsync(treatment.Id, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(treatment.Name, result!.Name);
+        Assert.Equal(treatment.Description, result.Description);
+        Assert.Equal(treatment.DurationInMinutes, result.DurationInMinutes);
+        Assert.Equal(treatment.Price, result.Price);
+    }
+
+    [Fact]
+    public async Task GetTreatmentAsync_ShouldReturnNull_WhenTreatmentDoesNotExist()
     {
         // Arrange
         var nonExistentId = 999;
 
         // Act
-        var retrievedTreatment = await _sut.GetTreatmentByIdAsync(
-            nonExistentId,
-            CancellationToken.None
-        );
+        var result = await _sut.GetTreatmentAsync(nonExistentId, CancellationToken.None);
 
         // Assert
-        Assert.Null(retrievedTreatment);
+        Assert.Null(result);
     }
 
     [Fact]
-    public async Task GetAllTreatmentsAsync_ShouldReturnTreatmentList()
+    public async Task GetTreatmentsAsync_ShouldReturnAllTreatments()
     {
         // Arrange
-        var treatments = new List<Treatment>
+        var treatment1 = new Treatment
         {
-            new()
-            {
-                Name = "Treatment 1",
-                Description = "Description 1",
-                Price = 45,
-                DurationInMinutes = 30,
-            },
-            new()
-            {
-                Name = "Treatment 2",
-                Description = "Description 2",
-                Price = 90,
-                DurationInMinutes = 60,
-            },
-            new()
-            {
-                Name = "Treatment 3",
-                Description = "Description 3",
-                Price = 65,
-                DurationInMinutes = 45,
-            },
+            Name = "Treatment 1",
+            Description = "Description 1",
+            DurationInMinutes = 30,
+            Price = 30,
         };
-        await _context.Treatments.AddRangeAsync(treatments);
+        var treatment2 = new Treatment
+        {
+            Name = "Treatment 2",
+            Description = "Description 2",
+            DurationInMinutes = 60,
+            Price = 60,
+        };
+        await _context.Treatments.AddRangeAsync(treatment1, treatment2);
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _sut.GetAllTreatmentsAsync(CancellationToken.None);
+        var result = await _sut.GetTreatmentsAsync(CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(treatments.Count, result.Count);
-        foreach (var expected in treatments)
-        {
-            Assert.Contains(
-                result,
-                actual =>
-                    actual.Id == expected.Id
-                    && actual.Name == expected.Name
-                    && actual.Description == expected.Description
-                    && actual.Price == expected.Price
-                    && actual.DurationInMinutes == expected.DurationInMinutes
-            );
-        }
+        Assert.Equal(2, result.Count());
+        Assert.Contains(
+            result,
+            t =>
+                t.Name == treatment1.Name
+                && t.Description == treatment1.Description
+                && t.DurationInMinutes == treatment1.DurationInMinutes
+                && t.Price == treatment1.Price
+        );
+        Assert.Contains(
+            result,
+            t =>
+                t.Name == treatment2.Name
+                && t.Description == treatment2.Description
+                && t.DurationInMinutes == treatment2.DurationInMinutes
+                && t.Price == treatment2.Price
+        );
+    }
+
+    [Fact]
+    public async Task GetTreatmentsAsync_ShouldReturnEmptyList_WhenNoTreatmentsExist()
+    {
+        // Arrange
+
+        // Act
+        var result = await _sut.GetTreatmentsAsync(CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
     }
 }

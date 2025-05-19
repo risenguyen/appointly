@@ -8,16 +8,18 @@ import {
 } from "@tanstack/react-query";
 
 import {
-  postApiTreatments,
+  putApiTreatmentsById,
   type ValidationProblemDetails,
   type TreatmentResponse,
+  type ProblemDetails,
 } from "@/api";
 
 import { treatmentsQueryOptions } from "./use-treatments";
 
-type CreateTreatmentInput = z.infer<typeof createTreatmentSchema>;
+type EditTreatmentInput = z.infer<typeof editTreatmentSchema>;
 
-const createTreatmentSchema = z.object({
+const editTreatmentSchema = z.object({
+  id: z.number(),
   name: z
     .string()
     .min(1, { message: "Treatment name is required." })
@@ -49,12 +51,12 @@ const createTreatmentSchema = z.object({
     }),
 });
 
-function useCreateTreatment(
+function useEditTreatment(
   options: Omit<
     MutationOptions<
       TreatmentResponse,
-      DefaultError | ValidationProblemDetails,
-      CreateTreatmentInput
+      DefaultError | ProblemDetails | ValidationProblemDetails,
+      EditTreatmentInput
     >,
     "mutationFn"
   > = {},
@@ -62,8 +64,11 @@ function useCreateTreatment(
   const queryClient = useQueryClient();
   const { onSuccess, ...restOptions } = options;
   return useMutation({
-    mutationFn: async ({ name, description, durationInMinutes, price }) => {
-      const { data } = await postApiTreatments({
+    mutationFn: async ({ id, name, description, durationInMinutes, price }) => {
+      const { data } = await putApiTreatmentsById({
+        path: {
+          id,
+        },
         body: {
           name,
           description,
@@ -79,7 +84,9 @@ function useCreateTreatment(
         treatmentsQueryOptions().queryKey,
         (treatments) => {
           if (treatments) {
-            return [...treatments, data];
+            return treatments.map((treatment) =>
+              treatment.id === data.id ? data : treatment,
+            );
           }
           return [data];
         },
@@ -90,4 +97,4 @@ function useCreateTreatment(
   });
 }
 
-export { useCreateTreatment, createTreatmentSchema, type CreateTreatmentInput };
+export { useEditTreatment, editTreatmentSchema, type EditTreatmentInput };
