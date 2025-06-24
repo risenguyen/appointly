@@ -1,6 +1,7 @@
 using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Services;
 using appointly.DAL.Entities;
+using appointly.DAL.Enums;
 using appointly.DAL.Repositories.IRepositories;
 using Ardalis.Result;
 using Moq;
@@ -27,6 +28,7 @@ public class TreatmentServiceTests
             Description = "Test Description",
             Price = 50,
             DurationInMinutes = 60,
+            TreatmentType = TreatmentType.Hair,
         };
         var treatment = new Treatment
         {
@@ -35,6 +37,7 @@ public class TreatmentServiceTests
             Description = createRequest.Description,
             Price = createRequest.Price,
             DurationInMinutes = createRequest.DurationInMinutes,
+            TreatmentType = createRequest.TreatmentType,
         };
         _repository
             .Setup(r =>
@@ -59,6 +62,7 @@ public class TreatmentServiceTests
                         && t.Description == createRequest.Description
                         && t.Price == createRequest.Price
                         && t.DurationInMinutes == createRequest.DurationInMinutes
+                        && t.TreatmentType == createRequest.TreatmentType
                     ),
                     CancellationToken.None
                 ),
@@ -77,6 +81,7 @@ public class TreatmentServiceTests
             Description = "Updated Description",
             Price = 75,
             DurationInMinutes = 90,
+            TreatmentType = TreatmentType.Massage,
         };
         var existingTreatment = new Treatment
         {
@@ -85,6 +90,7 @@ public class TreatmentServiceTests
             Description = "Old Description",
             Price = 50,
             DurationInMinutes = 60,
+            TreatmentType = TreatmentType.Nails,
         };
         var updatedTreatment = new Treatment
         {
@@ -93,6 +99,7 @@ public class TreatmentServiceTests
             Description = updateRequest.Description,
             Price = updateRequest.Price,
             DurationInMinutes = updateRequest.DurationInMinutes,
+            TreatmentType = updateRequest.TreatmentType,
         };
 
         _repository
@@ -119,6 +126,7 @@ public class TreatmentServiceTests
         Assert.Equal(updateRequest.Description, result.Value.Description);
         Assert.Equal(updateRequest.Price, result.Value.Price);
         Assert.Equal(updateRequest.DurationInMinutes, result.Value.DurationInMinutes);
+        Assert.Equal(updateRequest.TreatmentType, result.Value.TreatmentType);
         _repository.Verify(
             r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
             Times.Once
@@ -132,6 +140,7 @@ public class TreatmentServiceTests
                         && t.Description == updateRequest.Description
                         && t.Price == updateRequest.Price
                         && t.DurationInMinutes == updateRequest.DurationInMinutes
+                        && t.TreatmentType == updateRequest.TreatmentType
                     ),
                     CancellationToken.None
                 ),
@@ -150,6 +159,7 @@ public class TreatmentServiceTests
             Description = "Updated Description",
             Price = 75,
             DurationInMinutes = 90,
+            TreatmentType = TreatmentType.Hair,
         };
         _repository
             .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
@@ -187,6 +197,7 @@ public class TreatmentServiceTests
             Description = "Test Desc",
             Price = 10,
             DurationInMinutes = 10,
+            TreatmentType = TreatmentType.Nails,
         };
         _repository
             .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
@@ -247,6 +258,7 @@ public class TreatmentServiceTests
             Description = "Test Description",
             Price = 50,
             DurationInMinutes = 60,
+            TreatmentType = TreatmentType.Hair,
         };
         _repository
             .Setup(r => r.GetTreatmentAsync(treatmentId, CancellationToken.None))
@@ -300,6 +312,7 @@ public class TreatmentServiceTests
                 Description = "Desc 1",
                 Price = 10,
                 DurationInMinutes = 10,
+                TreatmentType = TreatmentType.Hair,
             },
             new Treatment
             {
@@ -308,6 +321,7 @@ public class TreatmentServiceTests
                 Description = "Desc 2",
                 Price = 20,
                 DurationInMinutes = 20,
+                TreatmentType = TreatmentType.Nails,
             },
         };
         _repository

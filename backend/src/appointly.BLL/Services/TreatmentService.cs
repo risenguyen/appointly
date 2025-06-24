@@ -21,6 +21,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             Description = createTreatmentRequest.Description,
             Price = createTreatmentRequest.Price,
             DurationInMinutes = createTreatmentRequest.DurationInMinutes,
+            TreatmentType = createTreatmentRequest.TreatmentType,
         };
         var createdTreatment = await _treatmentRepository.CreateTreatmentAsync(
             treatment,
@@ -33,6 +34,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             Description = createdTreatment.Description,
             Price = createdTreatment.Price,
             DurationInMinutes = createdTreatment.DurationInMinutes,
+            TreatmentType = createdTreatment.TreatmentType,
         };
         return Result.Created(response, $"/api/Treatments/{response.Id}");
     }
@@ -53,6 +55,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
         treatmentToUpdate.Description = updateTreatmentRequest.Description;
         treatmentToUpdate.Price = updateTreatmentRequest.Price;
         treatmentToUpdate.DurationInMinutes = updateTreatmentRequest.DurationInMinutes;
+        treatmentToUpdate.TreatmentType = updateTreatmentRequest.TreatmentType;
 
         await _treatmentRepository.UpdateTreatmentAsync(treatmentToUpdate, cancellationToken);
 
@@ -63,6 +66,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             Description = treatmentToUpdate.Description,
             Price = treatmentToUpdate.Price,
             DurationInMinutes = treatmentToUpdate.DurationInMinutes,
+            TreatmentType = treatmentToUpdate.TreatmentType,
         };
         return Result.Success(response);
     }
@@ -97,6 +101,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             Description = treatment.Description,
             Price = treatment.Price,
             DurationInMinutes = treatment.DurationInMinutes,
+            TreatmentType = treatment.TreatmentType,
         };
         return Result.Success(response);
     }
@@ -114,6 +119,7 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
                 Description = treatment.Description,
                 Price = treatment.Price,
                 DurationInMinutes = treatment.DurationInMinutes,
+                TreatmentType = treatment.TreatmentType,
             })
             .ToList();
         return Result.Success(response);

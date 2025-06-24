@@ -1,5 +1,6 @@
 using appointly.DAL.Context;
 using appointly.DAL.Entities;
+using appointly.DAL.Enums;
 using appointly.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ public class TreatmentRepositoryTests
             Description = "Test Description",
             DurationInMinutes = 60,
             Price = 50,
+            TreatmentType = TreatmentType.Hair,
         };
 
         // Act
@@ -43,6 +45,7 @@ public class TreatmentRepositoryTests
         Assert.Equal(treatment.Description, treatmentInDb.Description);
         Assert.Equal(treatment.DurationInMinutes, treatmentInDb.DurationInMinutes);
         Assert.Equal(treatment.Price, treatmentInDb.Price);
+        Assert.Equal(treatment.TreatmentType, treatmentInDb.TreatmentType);
     }
 
     [Fact]
@@ -55,6 +58,7 @@ public class TreatmentRepositoryTests
             Description = "Initial Description",
             DurationInMinutes = 30,
             Price = 25,
+            TreatmentType = TreatmentType.Nails,
         };
         await _context.Treatments.AddAsync(treatment);
         await _context.SaveChangesAsync();
@@ -62,6 +66,7 @@ public class TreatmentRepositoryTests
         treatment.Name = "Updated Treatment";
         treatment.Price = 30;
         treatment.Description = "Updated Description";
+        treatment.TreatmentType = TreatmentType.Massage;
 
         // Act
         var result = await _sut.UpdateTreatmentAsync(treatment, CancellationToken.None);
@@ -71,12 +76,14 @@ public class TreatmentRepositoryTests
         Assert.Equal("Updated Treatment", result.Name);
         Assert.Equal(30, result.Price);
         Assert.Equal("Updated Description", result.Description);
+        Assert.Equal(TreatmentType.Massage, result.TreatmentType);
         var treatmentInDb = await _context.Treatments.FindAsync(treatment.Id);
         Assert.NotNull(treatmentInDb);
         Assert.Equal(treatment.Name, treatmentInDb!.Name);
         Assert.Equal(treatment.Description, treatmentInDb.Description);
         Assert.Equal(treatment.DurationInMinutes, treatmentInDb.DurationInMinutes);
         Assert.Equal(treatment.Price, treatmentInDb.Price);
+        Assert.Equal(treatment.TreatmentType, treatmentInDb.TreatmentType);
     }
 
     [Fact]
@@ -89,6 +96,7 @@ public class TreatmentRepositoryTests
             Description = "To Be Deleted Description",
             DurationInMinutes = 45,
             Price = 40,
+            TreatmentType = TreatmentType.Hair,
         };
         await _context.Treatments.AddAsync(treatment);
         await _context.SaveChangesAsync();
@@ -111,6 +119,7 @@ public class TreatmentRepositoryTests
             Description = "Existing Description",
             DurationInMinutes = 60,
             Price = 55,
+            TreatmentType = TreatmentType.Nails,
         };
         await _context.Treatments.AddAsync(treatment);
         await _context.SaveChangesAsync();
@@ -124,6 +133,7 @@ public class TreatmentRepositoryTests
         Assert.Equal(treatment.Description, result.Description);
         Assert.Equal(treatment.DurationInMinutes, result.DurationInMinutes);
         Assert.Equal(treatment.Price, result.Price);
+        Assert.Equal(treatment.TreatmentType, result.TreatmentType);
     }
 
     [Fact]
@@ -149,6 +159,7 @@ public class TreatmentRepositoryTests
             Description = "Description 1",
             DurationInMinutes = 30,
             Price = 30,
+            TreatmentType = TreatmentType.Hair,
         };
         var treatment2 = new Treatment
         {
@@ -156,6 +167,7 @@ public class TreatmentRepositoryTests
             Description = "Description 2",
             DurationInMinutes = 60,
             Price = 60,
+            TreatmentType = TreatmentType.Massage,
         };
         await _context.Treatments.AddRangeAsync(treatment1, treatment2);
         await _context.SaveChangesAsync();
@@ -173,6 +185,7 @@ public class TreatmentRepositoryTests
                 && t.Description == treatment1.Description
                 && t.DurationInMinutes == treatment1.DurationInMinutes
                 && t.Price == treatment1.Price
+                && t.TreatmentType == treatment1.TreatmentType
         );
         Assert.Contains(
             result,
@@ -181,6 +194,7 @@ public class TreatmentRepositoryTests
                 && t.Description == treatment2.Description
                 && t.DurationInMinutes == treatment2.DurationInMinutes
                 && t.Price == treatment2.Price
+                && t.TreatmentType == treatment2.TreatmentType
         );
     }
 

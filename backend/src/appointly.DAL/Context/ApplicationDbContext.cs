@@ -10,18 +10,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<EmployeeTreatment> EmployeeTreatments { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder
-            .Entity<EmployeeTreatment>()
-            .HasOne(et => et.Employee)
-            .WithMany(e => e.OfferedTreatments);
-
-        modelBuilder
-            .Entity<EmployeeTreatment>()
-            .HasOne(et => et.Treatment)
-            .WithMany(t => t.AssignedEmployees);
-    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) { }
 }

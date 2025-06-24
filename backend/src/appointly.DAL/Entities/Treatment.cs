@@ -1,3 +1,5 @@
+using appointly.DAL.Enums;
+
 namespace appointly.DAL.Entities;
 
 public class Treatment
@@ -7,5 +9,5 @@ public class Treatment
     public required string Description { get; set; }
     public required decimal Price { get; set; }
     public required int DurationInMinutes { get; set; }
-    public List<EmployeeTreatment> AssignedEmployees { get; set; } = [];
+    public required TreatmentType TreatmentType { get; set; }
 }
