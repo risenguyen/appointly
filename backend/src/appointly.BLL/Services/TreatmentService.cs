@@ -49,25 +49,20 @@ public class TreatmentService(ITreatmentRepository treatmentRepository) : ITreat
             return Result.NotFound($"Treatment with ID {id} can not be found.");
         }
 
-        var treatmentUpdated = await _treatmentRepository.UpdateTreatmentAsync(
-            new Treatment()
-            {
-                Id = treatmentToUpdate.Id,
-                Name = updateTreatmentRequest.Name,
-                Description = updateTreatmentRequest.Description,
-                Price = updateTreatmentRequest.Price,
-                DurationInMinutes = updateTreatmentRequest.DurationInMinutes,
-            },
-            cancellationToken
-        );
+        treatmentToUpdate.Name = updateTreatmentRequest.Name;
+        treatmentToUpdate.Description = updateTreatmentRequest.Description;
+        treatmentToUpdate.Price = updateTreatmentRequest.Price;
+        treatmentToUpdate.DurationInMinutes = updateTreatmentRequest.DurationInMinutes;
+
+        await _treatmentRepository.UpdateTreatmentAsync(treatmentToUpdate, cancellationToken);
 
         var response = new TreatmentResponse()
         {
-            Id = treatmentUpdated.Id,
-            Name = treatmentUpdated.Name,
-            Description = treatmentUpdated.Description,
-            Price = treatmentUpdated.Price,
-            DurationInMinutes = treatmentUpdated.DurationInMinutes,
+            Id = treatmentToUpdate.Id,
+            Name = treatmentToUpdate.Name,
+            Description = treatmentToUpdate.Description,
+            Price = treatmentToUpdate.Price,
+            DurationInMinutes = treatmentToUpdate.DurationInMinutes,
         };
         return Result.Success(response);
     }
