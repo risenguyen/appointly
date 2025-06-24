@@ -5,6 +5,7 @@ export type CreateTreatmentRequest = {
   description: string;
   price: number;
   durationInMinutes: number;
+  treatmentType: TreatmentType;
 };
 
 export type ProblemDetails = {
@@ -21,13 +22,17 @@ export type TreatmentResponse = {
   description: string;
   price: number;
   durationInMinutes: number;
+  treatmentType: TreatmentType;
 };
+
+export type TreatmentType = number;
 
 export type UpdateTreatmentRequest = {
   name: string;
   description: string;
   price: number;
   durationInMinutes: number;
+  treatmentType: TreatmentType;
 };
 
 export type ValidationProblemDetails = {
