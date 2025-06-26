@@ -47,6 +47,9 @@ const createTreatmentSchema = z.object({
     .refine((val) => parseFloat(val.replace(/^\$/, "")) > 0, {
       message: "Treatment price must be greater than 0.",
     }),
+  treatmentType: z.coerce.number({
+    invalid_type_error: "Treatment type is required.",
+  }),
 });
 
 function useCreateTreatment(
@@ -62,13 +65,20 @@ function useCreateTreatment(
   const queryClient = useQueryClient();
   const { onSuccess, ...restOptions } = options;
   return useMutation({
-    mutationFn: async ({ name, description, durationInMinutes, price }) => {
+    mutationFn: async ({
+      name,
+      description,
+      durationInMinutes,
+      price,
+      treatmentType,
+    }) => {
       const { data } = await postApiTreatments({
         body: {
           name,
           description,
           price: parseFloat(price.replace(/^\$/, "")),
           durationInMinutes: parseInt(durationInMinutes, 10),
+          treatmentType: treatmentType,
         },
         throwOnError: true,
       });

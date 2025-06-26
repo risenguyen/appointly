@@ -49,6 +49,9 @@ const editTreatmentSchema = z.object({
     .refine((val) => parseFloat(val.replace(/^\$/, "")) > 0, {
       message: "Treatment price must be greater than 0.",
     }),
+  treatmentType: z.coerce.number({
+    invalid_type_error: "Treatment type is required.",
+  }),
 });
 
 function useEditTreatment(
@@ -64,7 +67,14 @@ function useEditTreatment(
   const queryClient = useQueryClient();
   const { onSuccess, ...restOptions } = options;
   return useMutation({
-    mutationFn: async ({ id, name, description, durationInMinutes, price }) => {
+    mutationFn: async ({
+      id,
+      name,
+      description,
+      durationInMinutes,
+      price,
+      treatmentType,
+    }) => {
       const { data } = await putApiTreatmentsById({
         path: {
           id,
@@ -74,6 +84,7 @@ function useEditTreatment(
           description,
           price: parseFloat(price.replace(/^\$/, "")),
           durationInMinutes: parseInt(durationInMinutes, 10),
+          treatmentType,
         },
         throwOnError: true,
       });

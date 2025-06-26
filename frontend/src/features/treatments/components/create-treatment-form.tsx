@@ -20,6 +20,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+} from "@/components/ui/select";
 
 type CreateTreatmentFormProps = {
   setOpen: (open: boolean) => void;
@@ -106,8 +113,30 @@ function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
             <FormItem>
               <FormLabel>Duration In Minutes</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="30" {...field} />
+                <Input type="text" placeholder="30" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="treatmentType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Treatment Type</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a Treatment Type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent autoFocus>
+                  <SelectItem value="0">Hair</SelectItem>
+                  <SelectItem value="1">Nails</SelectItem>
+                  <SelectItem value="2">Massage</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
