@@ -48,17 +48,15 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
       className="bg-card-2 relative flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]"
     >
       <div className="flex flex-col gap-0.5">
-        <h1 className="text-base font-medium xl:text-base">{treatment.name}</h1>
-        <p className="text-muted-foreground text-base break-words xl:text-base">
+        <h1 className="text-base font-medium">{treatment.name}</h1>
+        <p className="text-muted-foreground text-base break-words">
           {treatment.description}
         </p>
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-base xl:text-base">
-          ${treatment.price.toFixed(2)}
-        </span>
-        <span className="text-muted-foreground text-base xl:text-base">
+        <span className="text-base">${treatment.price.toFixed(2)}</span>
+        <span className="text-muted-foreground text-base">
           {treatment.durationInMinutes} min
         </span>
       </div>
@@ -125,6 +123,14 @@ function TreatmentItem({ treatment }: { treatment: TreatmentResponse }) {
   );
 }
 
+type TreatmentTypeString = "Hair" | "Nails" | "Massages";
+
+const treatmentTypeMap: Record<number, TreatmentTypeString> = {
+  0: "Hair",
+  1: "Nails",
+  2: "Massages",
+};
+
 function TreatmentList() {
   const { data: treatments } = useTreatments();
 
@@ -144,9 +150,29 @@ function TreatmentList() {
   }
 
   return (
-    <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {treatments.map((treatment) => (
-        <TreatmentItem key={treatment.id} treatment={treatment} />
+    <ul className="flex flex-col gap-12">
+      {Object.entries(
+        treatments.reduce(
+          (prev, cur) => {
+            const typeString = treatmentTypeMap[cur.treatmentType];
+            if (prev[typeString]) {
+              prev[typeString].push(cur);
+            } else {
+              prev[typeString] = [cur];
+            }
+            return prev;
+          },
+          {} as Record<TreatmentTypeString, TreatmentResponse[]>,
+        ),
+      ).map(([category, treatments]) => (
+        <li className="flex flex-col gap-3">
+          <div className="text-xl font-medium">{category}</div>
+          <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {treatments.map((treatment) => (
+              <TreatmentItem key={treatment.id} treatment={treatment} />
+            ))}
+          </ul>
+        </li>
       ))}
     </ul>
   );

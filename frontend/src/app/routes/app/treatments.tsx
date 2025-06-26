@@ -17,7 +17,7 @@ export const Route = createFileRoute("/app/treatments")({
   },
   pendingComponent: () => {
     return (
-      <div className="flex min-h-full w-full flex-col gap-6">
+      <div className="flex min-h-full w-full flex-col gap-8">
         <div className="flex items-center justify-between">
           <Skeleton className="h-8 w-36" />
           <Skeleton className="h-8 w-36" />
@@ -51,20 +51,20 @@ export const Route = createFileRoute("/app/treatments")({
 });
 
 function RouteComponent() {
-  const [open, setOpen] = useState(false);
+  const [createTreatmentOpen, setCreateTreatmentOpen] = useState(false);
 
   return (
-    <div className="flex min-h-full w-full flex-1 flex-col gap-6">
+    <div className="flex min-h-full w-full flex-1 flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">Treatments</h1>
         <DrawerDialog
-          open={open}
-          onOpenChange={setOpen}
+          open={createTreatmentOpen}
+          onOpenChange={setCreateTreatmentOpen}
           trigger={<Button size="sm">Create Treatment</Button>}
           title="Create Treatment"
           description="Fill in the details for the new treatment."
         >
-          <CreateTreatmentForm setOpen={setOpen} />
+          <CreateTreatmentForm setOpen={setCreateTreatmentOpen} />
         </DrawerDialog>
       </div>
 
