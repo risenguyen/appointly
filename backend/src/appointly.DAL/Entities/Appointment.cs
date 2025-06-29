@@ -10,6 +10,4 @@ public class Appointment
     public required int TreatmentId { get; set; }
     public Treatment? Treatment { get; set; }
     public required DateTime StartTime { get; set; }
-    public DateTime EndTime =>
-        Treatment != null ? StartTime.AddMinutes(Treatment.DurationInMinutes) : StartTime;
 }

@@ -1,5 +1,8 @@
+using System.Text;
 using appointly.BLL.Extensions;
 using appointly.DAL.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +12,31 @@ builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddBLL();
 builder.Services.AddDAL(builder.Configuration);
+
+builder
+    .Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(
+                    builder.Configuration["Jwt:Key"]
+                        ?? throw new InvalidOperationException("JWT Key not found.")
+                )
+            ),
+        };
+    });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -42,6 +70,7 @@ app.UseCors(corsPolicyBuilder =>
         .AllowAnyMethod()
 );
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
