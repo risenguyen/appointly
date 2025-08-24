@@ -56,6 +56,7 @@ function EditTreatmentForm({ treatment, setOpen }: EditTreatmentFormProps) {
       description: treatment.description,
       price: treatment.price.toString(),
       durationInMinutes: treatment.durationInMinutes.toString(),
+      treatmentType: treatment.treatmentType,
     },
   });
 
@@ -128,7 +129,10 @@ function EditTreatmentForm({ treatment, setOpen }: EditTreatmentFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Treatment Type</FormLabel>
-              <Select onValueChange={field.onChange}>
+              <Select
+                defaultValue={treatment.treatmentType.toString()}
+                onValueChange={field.onChange}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a Treatment Type" />

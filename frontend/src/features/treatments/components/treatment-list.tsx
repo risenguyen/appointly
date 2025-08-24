@@ -150,22 +150,21 @@ function TreatmentList() {
   }
 
   return (
-    <ul className="flex flex-col gap-12">
+    <ul className="flex flex-col gap-10">
       {Object.entries(
         treatments.reduce(
-          (prev, cur) => {
+          (acc, cur) => {
             const typeString = treatmentTypeMap[cur.treatmentType];
-            if (prev[typeString]) {
-              prev[typeString].push(cur);
-            } else {
-              prev[typeString] = [cur];
-            }
-            return prev;
+            acc[typeString].push(cur);
+            return acc;
           },
-          {} as Record<TreatmentTypeString, TreatmentResponse[]>,
+          { Hair: [], Nails: [], Massages: [] } as Record<
+            TreatmentTypeString,
+            TreatmentResponse[]
+          >,
         ),
       ).map(([category, treatments]) => (
-        <li className="flex flex-col gap-3">
+        <li key={category} className="flex flex-col gap-2">
           <div className="text-xl font-medium">{category}</div>
           <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
             {treatments.map((treatment) => (

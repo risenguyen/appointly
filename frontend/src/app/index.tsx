@@ -45,8 +45,8 @@ function App() {
     <ThemeContextProvider>
       <Toaster />
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
-        <TanStackRouterDevtools router={router} />
+        {/* <ReactQueryDevtools />
+        <TanStackRouterDevtools router={router} /> */}
         <RouterProvider router={router} />
       </QueryClientProvider>
     </ThemeContextProvider>
