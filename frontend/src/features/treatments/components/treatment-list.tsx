@@ -150,7 +150,7 @@ function TreatmentList() {
   }
 
   return (
-    <ul className="flex flex-col gap-10">
+    <ul className="flex flex-col gap-8">
       {Object.entries(
         treatments.reduce(
           (acc, cur) => {

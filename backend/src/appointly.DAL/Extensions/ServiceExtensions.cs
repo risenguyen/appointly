@@ -16,15 +16,9 @@ public static class ServiceExtensions
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
         );
         services
-            .AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddScoped<ITreatmentRepository, TreatmentRepository>();
     }

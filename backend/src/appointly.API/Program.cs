@@ -32,7 +32,7 @@ builder
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(
                     builder.Configuration["Jwt:Key"]
-                        ?? throw new InvalidOperationException("JWT Key not found.")
+                        ?? throw new InvalidOperationException("JWT Key configuration is missing.")
                 )
             ),
         };
