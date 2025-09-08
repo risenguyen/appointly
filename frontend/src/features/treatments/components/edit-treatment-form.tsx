@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -60,10 +59,9 @@ function EditTreatmentForm({ treatment, setOpen }: EditTreatmentFormProps) {
     },
   });
 
-  const onSubmit = useCallback(
-    (data: EditTreatmentInput) => editTreatment.mutate(data),
-    [editTreatment],
-  );
+  function onSubmit(data: EditTreatmentInput) {
+    editTreatment.mutate(data);
+  }
 
   return (
     <Form {...form}>

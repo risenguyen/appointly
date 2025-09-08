@@ -1,28 +1,35 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { getApiTreatments } from "@/api";
+import { getApiTreatments, GetApiTreatmentsData, Options } from "@/api";
 
-function treatmentsQueryOptions() {
+function treatmentsQueryOptions(
+  fetchOptions?: Options<GetApiTreatmentsData, true>,
+) {
   return queryOptions({
     queryFn: async () => {
       const { data } = await getApiTreatments({
         throwOnError: true,
+        ...fetchOptions,
       });
       return data;
     },
-    queryKey: ["treatments"],
+    queryKey: ["treatments", fetchOptions],
     staleTime: 1000 * 60 * 30,
   });
 }
 
-function useTreatments(
-  options: Omit<
+function useTreatments({
+  queryOptions,
+  fetchOptions,
+}: {
+  queryOptions?: Omit<
     ReturnType<typeof treatmentsQueryOptions>,
     "queryFn" | "queryKey"
-  > = {},
-) {
+  >;
+  fetchOptions?: Options<GetApiTreatmentsData, true>;
+} = {}) {
   return useSuspenseQuery({
-    ...treatmentsQueryOptions(),
-    ...options,
+    ...treatmentsQueryOptions(fetchOptions),
+    ...queryOptions,
   });
 }
 

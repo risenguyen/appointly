@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -56,10 +55,9 @@ function CreateTreatmentForm({ setOpen }: CreateTreatmentFormProps) {
     },
   });
 
-  const onSubmit = useCallback(
-    (data: CreateTreatmentInput) => createTreatment.mutate(data),
-    [createTreatment],
-  );
+  function onSubmit(data: CreateTreatmentInput) {
+    createTreatment.mutate(data);
+  }
 
   return (
     <Form {...form}>

@@ -51,11 +51,6 @@ function ThemeContextProvider({
     [setTheme],
   );
 
-  const value: ThemeContextValue = {
-    theme,
-    toggleTheme,
-  };
-
   useEffect(() => {
     localStorage.setItem(storageKey, theme);
     const root = document.documentElement;
@@ -71,8 +66,15 @@ function ThemeContextProvider({
   }, [theme, storageKey]);
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        toggleTheme,
+      }}
+    >
+      {children}
+    </ThemeContext.Provider>
   );
 }
 
-export { ThemeContextProvider, useTheme };
+export { useTheme, ThemeContextProvider };

@@ -8,6 +8,16 @@ export type CreateTreatmentRequest = {
   treatmentType: TreatmentType;
 };
 
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  token: string;
+  expiresAt: string;
+};
+
 export type ProblemDetails = {
   type?: string | null;
   title?: string | null;
@@ -45,6 +55,33 @@ export type ValidationProblemDetails = {
     [key: string]: Array<string>;
   };
 };
+
+export type PostApiAuthLoginData = {
+  body: LoginRequest;
+  path?: never;
+  query?: never;
+  url: "/api/Auth/login";
+};
+
+export type PostApiAuthLoginErrors = {
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+};
+
+export type PostApiAuthLoginError =
+  PostApiAuthLoginErrors[keyof PostApiAuthLoginErrors];
+
+export type PostApiAuthLoginResponses = {
+  /**
+   * OK
+   */
+  200: LoginResponse;
+};
+
+export type PostApiAuthLoginResponse =
+  PostApiAuthLoginResponses[keyof PostApiAuthLoginResponses];
 
 export type GetApiTreatmentsData = {
   body?: never;

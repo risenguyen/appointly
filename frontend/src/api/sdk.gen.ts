@@ -6,6 +6,9 @@ import type {
   Client,
 } from "@hey-api/client-fetch";
 import type {
+  PostApiAuthLoginData,
+  PostApiAuthLoginResponse,
+  PostApiAuthLoginError,
   GetApiTreatmentsData,
   GetApiTreatmentsResponse,
   PostApiTreatmentsData,
@@ -37,6 +40,23 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+export const postApiAuthLogin = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiAuthLoginData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiAuthLoginResponse,
+    PostApiAuthLoginError,
+    ThrowOnError
+  >({
+    url: "/api/Auth/login",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
 };
 
 export const getApiTreatments = <ThrowOnError extends boolean = false>(

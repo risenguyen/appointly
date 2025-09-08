@@ -21,9 +21,8 @@ public class AuthController(
     private readonly IConfiguration _configuration = configuration;
 
     [HttpPost("login")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesDefaultResponseType]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var user = await _userManager.FindByEmailAsync(loginRequest.Email);
