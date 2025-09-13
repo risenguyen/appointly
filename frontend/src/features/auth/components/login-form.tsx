@@ -1,5 +1,8 @@
+import { useAuth } from "@/context/auth-context";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
+import { LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +20,13 @@ type LoginInput = {
 };
 
 function LoginForm() {
+  const { login, isLoading } = useAuth();
+
+  const navigate = useNavigate();
+  const search = useSearch({
+    from: "/(auth)/login",
+  });
+
   const form = useForm<LoginInput>({
     defaultValues: {
       email: "",
@@ -24,8 +34,26 @@ function LoginForm() {
     },
   });
 
-  function onSubmit(data: LoginInput) {
-    console.log(data);
+  async function onSubmit({ email, password }: LoginInput) {
+    const error = await login(email, password);
+    if (error) {
+      form.setError("email", {
+        type: "manual",
+        message: error.detail || "Something went wrong!",
+      });
+      form.setError("password", {
+        type: "manual",
+        message: error.detail || "Something went wrong!",
+      });
+    }
+
+    if (!error) {
+      const path = search.redirect ? new URL(search.redirect).pathname : "/app";
+      navigate({
+        from: "/login",
+        to: path,
+      });
+    }
   }
 
   return (
@@ -66,9 +94,7 @@ function LoginForm() {
           )}
         />
         <Button className="w-full text-sm">
-          {/* {createTreatment.isPending ? (
-            <LoaderCircle className="animate-spin" />
-          ) : null} */}
+          {isLoading ? <LoaderCircle className="animate-spin" /> : null}
           Login
         </Button>
       </form>

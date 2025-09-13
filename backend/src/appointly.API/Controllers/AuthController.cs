@@ -21,14 +21,18 @@ public class AuthController(
     private readonly IConfiguration _configuration = configuration;
 
     [HttpPost("login")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var user = await _userManager.FindByEmailAsync(loginRequest.Email);
         if (user == null)
         {
-            return Unauthorized(new { message = "Invalid email or password." });
+            return Problem(
+                detail: "Invalid email or password.",
+                statusCode: StatusCodes.Status401Unauthorized,
+                title: "Unauthorized"
+            );
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(
@@ -38,7 +42,11 @@ public class AuthController(
         );
         if (!result.Succeeded)
         {
-            return Unauthorized(new { message = "Invalid email or password." });
+            return Problem(
+                detail: "Invalid email or password.",
+                statusCode: StatusCodes.Status401Unauthorized,
+                title: "Unauthorized"
+            );
         }
 
         var token = GenerateJwtToken(user);

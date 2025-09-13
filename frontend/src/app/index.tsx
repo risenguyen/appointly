@@ -5,11 +5,13 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { Toaster } from "@/components/ui/sonner";
 import { ThemeContextProvider } from "@/context/theme-context";
+import { useAuth, AuthContextProvider } from "@/context/auth-context";
 
 import { client } from "@/api/client.gen";
 import { configureClient } from "@/lib/configure-client";
+
+import { Toaster } from "@/components/ui/sonner";
 
 // Configure API client
 configureClient(client);
@@ -29,7 +31,8 @@ const router = createRouter({
   defaultPendingMs: 0,
   scrollRestoration: true,
   context: {
-    queryClient: queryClient, // Inject queryClient
+    queryClient,
+    auth: undefined,
   },
 });
 
@@ -40,16 +43,34 @@ declare module "@tanstack/react-router" {
   }
 }
 
+function InnerApp() {
+  const auth = useAuth();
+
+  return (
+    <>
+      <Toaster />
+      <RouterProvider
+        context={{
+          queryClient,
+          auth,
+        }}
+        router={router}
+      />
+      <ReactQueryDevtools />
+      <TanStackRouterDevtools router={router} />
+    </>
+  );
+}
+
 function App() {
   return (
-    <ThemeContextProvider>
-      <Toaster />
-      <QueryClientProvider client={queryClient}>
-        {/* <ReactQueryDevtools />
-        <TanStackRouterDevtools router={router} /> */}
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </ThemeContextProvider>
+    <AuthContextProvider>
+      <ThemeContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <InnerApp />
+        </QueryClientProvider>
+      </ThemeContextProvider>
+    </AuthContextProvider>
   );
 }
 

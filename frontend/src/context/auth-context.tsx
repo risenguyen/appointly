@@ -1,11 +1,13 @@
-import { postApiAuthLogin } from "@/api";
 import {
   createContext,
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
+
+import { postApiAuthLogin, ProblemDetails } from "@/api";
 
 type AuthState = {
   token: string | null;
@@ -15,7 +17,8 @@ type AuthState = {
 type AuthContextValue = {
   auth: AuthState;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => void;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void | ProblemDetails>;
   logout: () => void;
 };
 
@@ -39,28 +42,38 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     const storedExpiresAt = localStorage.getItem("expiresAt");
     return {
       token: storedToken,
-      expiresAt: storedExpiresAt ? Number(storedExpiresAt) : null,
+      expiresAt: storedExpiresAt ? Date.parse(storedExpiresAt) : null,
     };
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const isAuthenticated =
     !!auth.token && !!auth.expiresAt && Date.now() < auth.expiresAt;
 
   const login = useCallback<AuthContextValue["login"]>(
     async (email, password) => {
-      const {
-        data: { token, expiresAt },
-      } = await postApiAuthLogin({
+      setIsLoading(true);
+      const { data, error } = await postApiAuthLogin({
         body: {
           email,
           password,
         },
-        throwOnError: true,
       });
-      setAuth({
-        token,
-        expiresAt: Number(expiresAt),
-      });
+      setIsLoading(false);
+
+      if (data) {
+        setAuth({
+          token: data.token,
+          expiresAt: Date.parse(data.expiresAt),
+        });
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("expiresAt", data.expiresAt);
+      }
+
+      if (error) {
+        return error;
+      }
     },
     [],
   );
@@ -74,11 +87,21 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     localStorage.removeItem("expiresAt");
   }, []);
 
+  useEffect(() => {
+    if (auth.expiresAt && Date.now() < auth.expiresAt) {
+      const timeout = setTimeout(logout, auth.expiresAt - Date.now());
+      return () => clearTimeout(timeout);
+    } else {
+      logout();
+    }
+  }, [auth.expiresAt, logout]);
+
   return (
     <AuthContext.Provider
       value={{
         auth,
         isAuthenticated,
+        isLoading,
         login,
         logout,
       }}
@@ -88,4 +111,4 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   );
 }
 
-export { useAuth, AuthContextProvider };
+export { useAuth, AuthContextProvider, type AuthContextValue };
