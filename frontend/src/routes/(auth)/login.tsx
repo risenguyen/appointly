@@ -5,6 +5,7 @@ export const Route = createFileRoute("/(auth)/login")({
   component: RouteComponent,
   beforeLoad({ context: { auth } }) {
     if (auth?.isAuthenticated) {
+      console.log("AUTHENTICATED");
       throw redirect({
         to: "/app",
       });

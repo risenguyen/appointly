@@ -1,12 +1,14 @@
 using appointly.BLL.DTOs.Treatments;
 using appointly.BLL.Services.IServices;
 using Ardalis.Result.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace appointly.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TreatmentsController(ITreatmentService treatmentService) : ControllerBase
 {
     private readonly ITreatmentService _treatmentService = treatmentService;

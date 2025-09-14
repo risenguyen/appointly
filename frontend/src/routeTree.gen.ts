@@ -8,15 +8,15 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './app/routes/__root'
-import { Route as AppRouteRouteImport } from './app/routes/app/route'
-import { Route as IndexRouteImport } from './app/routes/index'
-import { Route as AppIndexRouteImport } from './app/routes/app/index'
-import { Route as AppTreatmentsRouteImport } from './app/routes/app/treatments'
-import { Route as AppEmployeesRouteImport } from './app/routes/app/employees'
-import { Route as AppClientsRouteImport } from './app/routes/app/clients'
-import { Route as AppAppointmentsRouteImport } from './app/routes/app/appointments'
-import { Route as authLoginRouteImport } from './app/routes/(auth)/login'
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteRouteImport } from './routes/app/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as AppTreatmentsRouteImport } from './routes/app/treatments'
+import { Route as AppEmployeesRouteImport } from './routes/app/employees'
+import { Route as AppClientsRouteImport } from './routes/app/clients'
+import { Route as AppAppointmentsRouteImport } from './routes/app/appointments'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',

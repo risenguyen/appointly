@@ -1,12 +1,13 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import type { NavLink } from "@/lib/tanstack-router";
 
 import { useMemo, type ReactNode } from "react";
+import { useAuth } from "@/context/auth-context";
 import { useTheme } from "@/context/theme-context";
 
 import { TbMenu } from "react-icons/tb";
 import { RxGithubLogo } from "react-icons/rx";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, LogOut } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -18,6 +19,17 @@ import {
   DrawerDescription,
   DrawerClose,
 } from "@/components/ui/drawer";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 function MobileNav({ navLinks }: { navLinks: Array<NavLink> }) {
   return (
@@ -60,7 +72,9 @@ function DesktopNav({ navLinks }: { navLinks: Array<NavLink> }) {
 }
 
 function AppLayout({ children }: { children: ReactNode }) {
+  const { logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   const navLinks = useMemo<Array<NavLink>>(
     () => [
@@ -124,7 +138,7 @@ function AppLayout({ children }: { children: ReactNode }) {
 
           <div className="flex items-center gap-0.5">
             <Button
-              aria-label="Link to developer's GitHub"
+              aria-label="Visit Developer's Github Profile"
               asChild
               size="icon"
               variant="ghost"
@@ -146,6 +160,35 @@ function AppLayout({ children }: { children: ReactNode }) {
             >
               {theme === "light" ? <Sun /> : <Moon />}
             </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button aria-label="Log Out" size="icon" variant="ghost">
+                  <LogOut />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Log Out?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to log out? You will need to sign in
+                    again to access your account.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      logout();
+                      navigate({
+                        to: "/login",
+                      });
+                    }}
+                  >
+                    Log Out
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </header>
 

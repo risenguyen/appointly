@@ -45,9 +45,7 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
       expiresAt: storedExpiresAt ? Date.parse(storedExpiresAt) : null,
     };
   });
-
   const [isLoading, setIsLoading] = useState(false);
-
   const isAuthenticated =
     !!auth.token && !!auth.expiresAt && Date.now() < auth.expiresAt;
 
@@ -89,7 +87,9 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   useEffect(() => {
     if (auth.expiresAt && Date.now() < auth.expiresAt) {
-      const timeout = setTimeout(logout, auth.expiresAt - Date.now());
+      const timeout = setTimeout(() => {
+        logout();
+      }, auth.expiresAt - Date.now());
       return () => clearTimeout(timeout);
     } else {
       logout();
