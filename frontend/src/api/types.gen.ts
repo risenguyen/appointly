@@ -65,6 +65,10 @@ export type PostApiAuthLoginData = {
 
 export type PostApiAuthLoginErrors = {
   /**
+   * Bad Request
+   */
+  400: ValidationProblemDetails;
+  /**
    * Unauthorized
    */
   401: ProblemDetails;
