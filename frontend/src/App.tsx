@@ -56,8 +56,12 @@ function InnerApp() {
         }}
         router={router}
       />
-      <ReactQueryDevtools />
-      <TanStackRouterDevtools router={router} />
+      {import.meta.env.DEV && (
+        <>
+          <ReactQueryDevtools />
+          <TanStackRouterDevtools router={router} />
+        </>
+      )}
     </>
   );
 }
