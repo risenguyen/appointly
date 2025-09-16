@@ -17,7 +17,7 @@ function RouteComponent() {
   return (
     <div className="flex h-dvh w-screen flex-col items-center justify-center">
       <div className="absolute top-4 left-6 text-lg font-medium">appointly</div>
-      <div className="mb-auto pt-5"></div>
+      <div className="mb-auto pt-4"></div>
       <div className="w-full max-w-md px-6">
         <LoginForm />
       </div>
