@@ -1,8 +1,9 @@
 @font-face {
-  font-family: "SF Pro", sans-serif;
+  font-family: "SF Pro";
   src: url("/fonts/SF-Pro.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @import "tailwindcss";
@@ -54,7 +55,6 @@
 
 :root {
   --radius: 0.625rem;
-  font-family: "SF Pro";
 }
 
 [data-theme="light"] {
