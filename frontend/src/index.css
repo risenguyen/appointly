@@ -47,7 +47,7 @@
 
 @font-face {
   font-family: "SF Pro", sans-serif;
-  src: url(./assets/SF-Pro.ttf);
+  src: url(/SF-Pro.ttf);
 }
 
 :root {
