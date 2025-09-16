@@ -1,6 +1,6 @@
 @font-face {
   font-family: "SF Pro", sans-serif;
-  src: url(../public/SF-Pro.ttf);
+  src: url(../public/SF-Pro.ttf) format("truetype");
 }
 
 @import "tailwindcss";
