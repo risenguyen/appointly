@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const THEME_COLOR_LIGHT = "#ffffff";
-const THEME_COLOR_DARK = "hsl(0 0% 14.5%)";
+const THEME_COLOR_DARK = "oklch(0.145 0 0)";
 
 export const useThemeEffect = (theme: string) => {
   useEffect(() => {
