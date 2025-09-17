@@ -6,6 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useThemeEffect } from "../hooks/use-theme-effect";
 
 type Theme = "light" | "dark";
 
@@ -42,6 +43,8 @@ function ThemeContextProvider({
     }
     return defaultTheme;
   });
+
+  useThemeEffect(theme);
 
   const toggleTheme = useCallback(
     () =>
