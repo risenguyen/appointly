@@ -106,8 +106,8 @@ function AppLayout({ children }: { children: ReactNode }) {
   );
 
   return (
-    <ScrollArea className="h-screen transition-all" type="scroll">
-      <div className="container mx-auto flex min-h-screen flex-col">
+    <ScrollArea className="h-dvh transition-all" type="scroll">
+      <div className="container mx-auto flex min-h-dvh flex-col">
         <header className="flex items-center justify-between p-8">
           <div className="flex items-center gap-4">
             <Drawer autoFocus>
