@@ -24,6 +24,7 @@ function configureClient(client: Client) {
       throw request;
     }
 
+    console.log("YES TOKEN", token);
     request.headers.set("Authorization", `Bearer ${token}`);
     return request;
   });
