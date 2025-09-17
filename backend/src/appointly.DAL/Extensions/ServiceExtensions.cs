@@ -1,4 +1,5 @@
 using appointly.DAL.Context;
+using appointly.DAL.Data;
 using appointly.DAL.Repositories;
 using appointly.DAL.Repositories.IRepositories;
 using Microsoft.AspNetCore.Identity;
@@ -21,5 +22,6 @@ public static class ServiceExtensions
             .AddDefaultTokenProviders();
 
         services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+        services.AddScoped<DataSeeder>();
     }
 }
