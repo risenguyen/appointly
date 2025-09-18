@@ -7,7 +7,11 @@ import {
   useState,
 } from "react";
 
-import { postApiAuthLogin, ProblemDetails } from "@/api";
+import {
+  type LoginResponse,
+  postApiAuthLogin,
+  type PostApiAuthLoginError,
+} from "@/api";
 
 type AuthState = {
   token: string | null;
@@ -18,7 +22,19 @@ type AuthContextValue = {
   auth: AuthState;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void | ProblemDetails>;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<
+    | {
+        data: LoginResponse;
+        error: null;
+      }
+    | {
+        data: null;
+        error: PostApiAuthLoginError;
+      }
+  >;
   logout: () => void;
 };
 
@@ -67,11 +83,14 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
         });
         localStorage.setItem("token", data.token);
         localStorage.setItem("expiresAt", data.expiresAt);
+
+        return { data, error: null };
       }
 
-      if (error) {
-        return error;
-      }
+      return {
+        data: null,
+        error,
+      };
     },
     [],
   );

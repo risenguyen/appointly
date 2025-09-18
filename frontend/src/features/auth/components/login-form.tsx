@@ -35,23 +35,24 @@ function LoginForm() {
   });
 
   async function onSubmit({ email, password }: LoginInput) {
-    const error = await login(email, password);
-    if (error) {
-      form.setError("email", {
-        type: "manual",
-        message: error.detail || "Something went wrong!",
-      });
-      form.setError("password", {
-        type: "manual",
-        message: error.detail || "Something went wrong!",
-      });
-    }
+    const { error } = await login(email, password);
 
     if (!error) {
       const path = search.redirect ? new URL(search.redirect).pathname : "/app";
       navigate({
         from: "/login",
         to: path,
+      });
+    }
+
+    if (error) {
+      form.setError("email", {
+        type: "manual",
+        message: "Invalid email or password.",
+      });
+      form.setError("password", {
+        type: "manual",
+        message: "Invalid email or password.",
       });
     }
   }
