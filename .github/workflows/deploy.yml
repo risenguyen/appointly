@@ -1,0 +1,40 @@
+name: Build and Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push Docker image to ACR
+        run: |
+          az acr build --registry ${{ secrets.AZURE_CONTAINER_REGISTRY }} --image appointly-backend:latest .
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          images: "${{ secrets.AZURE_CONTAINER_REGISTRY }}/appointly-backend:latest"
+
+      - name: Log out from Azure
+        if: always()
+        run: az logout
