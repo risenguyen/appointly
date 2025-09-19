@@ -1,6 +1,6 @@
 namespace appointly.DAL.Entities;
 
-public class Employee
+public class Staff
 {
     public int Id { get; set; }
     public required string FirstName { get; set; }
