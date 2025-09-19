@@ -11,11 +11,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./backend
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,15 +20,19 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Log in to Azure Container Registry
+        run: az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+
       - name: Build and push Docker image to ACR
         run: |
-          az acr build --registry ${{ secrets.AZURE_CONTAINER_REGISTRY }} --image appointly-backend:latest .
+          docker build ./backend -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/appointly-backend:${{ github.sha }}
+          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/appointly-backend:${{ github.sha }}
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-          images: "${{ secrets.AZURE_CONTAINER_REGISTRY }}/appointly-backend:latest"
+          images: "${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/appointly-backend:${{ github.sha }}"
 
       - name: Log out from Azure
         if: always()
