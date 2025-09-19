@@ -32,7 +32,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-          images: "${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/appointly-backend:${{ github.sha }}"
+          images: "${{ secrets.AZURE_CONTAINER_REGISTRY }}/appointly-backend:${{ github.sha }}"
 
       - name: Log out from Azure
         if: always()
