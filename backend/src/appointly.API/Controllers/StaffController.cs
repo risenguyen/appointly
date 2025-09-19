@@ -4,7 +4,4 @@ namespace appointly.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class StaffController : ControllerBase
-{
-    public async Task CreateStaff(CancellationToken cancellationToken) { }
-}
+public class StaffController : ControllerBase { }

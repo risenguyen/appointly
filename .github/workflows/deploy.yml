@@ -25,8 +25,8 @@ jobs:
 
       - name: Build and push Docker image to ACR
         run: |
-          docker build ./backend -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/appointly-backend:${{ github.sha }}
-          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/appointly-backend:${{ github.sha }}
+          docker build ./backend -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}/appointly-backend:${{ github.sha }}
+          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}/appointly-backend:${{ github.sha }}
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
