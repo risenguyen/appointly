@@ -3,29 +3,33 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import DrawerDialog from "@/components/shared/drawer-dialog";
+import ContentLayout from "./-layouts/content-layout";
+import CreateStaffForm from "@/features/staff/components/create-staff-form";
 
 export const Route = createFileRoute("/app/staff")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [open, setOpen] = useState(false);
+  const [createStaffOpen, setCreateStaffOpen] = useState(false);
 
   return (
-    <div className="flex min-h-full w-full flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-medium">Staff</h1>
+    <ContentLayout
+      title="Staff"
+      action={
         <DrawerDialog
-          open={open}
-          onOpenChange={setOpen}
+          open={createStaffOpen}
+          onOpenChange={setCreateStaffOpen}
           trigger={<Button size="sm">Create Staff</Button>}
           title="Create Staff"
-          description="
-Fill in the details for the new staff."
+          description="Fill in the details for the new staff member."
         >
-          TODO
+          <CreateStaffForm setOpen={setCreateStaffOpen} />
         </DrawerDialog>
-      </div>
-    </div>
+      }
+    >
+      {/* No staff members to display yet */}
+      <></>
+    </ContentLayout>
   );
 }

@@ -9,4 +9,5 @@ public interface IStaffService
         CreateStaffRequest createStaffRequest,
         CancellationToken cancellationToken
     );
+    Task<Result<List<StaffResponse>>> GetStaffAsync(CancellationToken cancellationToken);
 }

@@ -22,4 +22,14 @@ public class StaffController(IStaffService staffService) : ControllerBase
         var result = await _staffService.CreateStaffAsync(createStaffRequest, cancellationToken);
         return result.ToActionResult(this);
     }
+
+    [HttpGet]
+    [ProducesResponseType<List<StaffResponse>>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<StaffResponse>>> GetStaff(
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await _staffService.GetStaffAsync(cancellationToken);
+        return result.ToActionResult(this);
+    }
 }

@@ -9,6 +9,11 @@ import type {
   PostApiAuthLoginData,
   PostApiAuthLoginResponse,
   PostApiAuthLoginError,
+  GetApiStaffData,
+  GetApiStaffResponse,
+  PostApiStaffData,
+  PostApiStaffResponse,
+  PostApiStaffError,
   GetApiTreatmentsData,
   GetApiTreatmentsResponse,
   PostApiTreatmentsData,
@@ -51,6 +56,36 @@ export const postApiAuthLogin = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/api/Auth/login",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const getApiStaff = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiStaffData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiStaffResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: "/api/Staff",
+    ...options,
+  });
+};
+
+export const postApiStaff = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiStaffData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostApiStaffResponse,
+    PostApiStaffError,
+    ThrowOnError
+  >({
+    url: "/api/Staff",
     ...options,
     headers: {
       "Content-Type": "application/json",

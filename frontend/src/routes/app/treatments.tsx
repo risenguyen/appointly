@@ -9,6 +9,7 @@ import DrawerDialog from "@/components/shared/drawer-dialog";
 
 import CreateTreatmentForm from "@/features/treatments/components/create-treatment-form";
 import TreatmentList from "@/features/treatments/components/treatment-list";
+import ContentLayout from "./-layouts/content-layout";
 
 export const Route = createFileRoute("/app/treatments")({
   component: RouteComponent,
@@ -54,9 +55,9 @@ function RouteComponent() {
   const [createTreatmentOpen, setCreateTreatmentOpen] = useState(false);
 
   return (
-    <div className="flex min-h-full w-full flex-1 flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-medium">Treatments</h1>
+    <ContentLayout
+      title="Treatments"
+      action={
         <DrawerDialog
           open={createTreatmentOpen}
           onOpenChange={setCreateTreatmentOpen}
@@ -66,11 +67,9 @@ function RouteComponent() {
         >
           <CreateTreatmentForm setOpen={setCreateTreatmentOpen} />
         </DrawerDialog>
-      </div>
-
-      <div className="flex max-w-full flex-1 flex-col">
-        <TreatmentList />
-      </div>
-    </div>
+      }
+    >
+      <TreatmentList />
+    </ContentLayout>
   );
 }

@@ -64,6 +64,7 @@ function useCreateTreatment(
 ) {
   const queryClient = useQueryClient();
   const { onSuccess, ...restOptions } = options;
+
   return useMutation({
     mutationFn: async ({
       name,
