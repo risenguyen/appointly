@@ -166,7 +166,7 @@ function TreatmentList() {
       ).map(([category, treatments]) => (
         <li key={category} className="flex flex-col gap-2">
           <div className="text-xl font-medium">{category}</div>
-          <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
             {treatments.map((treatment) => (
               <TreatmentItem key={treatment.id} treatment={treatment} />
             ))}

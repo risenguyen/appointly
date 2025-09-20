@@ -13,7 +13,7 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppTreatmentsRouteImport } from './routes/app/treatments'
-import { Route as AppEmployeesRouteImport } from './routes/app/employees'
+import { Route as AppStaffRouteImport } from './routes/app/staff'
 import { Route as AppClientsRouteImport } from './routes/app/clients'
 import { Route as AppAppointmentsRouteImport } from './routes/app/appointments'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
@@ -38,9 +38,9 @@ const AppTreatmentsRoute = AppTreatmentsRouteImport.update({
   path: '/treatments',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppEmployeesRoute = AppEmployeesRouteImport.update({
-  id: '/employees',
-  path: '/employees',
+const AppStaffRoute = AppStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppClientsRoute = AppClientsRouteImport.update({
@@ -65,7 +65,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof authLoginRoute
   '/app/appointments': typeof AppAppointmentsRoute
   '/app/clients': typeof AppClientsRoute
-  '/app/employees': typeof AppEmployeesRoute
+  '/app/staff': typeof AppStaffRoute
   '/app/treatments': typeof AppTreatmentsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -74,7 +74,7 @@ export interface FileRoutesByTo {
   '/login': typeof authLoginRoute
   '/app/appointments': typeof AppAppointmentsRoute
   '/app/clients': typeof AppClientsRoute
-  '/app/employees': typeof AppEmployeesRoute
+  '/app/staff': typeof AppStaffRoute
   '/app/treatments': typeof AppTreatmentsRoute
   '/app': typeof AppIndexRoute
 }
@@ -85,7 +85,7 @@ export interface FileRoutesById {
   '/(auth)/login': typeof authLoginRoute
   '/app/appointments': typeof AppAppointmentsRoute
   '/app/clients': typeof AppClientsRoute
-  '/app/employees': typeof AppEmployeesRoute
+  '/app/staff': typeof AppStaffRoute
   '/app/treatments': typeof AppTreatmentsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -97,7 +97,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/appointments'
     | '/app/clients'
-    | '/app/employees'
+    | '/app/staff'
     | '/app/treatments'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -106,7 +106,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/appointments'
     | '/app/clients'
-    | '/app/employees'
+    | '/app/staff'
     | '/app/treatments'
     | '/app'
   id:
@@ -116,7 +116,7 @@ export interface FileRouteTypes {
     | '/(auth)/login'
     | '/app/appointments'
     | '/app/clients'
-    | '/app/employees'
+    | '/app/staff'
     | '/app/treatments'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -157,11 +157,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTreatmentsRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/employees': {
-      id: '/app/employees'
-      path: '/employees'
-      fullPath: '/app/employees'
-      preLoaderRoute: typeof AppEmployeesRouteImport
+    '/app/staff': {
+      id: '/app/staff'
+      path: '/staff'
+      fullPath: '/app/staff'
+      preLoaderRoute: typeof AppStaffRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/clients': {
@@ -191,7 +191,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteRouteChildren {
   AppAppointmentsRoute: typeof AppAppointmentsRoute
   AppClientsRoute: typeof AppClientsRoute
-  AppEmployeesRoute: typeof AppEmployeesRoute
+  AppStaffRoute: typeof AppStaffRoute
   AppTreatmentsRoute: typeof AppTreatmentsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -199,7 +199,7 @@ interface AppRouteRouteChildren {
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAppointmentsRoute: AppAppointmentsRoute,
   AppClientsRoute: AppClientsRoute,
-  AppEmployeesRoute: AppEmployeesRoute,
+  AppStaffRoute: AppStaffRoute,
   AppTreatmentsRoute: AppTreatmentsRoute,
   AppIndexRoute: AppIndexRoute,
 }

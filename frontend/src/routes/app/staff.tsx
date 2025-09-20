@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import DrawerDialog from "@/components/shared/drawer-dialog";
 
-export const Route = createFileRoute("/app/employees")({
+export const Route = createFileRoute("/app/staff")({
   component: RouteComponent,
 });
 
@@ -14,14 +14,14 @@ function RouteComponent() {
   return (
     <div className="flex min-h-full w-full flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-medium">Employees</h1>
+        <h1 className="text-2xl font-medium">Staff</h1>
         <DrawerDialog
           open={open}
           onOpenChange={setOpen}
-          trigger={<Button size="sm">Create Employee</Button>}
-          title="Create Employee"
+          trigger={<Button size="sm">Create Staff</Button>}
+          title="Create Staff"
           description="
-Fill in the details for the new employee."
+Fill in the details for the new staff."
         >
           TODO
         </DrawerDialog>
