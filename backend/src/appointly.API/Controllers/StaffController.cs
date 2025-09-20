@@ -1,12 +1,14 @@
 using appointly.BLL.DTOs.Staff;
 using appointly.BLL.Services.IServices;
 using Ardalis.Result.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace appointly.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class StaffController(IStaffService staffService) : ControllerBase
 {
     private readonly IStaffService _staffService = staffService;

@@ -12,6 +12,8 @@ public static class ServiceExtensions
     public static void AddBLL(this IServiceCollection services)
     {
         services.AddScoped<ITreatmentService, TreatmentService>();
+        services.AddScoped<IStaffService, StaffService>();
+
         services.AddValidatorsFromAssembly(Assembly.Load("appointly.BLL"));
         services.AddFluentValidationAutoValidation();
     }

@@ -21,5 +21,6 @@ public static class ServiceExtensions
             .AddDefaultTokenProviders();
 
         services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+        services.AddScoped<IStaffRepository, StaffRepository>();
     }
 }
