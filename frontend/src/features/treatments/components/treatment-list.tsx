@@ -149,30 +149,38 @@ function TreatmentList() {
     );
   }
 
+  const groupedTreatments = treatments.reduce(
+    (hash, treatment) => {
+      const category = treatmentTypeMap[treatment.treatmentType];
+      if (!hash[category]) {
+        hash[category] = [];
+      }
+      hash[category].push(treatment);
+      return hash;
+    },
+    {} as Record<TreatmentTypeString, TreatmentResponse[]>,
+  );
+
+  const categoryOrder: TreatmentTypeString[] = ["Hair", "Nails", "Massages"];
+
   return (
     <ul className="flex flex-col gap-8">
-      {Object.entries(
-        treatments.reduce(
-          (hash, treatment) => {
-            const category = treatmentTypeMap[treatment.treatmentType];
-            if (!hash[category]) {
-              hash[category] = [];
-            }
-            hash[category].push(treatment);
-            return hash;
-          },
-          {} as Record<TreatmentTypeString, TreatmentResponse[]>,
-        ),
-      ).map(([category, treatments]) => (
-        <li key={category} className="flex flex-col gap-2">
-          <div className="text-xl font-medium">{category}</div>
-          <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
-            {treatments.map((treatment) => (
-              <TreatmentItem key={treatment.id} treatment={treatment} />
-            ))}
-          </ul>
-        </li>
-      ))}
+      {categoryOrder.map((category) => {
+        const categoryTreatments = groupedTreatments[category];
+        if (!categoryTreatments || categoryTreatments.length === 0) {
+          return null;
+        }
+        return (
+          <li key={category} className="flex flex-col gap-2">
+            <div className="text-xl font-medium">{category}</div>
+            <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+              {categoryTreatments.map((treatment) => (
+                <TreatmentItem key={treatment.id} treatment={treatment} />
+              ))}
+            </ul>
+          </li>
+        );
+      })}
     </ul>
   );
 }

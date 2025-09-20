@@ -1,6 +1,14 @@
 import { useStaff } from "../api/use-staff";
 import type { StaffResponse } from "@/api";
 
+function formatPhoneNumber(phoneNumber: string) {
+  const cleaned = phoneNumber.replace(/\D/g, "");
+  if (cleaned.length === 10) {
+    return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+  }
+  return phoneNumber;
+}
+
 function StaffItem({ staffMember }: { staffMember: StaffResponse }) {
   return (
     <li className="bg-card-2 relative flex aspect-[1.9] w-full flex-col justify-between rounded-md p-6 md:aspect-[1.72] lg:aspect-[1.49] xl:aspect-[2] 2xl:aspect-[2.38]">
@@ -14,7 +22,9 @@ function StaffItem({ staffMember }: { staffMember: StaffResponse }) {
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-base">{staffMember.phone}</span>
+        <span className="text-muted-foreground">
+          {staffMember.phone ? formatPhoneNumber(staffMember.phone) : null}
+        </span>
       </div>
     </li>
   );

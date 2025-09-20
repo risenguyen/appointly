@@ -7,9 +7,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import DrawerDialog from "@/components/shared/drawer-dialog";
 
+import ContentLayout from "./-layouts/content-layout";
 import CreateTreatmentForm from "@/features/treatments/components/create-treatment-form";
 import TreatmentList from "@/features/treatments/components/treatment-list";
-import ContentLayout from "./-layouts/content-layout";
 
 export const Route = createFileRoute("/app/treatments")({
   component: RouteComponent,
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/app/treatments")({
   },
   pendingComponent: () => {
     return (
-      <div className="flex min-h-full w-full flex-col gap-8">
+      <div className="flex max-h-[calc(100dvh-140px)] w-full flex-1 flex-col gap-8 overflow-hidden">
         <div className="flex items-center justify-between">
           <Skeleton className="h-8 w-36" />
           <Skeleton className="h-8 w-36" />
