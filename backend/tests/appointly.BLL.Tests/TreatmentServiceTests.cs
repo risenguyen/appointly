@@ -174,7 +174,7 @@ public class TreatmentServiceTests
 
         // Assert
         Assert.Equal(ResultStatus.NotFound, result.Status);
-        Assert.Contains($"Treatment with ID {treatmentId} can not be found.", result.Errors);
+        Assert.Contains($"Treatment with ID {treatmentId} cannot be found.", result.Errors);
         _repository.Verify(
             r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
             Times.Once
@@ -235,7 +235,7 @@ public class TreatmentServiceTests
 
         // Assert
         Assert.Equal(ResultStatus.NotFound, result.Status);
-        Assert.Contains($"Treatment with ID {treatmentId} can not be found.", result.Errors);
+        Assert.Contains($"Treatment with ID {treatmentId} cannot be found.", result.Errors);
         _repository.Verify(
             r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
             Times.Once
@@ -292,7 +292,7 @@ public class TreatmentServiceTests
 
         // Assert
         Assert.Equal(ResultStatus.NotFound, result.Status);
-        Assert.Contains($"Treatment with ID {treatmentId} can not be found.", result.Errors);
+        Assert.Contains($"Treatment with ID {treatmentId} cannot be found.", result.Errors);
         _repository.Verify(
             r => r.GetTreatmentAsync(treatmentId, CancellationToken.None),
             Times.Once
@@ -305,7 +305,7 @@ public class TreatmentServiceTests
         // Arrange
         var treatments = new List<Treatment>
         {
-            new Treatment
+            new()
             {
                 Id = 1,
                 Name = "Treatment 1",
@@ -314,7 +314,7 @@ public class TreatmentServiceTests
                 DurationInMinutes = 10,
                 TreatmentType = TreatmentType.Hair,
             },
-            new Treatment
+            new()
             {
                 Id = 2,
                 Name = "Treatment 2",

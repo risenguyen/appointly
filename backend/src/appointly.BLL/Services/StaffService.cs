@@ -10,7 +10,7 @@ public class StaffService(IStaffRepository staffRepository) : IStaffService
 {
     private readonly IStaffRepository _staffRepository = staffRepository;
 
-    public async Task<Result<StaffResponse>> CreateStaffAsync(
+    public async Task<Result<StaffResponse>> CreateStaffMemberAsync(
         CreateStaffRequest createStaffRequest,
         CancellationToken cancellationToken
     )
@@ -22,7 +22,7 @@ public class StaffService(IStaffRepository staffRepository) : IStaffService
             Email = createStaffRequest.Email,
             Phone = createStaffRequest.Phone,
         };
-        var createdStaff = await _staffRepository.CreateStaffAsync(staff, cancellationToken);
+        var createdStaff = await _staffRepository.CreateStaffMemberAsync(staff, cancellationToken);
         var response = new StaffResponse()
         {
             Id = createdStaff.Id,
@@ -50,5 +50,70 @@ public class StaffService(IStaffRepository staffRepository) : IStaffService
             })
             .ToList();
         return Result.Success(response);
+    }
+
+    public async Task<Result<StaffResponse>> GetStaffMemberAsync(
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var staffMember = await _staffRepository.GetStaffMemberAsync(id, cancellationToken);
+        if (staffMember == null)
+        {
+            return Result.NotFound($"Staff member with ID {id} cannot be found.");
+        }
+
+        var response = new StaffResponse
+        {
+            Id = staffMember.Id,
+            FirstName = staffMember.FirstName,
+            LastName = staffMember.LastName,
+            Email = staffMember.Email,
+            Phone = staffMember.Phone,
+        };
+        return Result.Success(response);
+    }
+
+    public async Task<Result<StaffResponse>> UpdateStaffMemberAsync(
+        int id,
+        UpdateStaffRequest updateStaffRequest,
+        CancellationToken cancellationToken
+    )
+    {
+        var staffMemberToUpdate = await _staffRepository.GetStaffMemberAsync(id, cancellationToken);
+        if (staffMemberToUpdate == null)
+        {
+            return Result.NotFound($"Staff member with ID {id} cannot be found.");
+        }
+
+        staffMemberToUpdate.FirstName =
+            updateStaffRequest.FirstName ?? staffMemberToUpdate.FirstName;
+        staffMemberToUpdate.LastName = updateStaffRequest.LastName ?? staffMemberToUpdate.LastName;
+        staffMemberToUpdate.Email = updateStaffRequest.Email ?? staffMemberToUpdate.Email;
+        staffMemberToUpdate.Phone = updateStaffRequest.Phone ?? staffMemberToUpdate.Phone;
+
+        await _staffRepository.UpdateStaffMemberAsync(staffMemberToUpdate, cancellationToken);
+
+        var response = new StaffResponse
+        {
+            Id = staffMemberToUpdate.Id,
+            FirstName = staffMemberToUpdate.FirstName,
+            LastName = staffMemberToUpdate.LastName,
+            Email = staffMemberToUpdate.Email,
+            Phone = staffMemberToUpdate.Phone,
+        };
+        return Result.Success(response);
+    }
+
+    public async Task<Result> DeleteStaffMemberAsync(int id, CancellationToken cancellationToken)
+    {
+        var staffMember = await _staffRepository.GetStaffMemberAsync(id, cancellationToken);
+        if (staffMember == null)
+        {
+            return Result.NotFound($"Staff member with ID {id} cannot be found.");
+        }
+
+        await _staffRepository.DeleteStaffMemberAsync(staffMember, cancellationToken);
+        return Result.Success();
     }
 }

@@ -19,6 +19,20 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
         return treatment;
     }
 
+    public async Task<Treatment?> GetTreatmentAsync(int id, CancellationToken cancellationToken)
+    {
+        var treatment = await _context
+            .Treatments.AsNoTracking()
+            .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
+        return treatment;
+    }
+
+    public async Task<List<Treatment>> GetTreatmentsAsync(CancellationToken cancellationToken)
+    {
+        var treatments = await _context.Treatments.AsNoTracking().ToListAsync(cancellationToken);
+        return treatments;
+    }
+
     public async Task<Treatment> UpdateTreatmentAsync(
         Treatment treatment,
         CancellationToken cancellationToken
@@ -33,19 +47,5 @@ public class TreatmentRepository(ApplicationDbContext context) : ITreatmentRepos
     {
         _context.Treatments.Remove(treatment);
         await _context.SaveChangesAsync(cancellationToken);
-    }
-
-    public async Task<Treatment?> GetTreatmentAsync(int id, CancellationToken cancellationToken)
-    {
-        var treatment = await _context
-            .Treatments.AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
-        return treatment;
-    }
-
-    public async Task<List<Treatment>> GetTreatmentsAsync(CancellationToken cancellationToken)
-    {
-        var treatments = await _context.Treatments.AsNoTracking().ToListAsync(cancellationToken);
-        return treatments;
     }
 }

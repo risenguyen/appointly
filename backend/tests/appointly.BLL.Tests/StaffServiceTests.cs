@@ -19,7 +19,7 @@ public class StaffServiceTests
     }
 
     [Fact]
-    public async Task CreateStaffAsync_WithValidData_ShouldReturnCreatedResult()
+    public async Task CreateStaffMemberAsync_WithValidData_ShouldReturnCreatedResult()
     {
         // Arrange
         var createStaffRequest = new CreateStaffRequest
@@ -40,11 +40,13 @@ public class StaffServiceTests
         };
 
         _staffRepositoryMock
-            .Setup(repo => repo.CreateStaffAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()))
+            .Setup(repo =>
+                repo.CreateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>())
+            )
             .ReturnsAsync(staff);
 
         // Act
-        var result = await _staffService.CreateStaffAsync(
+        var result = await _staffService.CreateStaffMemberAsync(
             createStaffRequest,
             CancellationToken.None
         );
@@ -55,7 +57,7 @@ public class StaffServiceTests
         Assert.Equal(staff.Id, result.Value.Id);
         Assert.Equal(createStaffRequest.FirstName, result.Value.FirstName);
         _staffRepositoryMock.Verify(
-            repo => repo.CreateStaffAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()),
+            repo => repo.CreateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()),
             Times.Once
         );
     }
@@ -117,6 +119,259 @@ public class StaffServiceTests
         _staffRepositoryMock.Verify(
             repo => repo.GetStaffAsync(It.IsAny<CancellationToken>()),
             Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task GetStaffMemberAsync_WhenStaffExists_ShouldReturnStaffResponse()
+    {
+        // Arrange
+        var staff = new Staff
+        {
+            Id = 1,
+            FirstName = "John",
+            LastName = "Doe",
+            Email = "john.doe@example.com",
+            Phone = "1234567890",
+        };
+
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staff.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(staff);
+
+        // Act
+        var result = await _staffService.GetStaffMemberAsync(staff.Id, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Equal(staff.Id, result.Value.Id);
+        Assert.Equal(staff.FirstName, result.Value.FirstName);
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staff.Id, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task GetStaffMemberAsync_WhenStaffDoesNotExist_ShouldReturnNotFound()
+    {
+        // Arrange
+        var staffId = 1;
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Staff?)null);
+
+        // Act
+        var result = await _staffService.GetStaffMemberAsync(staffId, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task DeleteStaffMemberAsync_WhenStaffExists_ShouldReturnSuccess()
+    {
+        // Arrange
+        var staff = new Staff
+        {
+            Id = 1,
+            FirstName = "John",
+            LastName = "Doe",
+        };
+
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staff.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(staff);
+        _staffRepositoryMock
+            .Setup(repo => repo.DeleteStaffMemberAsync(staff, It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        // Act
+        var result = await _staffService.DeleteStaffMemberAsync(staff.Id, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staff.Id, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        _staffRepositoryMock.Verify(
+            repo => repo.DeleteStaffMemberAsync(staff, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task DeleteStaffMemberAsync_WhenStaffDoesNotExist_ShouldReturnNotFound()
+    {
+        // Arrange
+        var staffId = 1;
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Staff?)null);
+
+        // Act
+        var result = await _staffService.DeleteStaffMemberAsync(staffId, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        _staffRepositoryMock.Verify(
+            repo => repo.DeleteStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()),
+            Times.Never
+        );
+    }
+
+    [Fact]
+    public async Task UpdateStaffMemberAsync_WithValidData_ShouldReturnSuccessResult()
+    {
+        // Arrange
+        var staffId = 1;
+        var updateStaffRequest = new UpdateStaffRequest
+        {
+            FirstName = "Johnathan",
+            LastName = "Doe",
+            Email = "john.doe@example.com",
+            Phone = "1234567890",
+        };
+
+        var existingStaff = new Staff
+        {
+            Id = staffId,
+            FirstName = "John",
+            LastName = "Doe",
+            Email = "john.doe@example.com",
+            Phone = "1234567890",
+        };
+
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingStaff);
+
+        _staffRepositoryMock
+            .Setup(repo =>
+                repo.UpdateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>())
+            )
+            .ReturnsAsync(
+                (Staff staff, CancellationToken token) =>
+                {
+                    existingStaff.FirstName = staff.FirstName;
+                    return existingStaff;
+                }
+            );
+
+        // Act
+        var result = await _staffService.UpdateStaffMemberAsync(
+            staffId,
+            updateStaffRequest,
+            CancellationToken.None
+        );
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Equal(staffId, result.Value.Id);
+        Assert.Equal(updateStaffRequest.FirstName, result.Value.FirstName);
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        _staffRepositoryMock.Verify(
+            repo => repo.UpdateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task UpdateStaffMemberAsync_WithPartialData_ShouldUpdateOnlyProvidedFields()
+    {
+        // Arrange
+        var staffId = 1;
+        var updateStaffRequest = new UpdateStaffRequest { FirstName = "Johnathan" };
+
+        var existingStaff = new Staff
+        {
+            Id = staffId,
+            FirstName = "John",
+            LastName = "Doe",
+            Email = "john.doe@example.com",
+            Phone = "1234567890",
+        };
+
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingStaff);
+
+        _staffRepositoryMock
+            .Setup(repo =>
+                repo.UpdateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>())
+            )
+            .ReturnsAsync(
+                (Staff staff, CancellationToken token) =>
+                {
+                    existingStaff.FirstName = staff.FirstName;
+                    return existingStaff;
+                }
+            );
+
+        // Act
+        var result = await _staffService.UpdateStaffMemberAsync(
+            staffId,
+            updateStaffRequest,
+            CancellationToken.None
+        );
+
+        // Assert
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Equal(staffId, result.Value.Id);
+        Assert.Equal(updateStaffRequest.FirstName, result.Value.FirstName);
+        Assert.Equal(existingStaff.LastName, result.Value.LastName); // Should not change
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        _staffRepositoryMock.Verify(
+            repo => repo.UpdateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task UpdateStaffMemberAsync_WhenStaffDoesNotExist_ShouldReturnNotFound()
+    {
+        // Arrange
+        var staffId = 1;
+        var updateStaffRequest = new UpdateStaffRequest();
+
+        _staffRepositoryMock
+            .Setup(repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Staff?)null);
+
+        // Act
+        var result = await _staffService.UpdateStaffMemberAsync(
+            staffId,
+            updateStaffRequest,
+            CancellationToken.None
+        );
+
+        // Assert
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        _staffRepositoryMock.Verify(
+            repo => repo.GetStaffMemberAsync(staffId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        _staffRepositoryMock.Verify(
+            repo => repo.UpdateStaffMemberAsync(It.IsAny<Staff>(), It.IsAny<CancellationToken>()),
+            Times.Never
         );
     }
 }
