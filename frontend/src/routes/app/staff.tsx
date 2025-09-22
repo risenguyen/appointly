@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { treatmentsQueryOptions } from "@/features/treatments/api/use-treatments";
+import { staffQueryOptions } from "@/features/staff/api/use-staff";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import DrawerDialog from "@/components/shared/drawer-dialog";
 
 import ContentLayout from "./-layouts/content-layout";
-import CreateTreatmentForm from "@/features/treatments/components/create-treatment-form";
-import TreatmentList from "@/features/treatments/components/treatment-list";
+import CreateStaffForm from "@/features/staff/components/create-staff-form";
+import StaffList from "@/features/staff/components/staff-list";
 
-export const Route = createFileRoute("/app/treatments")({
+export const Route = createFileRoute("/app/staff")({
   component: RouteComponent,
   loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(treatmentsQueryOptions());
+    await queryClient.ensureQueryData(staffQueryOptions());
   },
   pendingComponent: () => {
     return (
@@ -52,24 +52,24 @@ export const Route = createFileRoute("/app/treatments")({
 });
 
 function RouteComponent() {
-  const [createTreatmentOpen, setCreateTreatmentOpen] = useState(false);
+  const [createStaffOpen, setCreateStaffOpen] = useState(false);
 
   return (
     <ContentLayout
-      title="Treatments"
+      title="Staff"
       action={
         <DrawerDialog
-          open={createTreatmentOpen}
-          onOpenChange={setCreateTreatmentOpen}
-          trigger={<Button size="sm">Create Treatment</Button>}
-          title="Create Treatment"
-          description="Fill in the details for the new treatment."
+          open={createStaffOpen}
+          onOpenChange={setCreateStaffOpen}
+          trigger={<Button size="sm">Create Staff Member</Button>}
+          title="Create Staff"
+          description="Fill in the details for the new staff member."
         >
-          <CreateTreatmentForm setOpen={setCreateTreatmentOpen} />
+          <CreateStaffForm setOpen={setCreateStaffOpen} />
         </DrawerDialog>
       }
     >
-      <TreatmentList />
+      <StaffList />
     </ContentLayout>
   );
 }

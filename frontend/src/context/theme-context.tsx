@@ -6,7 +6,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useThemeEffect } from "../hooks/use-theme-effect";
+
+const THEME_COLOR_LIGHT = "#ffffff";
+const THEME_COLOR_DARK = "oklch(0.145 0 0)";
 
 type Theme = "light" | "dark";
 
@@ -44,8 +46,6 @@ function ThemeContextProvider({
     return defaultTheme;
   });
 
-  useThemeEffect(theme);
-
   const toggleTheme = useCallback(
     () =>
       setTheme((previousTheme) =>
@@ -67,6 +67,18 @@ function ThemeContextProvider({
 
     return () => clearTimeout(timerId);
   }, [theme, storageKey]);
+
+  useEffect(() => {
+    const metaThemeColor = document.querySelector("meta[name='theme-color']");
+
+    if (metaThemeColor) {
+      if (theme === "light") {
+        metaThemeColor.setAttribute("content", THEME_COLOR_LIGHT);
+      } else if (theme === "dark") {
+        metaThemeColor.setAttribute("content", THEME_COLOR_DARK);
+      }
+    }
+  }, [theme]);
 
   return (
     <ThemeContext.Provider

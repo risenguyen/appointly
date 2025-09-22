@@ -98,8 +98,8 @@ function AppLayout({ children }: { children: ReactNode }) {
         label: "Treatments",
       },
       {
-        to: "/app/employees",
-        label: "Employees",
+        to: "/app/staff",
+        label: "Staff",
       },
     ],
     [],
