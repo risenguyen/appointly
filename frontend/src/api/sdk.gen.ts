@@ -14,6 +14,14 @@ import type {
   PostApiStaffData,
   PostApiStaffResponse,
   PostApiStaffError,
+  DeleteApiStaffByIdData,
+  DeleteApiStaffByIdError,
+  GetApiStaffByIdData,
+  GetApiStaffByIdResponse,
+  GetApiStaffByIdError,
+  PutApiStaffByIdData,
+  PutApiStaffByIdResponse,
+  PutApiStaffByIdError,
   GetApiTreatmentsData,
   GetApiTreatmentsResponse,
   PostApiTreatmentsData,
@@ -86,6 +94,49 @@ export const postApiStaff = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/api/Staff",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const deleteApiStaffById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiStaffByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    unknown,
+    DeleteApiStaffByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Staff/{id}",
+    ...options,
+  });
+};
+
+export const getApiStaffById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiStaffByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiStaffByIdResponse,
+    GetApiStaffByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Staff/{id}",
+    ...options,
+  });
+};
+
+export const putApiStaffById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiStaffByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PutApiStaffByIdResponse,
+    PutApiStaffByIdError,
+    ThrowOnError
+  >({
+    url: "/api/Staff/{id}",
     ...options,
     headers: {
       "Content-Type": "application/json",

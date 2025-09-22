@@ -61,7 +61,7 @@ function RouteComponent() {
         <DrawerDialog
           open={createStaffOpen}
           onOpenChange={setCreateStaffOpen}
-          trigger={<Button size="sm">Create Staff</Button>}
+          trigger={<Button size="sm">Create Staff Member</Button>}
           title="Create Staff"
           description="Fill in the details for the new staff member."
         >

@@ -34,7 +34,7 @@ export type ProblemDetails = {
 };
 
 export type StaffResponse = {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   email?: string | null;
@@ -51,6 +51,13 @@ export type TreatmentResponse = {
 };
 
 export type TreatmentType = number;
+
+export type UpdateStaffRequest = {
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+};
 
 export type UpdateTreatmentRequest = {
   name: string;
@@ -144,6 +151,94 @@ export type PostApiStaffResponses = {
 
 export type PostApiStaffResponse =
   PostApiStaffResponses[keyof PostApiStaffResponses];
+
+export type DeleteApiStaffByIdData = {
+  body?: never;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/api/Staff/{id}";
+};
+
+export type DeleteApiStaffByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type DeleteApiStaffByIdError =
+  DeleteApiStaffByIdErrors[keyof DeleteApiStaffByIdErrors];
+
+export type DeleteApiStaffByIdResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
+
+export type GetApiStaffByIdData = {
+  body?: never;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/api/Staff/{id}";
+};
+
+export type GetApiStaffByIdErrors = {
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetApiStaffByIdError =
+  GetApiStaffByIdErrors[keyof GetApiStaffByIdErrors];
+
+export type GetApiStaffByIdResponses = {
+  /**
+   * OK
+   */
+  200: StaffResponse;
+};
+
+export type GetApiStaffByIdResponse =
+  GetApiStaffByIdResponses[keyof GetApiStaffByIdResponses];
+
+export type PutApiStaffByIdData = {
+  body: UpdateStaffRequest;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/api/Staff/{id}";
+};
+
+export type PutApiStaffByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: ValidationProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PutApiStaffByIdError =
+  PutApiStaffByIdErrors[keyof PutApiStaffByIdErrors];
+
+export type PutApiStaffByIdResponses = {
+  /**
+   * OK
+   */
+  200: StaffResponse;
+};
+
+export type PutApiStaffByIdResponse =
+  PutApiStaffByIdResponses[keyof PutApiStaffByIdResponses];
 
 export type GetApiTreatmentsData = {
   body?: never;

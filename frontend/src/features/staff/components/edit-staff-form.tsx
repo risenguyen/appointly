@@ -3,10 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import {
-  useCreateStaff,
-  createStaffSchema,
-  type CreateStaffInput,
-} from "../api/use-create-staff";
+  useEditStaff,
+  editStaffSchema,
+  type EditStaffInput,
+} from "../api/use-edit-staff";
+import type { StaffResponse } from "@/api";
 
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,36 +21,38 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-type CreateStaffFormProps = {
+type EditStaffFormProps = {
+  staff: StaffResponse;
   setOpen: (open: boolean) => void;
 };
 
-function CreateStaffForm({ setOpen }: CreateStaffFormProps) {
-  const createStaff = useCreateStaff({
+function EditStaffForm({ staff, setOpen }: EditStaffFormProps) {
+  const editStaff = useEditStaff({
     onSuccess: () => {
-      toast.success("Staff created successfully.");
+      toast.success("Staff member edited successfully.");
       setOpen(false);
     },
     onError: (error) => {
       toast.error(
-        `Failed to create staff. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
+        `Failed to edit staff member. ${error instanceof Error ? "Something went wrong." : `(${error.status})`}`,
       );
       setOpen(false);
     },
   });
 
-  const form = useForm<CreateStaffInput>({
-    resolver: zodResolver(createStaffSchema),
+  const form = useForm<EditStaffInput>({
+    resolver: zodResolver(editStaffSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
+      id: staff.id,
+      firstName: staff.firstName,
+      lastName: staff.lastName,
+      email: staff.email || "",
+      phone: staff.phone || "",
     },
   });
 
-  function onSubmit(data: CreateStaffInput) {
-    createStaff.mutate(data);
+  function onSubmit(data: EditStaffInput) {
+    editStaff.mutate(data);
   }
 
   return (
@@ -88,11 +91,7 @@ function CreateStaffForm({ setOpen }: CreateStaffFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="john.smith@example.com"
-                  {...field}
-                />
+                <Input placeholder="john.smith@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,7 +102,7 @@ function CreateStaffForm({ setOpen }: CreateStaffFormProps) {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel>Phone</FormLabel>
               <FormControl>
                 <Input type="tel" placeholder="2045678907" {...field} />
               </FormControl>
@@ -111,15 +110,15 @@ function CreateStaffForm({ setOpen }: CreateStaffFormProps) {
             </FormItem>
           )}
         />
-        <Button disabled={createStaff.isPending} className="w-full">
-          {createStaff.isPending ? (
+        <Button disabled={editStaff.isPending} className="w-full">
+          {editStaff.isPending ? (
             <LoaderCircle className="animate-spin" />
           ) : null}
-          Create Staff
+          Edit Staff Member
         </Button>
       </form>
     </Form>
   );
 }
 
-export default CreateStaffForm;
+export default EditStaffForm;
