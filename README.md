@@ -1,7 +1,5 @@
 # Appointly
 
-## Showcase
-
 [Showcase](https://youtu.be/jLW_w3xkiWQ)
 
 ## About
