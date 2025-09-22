@@ -2,7 +2,7 @@
 
 ## Showcase
 
-Coming Soon.
+[Showcase](https://youtu.be/jLW_w3xkiWQ)
 
 ## About
 
