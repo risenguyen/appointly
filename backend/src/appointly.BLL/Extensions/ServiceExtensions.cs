@@ -13,6 +13,7 @@ public static class ServiceExtensions
     {
         services.AddScoped<ITreatmentService, TreatmentService>();
         services.AddScoped<IStaffService, StaffService>();
+        services.AddScoped<IClientService, ClientService>();
 
         services.AddValidatorsFromAssembly(Assembly.Load("appointly.BLL"));
         services.AddFluentValidationAutoValidation();

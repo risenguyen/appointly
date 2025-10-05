@@ -22,5 +22,6 @@ public static class ServiceExtensions
 
         services.AddScoped<ITreatmentRepository, TreatmentRepository>();
         services.AddScoped<IStaffRepository, StaffRepository>();
+        services.AddScoped<IClientRepository, ClientRepository>();
     }
 }
